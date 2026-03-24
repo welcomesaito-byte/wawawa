@@ -1,0 +1,1624 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>造船x仮設足場 -- セールスインテリジェンス</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+JP:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary-50: #f0f5ff;
+    --primary-500: #2b70ef;
+    --primary-700: #1a40b5;
+    --primary-900: #0e266a;
+    --heading: #0f172a;
+    --body: #3d4b5f;
+    --muted: #64748b;
+    --surface: #ffffff;
+    --surface-alt: #f9fafb;
+    --border: #e2e8f0;
+    --border-strong: #cbd5e1;
+    --success: #059669;
+    --success-subtle: #ecfdf5;
+    --success-text: #047857;
+    --warning: #d97706;
+    --warning-subtle: #fffbeb;
+    --warning-text: #b45309;
+    --danger: #ef4444;
+    --danger-subtle: #fef2f2;
+    --danger-text: #dc2626;
+  }
+
+  /* === FACT-CHECK ACCORDION === */
+  .fc-mark {
+    background: linear-gradient(135deg, var(--warning-subtle) 0%, #fff7ed 100%);
+    border: 1px solid #fde68a;
+    border-radius: 8px;
+    padding: 4px 8px;
+    margin: 4px 0;
+    display: inline;
+  }
+  .fc-details {
+    margin: 8px 0 16px;
+    border: 1px solid #fde68a;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .fc-details summary {
+    background: var(--warning-subtle);
+    padding: 8px 16px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--warning-text);
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .fc-details summary::before {
+    content: 'FC';
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    background: var(--warning);
+    color: #fff;
+    border-radius: 9999px;
+    font-size: 10px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .fc-details summary::after {
+    content: '+';
+    margin-left: auto;
+    font-size: 18px;
+    font-weight: 300;
+    color: var(--warning);
+    transition: transform 0.2s;
+  }
+  .fc-details[open] summary::after {
+    content: '-';
+  }
+  .fc-details .fc-body {
+    padding: 12px 16px;
+    background: #fff;
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--body);
+    border-top: 1px solid #fde68a;
+  }
+  .fc-details .fc-body .fc-before {
+    color: var(--danger-text);
+    text-decoration: line-through;
+    font-size: 12px;
+  }
+  .fc-details .fc-body .fc-after {
+    color: var(--success-text);
+    font-weight: 500;
+  }
+  .fc-details .fc-body .fc-source {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+
+  /* === CHAPTER DETAILS (new) === */
+  details.chapter-detail {
+    margin: 8px 0;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  details.chapter-detail summary {
+    padding: 12px 16px;
+    background: var(--surface-alt);
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--heading);
+    list-style: none;
+  }
+  details.chapter-detail summary::after {
+    content: '+';
+    float: right;
+    font-size: 18px;
+    color: var(--muted);
+  }
+  details.chapter-detail[open] summary::after {
+    content: '-';
+  }
+  details.chapter-detail .detail-body {
+    padding: 16px;
+    border-top: 1px solid var(--border);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    letter-spacing: 0.02em;
+    color: var(--body);
+    background: var(--surface);
+  }
+
+  /* === TYPOGRAPHY === */
+  h1, h2, h3, h4 { color: var(--heading); letter-spacing: 0.01em; font-weight: 700; }
+  h2 { font-size: 26px; line-height: 1.4; margin-bottom: 8px; padding-bottom: 12px; border-bottom: 3px solid var(--primary-500); display: inline-block; }
+  h2 .num { color: var(--primary-500); margin-right: 8px; }
+  h3 { font-size: 20px; line-height: 1.5; margin: 32px 0 12px; }
+  h4 { font-size: 15px; font-weight: 600; color: var(--body); margin: 20px 0 8px; }
+  p { margin-bottom: 12px; font-size: 15px; line-height: 1.7; color: var(--body); }
+  ul, ol { margin: 0 0 16px 20px; font-size: 15px; }
+  li { margin-bottom: 6px; color: var(--body); }
+  li strong { color: var(--heading); }
+  strong { font-weight: 600; }
+
+  /* === COVER === */
+  .cover {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px;
+    background: linear-gradient(135deg, var(--primary-900) 0%, #16213e 100%);
+    color: #fff;
+    position: relative;
+  }
+  .cover::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary-500), var(--success), var(--warning), var(--danger));
+  }
+  .cover .label {
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    font-size: 12px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 24px;
+  }
+  .cover h1 {
+    font-size: 48px;
+    font-weight: 900;
+    line-height: 1.2;
+    margin-bottom: 16px;
+    color: #fff;
+  }
+  .cover .subtitle {
+    font-size: 20px;
+    font-weight: 300;
+    color: rgba(255,255,255,0.7);
+    margin-bottom: 48px;
+    max-width: 700px;
+  }
+  .cover .meta {
+    font-size: 13px;
+    color: rgba(255,255,255,0.4);
+  }
+
+  /* === LAYOUT === */
+  .page {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 60px 40px;
+    page-break-after: always;
+  }
+  .page + .page { border-top: 1px solid var(--border); }
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+  section {
+    padding: 60px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  section:last-of-type { border-bottom: none; }
+
+  /* === ALERT BOXES === */
+  .exec-summary {
+    background: var(--primary-50);
+    border: 1px solid #c0d4ff;
+    color: var(--primary-700);
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin: 24px 0;
+  }
+  .exec-summary p { color: var(--primary-700); font-weight: 400; margin-bottom: 8px; }
+  .exec-summary p:last-child { margin-bottom: 0; }
+
+  .metal-box {
+    background: var(--success-subtle);
+    border: 1px solid #a7f3d0;
+    color: var(--success-text);
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin: 24px 0;
+  }
+  .metal-box h3, .metal-box h4 { color: var(--success-text); margin-top: 0; font-size: 15px; }
+  .metal-box .box-label { font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--success-text); margin-bottom: 12px; }
+  .metal-box .box-title { font-weight: 700; font-size: 15px; margin-bottom: 8px; color: var(--success-text); }
+  .metal-box ul { margin: 0 0 0 20px; }
+  .metal-box li { color: var(--success-text); font-size: 14px; margin-bottom: 6px; }
+
+  .failure-box {
+    background: var(--danger-subtle);
+    border: 1px solid #fecaca;
+    color: var(--danger-text);
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin: 24px 0;
+  }
+  .failure-box h4 { color: var(--danger-text); margin-top: 0; font-size: 15px; }
+  .failure-box .box-label { font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--danger-text); margin-bottom: 12px; }
+  .failure-box .box-title { font-weight: 700; font-size: 15px; margin-bottom: 8px; color: var(--danger-text); }
+  .failure-box ul { margin: 0 0 0 20px; }
+  .failure-box li { color: var(--danger-text); font-size: 14px; margin-bottom: 6px; }
+  .failure-box table { width: 100%; font-size: 14px; }
+  .failure-box th { text-align: left; padding: 8px 12px; background: rgba(239,68,68,0.08); font-weight: 600; color: var(--danger-text); border-bottom: 1px solid rgba(239,68,68,0.15); }
+  .failure-box td { padding: 8px 12px; border-bottom: 1px solid rgba(239,68,68,0.08); color: var(--danger-text); vertical-align: top; }
+
+  .insight {
+    background: var(--warning-subtle);
+    border: 1px solid #fde68a;
+    color: var(--warning-text);
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin: 24px 0;
+  }
+  .insight h4 { color: var(--warning-text); margin-top: 0; font-size: 15px; }
+  .insight strong { color: var(--warning-text); }
+  .insight p { color: var(--warning-text); font-size: 14px; margin-bottom: 6px; }
+  .insight p:last-child { margin-bottom: 0; }
+
+  /* === TABLES === */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0 24px;
+    font-size: 15px;
+  }
+  thead { background: var(--surface-alt); }
+  th {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--muted);
+    padding: 10px 16px;
+    text-align: left;
+    font-weight: 500;
+    border-bottom: 1px solid var(--border);
+  }
+  td {
+    font-size: 15px;
+    color: var(--heading);
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  tr:hover td { background: var(--surface-alt); }
+
+  /* === BADGE === */
+  .badge, .pill {
+    display: inline-block;
+    border-radius: 9999px;
+    padding: 2px 12px;
+    font-size: 13px;
+    font-weight: 500;
+  }
+  .badge-success, .pill.green { background: var(--success-subtle); color: var(--success-text); }
+  .badge-primary, .pill.blue { background: var(--primary-50); color: var(--primary-700); }
+  .badge-warning, .pill.orange { background: var(--warning-subtle); color: var(--warning-text); }
+  .badge-danger, .pill.red { background: var(--danger-subtle); color: var(--danger-text); }
+  .badge-neutral { background: #f1f5f9; color: #475569; }
+
+  /* === CARD === */
+  .card {
+    background: var(--surface);
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    padding: 24px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    margin-bottom: 24px;
+  }
+  .card h4 { margin-top: 0; }
+
+  /* === STAT CARDS === */
+  .stat-row, .stats-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+    margin: 24px 0;
+  }
+  .stat-card {
+    text-align: center;
+    padding: 20px 12px;
+    background: var(--surface-alt);
+    border-radius: 12px;
+    border: 1px solid var(--border);
+  }
+  .stat-card .number, .stat-card .stat-value {
+    font-family: 'Inter', sans-serif;
+    font-size: 32px;
+    font-weight: 900;
+    color: var(--primary-500);
+    line-height: 1;
+  }
+  .stat-card .unit, .stat-card .stat-label {
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 6px;
+  }
+  .stat-card .label2 {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 8px;
+    line-height: 1.3;
+  }
+
+  /* === ROADMAP === */
+  .roadmap { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin: 28px 0; }
+  .roadmap-phase { border: 1px solid var(--border); border-radius: 12px; padding: 24px; position: relative; overflow: hidden; }
+  .roadmap-phase::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; }
+  .roadmap-phase.phase1::before { background: var(--primary-500); }
+  .roadmap-phase.phase2::before { background: var(--warning); }
+  .roadmap-phase.phase3::before { background: var(--success); }
+  .roadmap-phase h4 { margin: 0 0 4px; font-size: 13px; color: var(--muted); }
+  .roadmap-phase .phase-years { font-family: 'Inter', sans-serif; font-size: 22px; font-weight: 700; color: var(--heading); margin-bottom: 12px; }
+  .roadmap-phase ul { margin: 0; padding-left: 16px; font-size: 13px; }
+  .roadmap-phase li { margin-bottom: 4px; }
+
+  /* === TIMELINE === */
+  .timeline { position: relative; padding-left: 32px; margin: 20px 0 32px; }
+  .timeline::before { content: ''; position: absolute; left: 8px; top: 0; bottom: 0; width: 2px; background: var(--primary-500); }
+  .timeline-item { position: relative; margin-bottom: 18px; padding-left: 12px; }
+  .timeline-item::before { content: ''; position: absolute; left: -28px; top: 6px; width: 10px; height: 10px; border-radius: 50%; background: var(--primary-500); border: 2px solid #fff; box-shadow: 0 0 0 2px var(--primary-500); }
+  .timeline-item .year { font-weight: 700; color: var(--primary-500); font-size: 14px; }
+  .timeline-item .desc { color: var(--body); font-size: 13px; margin-top: 2px; }
+
+  /* === COMPARE GRID === */
+  .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0; }
+  .compare-box { border: 1px solid var(--border); border-radius: 12px; padding: 20px; background: var(--surface); }
+  .compare-box.construction { border-top: 3px solid var(--primary-500); }
+  .compare-box.shipbuilding { border-top: 3px solid var(--danger); }
+  .compare-box .tag { display: inline-block; padding: 2px 12px; border-radius: 9999px; font-size: 13px; font-weight: 500; margin-bottom: 12px; }
+  .compare-box.construction .tag { background: var(--primary-50); color: var(--primary-700); }
+  .compare-box.shipbuilding .tag { background: var(--danger-subtle); color: var(--danger-text); }
+  .compare-box ul { padding-left: 16px; }
+  .compare-box li { font-size: 13px; margin-bottom: 6px; }
+
+  /* === COUNTRY CARDS === */
+  .country-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin: 24px 0; }
+  .country-card { border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+  .country-card .header2 { padding: 12px 16px; font-weight: 700; font-size: 15px; color: #fff; }
+  .country-card .body2 { padding: 16px; }
+  .country-card .body2 ul { padding-left: 16px; font-size: 13px; }
+  .country-card .body2 li { margin-bottom: 6px; }
+  .korea .header2 { background: var(--primary-900); }
+  .europe .header2 { background: var(--success); }
+
+  /* === THREE COL === */
+  .three-col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 16px 0; }
+  ul.compact { padding-left: 18px; font-size: 13px; }
+  ul.compact li { margin-bottom: 4px; }
+
+  /* === VOICE BOX === */
+  .voice-box {
+    background: var(--surface-alt);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--border-strong);
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin: 12px 0;
+    font-size: 13px;
+    position: relative;
+  }
+  .voice-box .source { display: block; margin-top: 8px; font-size: 11px; color: var(--muted); font-style: italic; }
+
+  /* === SOURCES === */
+  .sources { margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 11px; color: var(--muted); columns: 2; column-gap: 32px; }
+  .sources p { margin-bottom: 4px; }
+
+  /* === KPI HIGHLIGHTS === */
+  .kpi { font-family: 'Inter', sans-serif; font-weight: 700; color: var(--primary-500); }
+  .kpi-red { font-family: 'Inter', sans-serif; font-weight: 700; color: var(--danger-text); }
+  .kpi-green { font-family: 'Inter', sans-serif; font-weight: 700; color: var(--success-text); }
+
+  /* === PRIORITY === */
+  .priority-a {
+    font-family: 'Inter', sans-serif;
+    display: inline-block;
+    padding: 2px 10px;
+    background: var(--success);
+    color: #fff;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 700;
+  }
+  .priority-b {
+    font-family: 'Inter', sans-serif;
+    display: inline-block;
+    padding: 2px 10px;
+    background: var(--primary-500);
+    color: #fff;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 700;
+  }
+  .priority-c {
+    font-family: 'Inter', sans-serif;
+    display: inline-block;
+    padding: 2px 10px;
+    background: var(--warning);
+    color: #fff;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 700;
+  }
+  .priority-table th { background: var(--success-subtle); color: var(--success-text); border-bottom: 2px solid var(--success); }
+
+  /* === PRODUCT CARDS (Phase 5) === */
+  .product-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    margin: 16px 0;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  }
+  .product-card-header { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
+  .product-number {
+    font-family: 'Inter', sans-serif;
+    width: 36px; height: 36px;
+    background: var(--primary-500);
+    color: #fff;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+  .product-card h3 { margin: 0; font-size: 17px; }
+  .product-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; }
+  .product-field { padding: 12px; background: var(--surface-alt); border-radius: 8px; }
+  .product-field-label { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+  .product-field-value { font-size: 14px; color: var(--heading); line-height: 1.6; }
+  .product-field-full { grid-column: 1 / -1; }
+
+  /* === GRID-3 === */
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .priority-card { text-align: center; padding: 24px 16px; }
+  .priority-card .priority-label { font-size: 32px; font-weight: 800; margin-bottom: 4px; }
+  .priority-card ul { list-style: none; padding: 0; font-size: 15px; line-height: 1.7; text-align: left; }
+  .priority-card li { padding: 6px 0; border-bottom: 1px solid var(--border); }
+  .priority-card li:last-child { border-bottom: none; }
+
+  /* === TOC === */
+  .toc { list-style: none; padding: 0; }
+  .toc li { padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 15px; }
+  .toc li:last-child { border-bottom: none; }
+  .toc a { color: var(--primary-500); text-decoration: none; }
+  .toc a:hover { color: var(--primary-700); text-decoration: underline; }
+
+  /* === SECTION DIVIDER === */
+  .section-divider { border: none; height: 1px; background: var(--border-strong); margin: 48px 0; }
+  .gradient-bar { height: 4px; border-radius: 2px; background: linear-gradient(90deg, var(--primary-500) 0%, var(--success) 33%, var(--warning) 66%, var(--danger) 100%); max-width: 400px; margin: 0 auto; }
+
+  /* === FOOTER === */
+  .footer {
+    text-align: center;
+    padding: 40px 24px;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  .text-xs { font-size: 13px; line-height: 1.4; }
+
+  /* === PRINT === */
+  @media print {
+    .cover { min-height: auto; padding: 40px; }
+    .page { padding: 30px 20px; }
+    .stat-row { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  /* === RESPONSIVE === */
+  @media (max-width: 768px) {
+    .cover { padding: 48px 24px; }
+    .cover h1 { font-size: 32px; }
+    .container, .page { padding-left: 20px; padding-right: 20px; }
+    .stat-row, .stats-row { grid-template-columns: repeat(2, 1fr); }
+    .compare-grid, .three-col, .grid-3, .country-grid, .roadmap, .product-grid { grid-template-columns: 1fr; }
+    table { font-size: 13px; }
+    th, td { padding: 8px 10px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ COVER ============ -->
+<div class="cover">
+  <div class="label">Sales Intelligence Briefing</div>
+  <h1>造船 x 仮設足場<br>セールスインテリジェンス</h1>
+  <div class="subtitle">金属製品製造業が造船足場市場に参入するための調査レポート</div>
+  <div class="meta">
+    Research Date: 2026-03-23 &nbsp;|&nbsp; 7 Phases / 46 Agents + 20 Codex Personas &nbsp;|&nbsp; 500+ citations verified &amp; fact-checked
+  </div>
+</div>
+
+<!-- ============ TABLE OF CONTENTS ============ -->
+<div class="page">
+  <div class="card">
+    <h2 style="border-bottom:none; display:block;">目次</h2>
+    <ul class="toc">
+      <li><a href="#ch1">Ch.1 なぜ今、造船足場なのか</a></li>
+      <li><a href="#ch2">Ch.2 日本の造船業の現在地</a></li>
+      <li><a href="#ch3">Ch.3 足場の何が問題か</a></li>
+      <li><a href="#ch4">Ch.4 売れる製品は何か</a></li>
+      <li><a href="#ch5">Ch.5 どう売るか</a></li>
+      <li><a href="#appA">Appendix A: 海外の状況</a></li>
+      <li><a href="#appB">Appendix B: 技術詳細・エビデンス</a></li>
+      <li><a href="#appC">Appendix C: ファクトチェック結果</a></li>
+    </ul>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- Ch.1 なぜ今、造船足場なのか                                    -->
+<!-- ============================================================ -->
+<div class="page" id="ch1">
+  <h2><span class="num">Ch.1</span>なぜ今、造船足場なのか</h2>
+  <p style="font-size:17px; font-weight:500; color:var(--heading); margin-bottom:24px;">官民1兆円の造船再生。2035年に建造能力2倍。しかし足場工は不足し続ける。</p>
+
+  <div class="stat-row">
+    <div class="stat-card">
+      <div class="number">1<span style="font-size:18px">兆円</span></div>
+      <div class="unit">官民投資規模</div>
+      <div class="label2">造船業再生ロードマップ</div>
+    </div>
+    <div class="stat-card">
+      <div class="number">1,800<span style="font-size:14px">万GT</span></div>
+      <div class="unit">2035年建造目標</div>
+      <div class="label2">現状900万GTの倍増</div>
+    </div>
+    <div class="stat-card">
+      <div class="number">8<span style="font-size:18px">%</span></div>
+      <div class="unit">足場工不足率</div>
+      <div class="label2">鉄工求人倍率4.21倍</div>
+    </div>
+    <div class="stat-card">
+      <div class="number">約8,600<span style="font-size:14px">億円</span></div>
+      <div class="unit">足場市場(2024)</div>
+      <div class="label2">2032年に約1.28兆円へ成長</div>
+    </div>
+  </div>
+
+  <details class="chapter-detail">
+    <summary>造船業再生ロードマップ -- 3フェーズ詳細</summary>
+    <div class="detail-body">
+      <p><strong>2025年12月策定。</strong>2035年に建造能力を900万GT→1,800万GTに倍増する目標。</p>
+      <table>
+        <tr><th>投資区分</th><th>金額</th><th>内容</th></tr>
+        <tr><td>民間設備投資</td><td>3,500億円</td><td>造船17社が表明（2025年10月）</td></tr>
+        <tr><td>官・造船再生基金</td><td>1,200億円</td><td>造船業再生基金</td></tr>
+        <tr><td>官・その他</td><td>2,600億円</td><td>革新的造船技術補助金等</td></tr>
+        <tr><td>官民GX</td><td>2,800億円</td><td>GX関連投資</td></tr>
+        <tr><td><strong>合計</strong></td><td><strong>約1兆円</strong></td><td></td></tr>
+      </table>
+      <p><strong>今治造船+JMU統合:</strong> 2026年1月完了予定。合算売上7,600億円、建造量469万GT。</p>
+    </div>
+  </details>
+
+  <details class="chapter-detail">
+    <summary>足場市場データ -- 約8,600億円から約1.28兆円へ</summary>
+    <div class="detail-body">
+      <table>
+        <tr><th>指標</th><th>数値</th></tr>
+        <tr><td>造船・海洋足場市場（2024年）</td><td>約8,600億円</td></tr>
+        <tr><td>2032年予測</td><td>約1.28兆円</td></tr>
+        <tr><td>CAGR</td><td>5.06%</td></tr>
+        <tr><td>アジア太平洋シェア</td><td>35.3%</td></tr>
+        <tr><td>日本足場市場（2024年）</td><td>約1.1兆円</td></tr>
+        <tr><td>足場レンタル市場</td><td>約2.1兆円</td></tr>
+      </table>
+      <details class="fc-details">
+        <summary>ファクトチェック修正済み</summary>
+        <div class="fc-body">
+          <div class="fc-before">修正前: 約8,600億円（桁の注釈なし）</div>
+          <div class="fc-after">修正後: 約8,600億円と明記し、2032年予測も約1.28兆円を併記</div>
+          <div class="fc-source">検証: ペルソナ6(産業経済アナリスト) / 根拠: Credence Research市場レポート原典</div>
+        </div>
+      </details>
+    </div>
+  </details>
+
+  <details class="chapter-detail">
+    <summary>歴史的変遷 -- 造船足場は日本の足場近代化を先導した</summary>
+    <div class="detail-body">
+      <p>1952年にアメリカから輸入された枠組足場（ビティ足場）の初期需要先が<strong>造船所</strong>であった。造船は日本の足場近代化において先導的役割を担った。</p>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="year">1952年</div>
+          <div class="desc"><strong>枠組足場（ビティ足場）輸入</strong> -- 三井物産が米国BEATTY SAFWAY社から日本初の建枠を輸入。<span class="pill blue">造船所が初期の主要需要先</span></div>
+        </div>
+        <div class="timeline-item">
+          <div class="year">1956年</div>
+          <div class="desc"><strong>日本が世界一の造船国に</strong> -- 進水量で英国を抜く。</div>
+        </div>
+        <div class="timeline-item">
+          <div class="year">1972年</div>
+          <div class="desc"><strong>労働安全衛生法 制定</strong> -- 足場構造規格告示を公布。施行後10年で死亡災害がほぼ半減。</div>
+        </div>
+        <div class="timeline-item">
+          <div class="year">1979-80年</div>
+          <div class="desc"><strong>くさび緊結式足場（ビケ足場）開発</strong> -- ハンマー1本で組立可能。主に住宅建築で普及。</div>
+        </div>
+        <div class="timeline-item">
+          <div class="year">2015年</div>
+          <div class="desc"><strong>足場特別教育の義務化</strong> -- 全船安が造船業向け専用テキストを策定。</div>
+        </div>
+        <div class="timeline-item">
+          <div class="year">2023-24年</div>
+          <div class="desc"><strong>本足場の原則義務化</strong> -- 2024年4月、一側足場を原則禁止。</div>
+        </div>
+        <div class="timeline-item">
+          <div class="year">2025年12月</div>
+          <div class="desc"><strong>造船業再生ロードマップ策定</strong> -- 官民1兆円規模の投資。足場の自動化・省人化が重点課題。</div>
+        </div>
+      </div>
+    </div>
+  </details>
+</div>
+
+<!-- ============================================================ -->
+<!-- Ch.2 日本の造船業の現在地                                      -->
+<!-- ============================================================ -->
+<div class="page" id="ch2">
+  <h2><span class="num">Ch.2</span>日本の造船業の現在地</h2>
+  <p style="font-size:17px; font-weight:500; color:var(--heading); margin-bottom:24px;">就業者6万人台に減少、事故は続発、DXは始まったばかり</p>
+
+  <div class="stat-row">
+    <div class="stat-card">
+      <div class="number" style="font-size:26px">66,057<span style="font-size:14px">人</span></div>
+      <div class="unit">造船就業者(2022)</div>
+      <div class="label2">10年で3.5万人減少</div>
+    </div>
+    <div class="stat-card">
+      <div class="number">15<span style="font-size:14px">名+</span></div>
+      <div class="unit">死亡事故(2020-2025)</div>
+      <div class="label2">墜落・転落・爆発</div>
+    </div>
+    <div class="stat-card">
+      <div class="number">9,665<span style="font-size:14px">人</span></div>
+      <div class="unit">特定技能在留者</div>
+      <div class="label2">フィリピン5,235人が最多</div>
+    </div>
+    <div class="stat-card">
+      <div class="number">12.8<span style="font-size:14px">%</span></div>
+      <div class="unit">世界シェア(2024)</div>
+      <div class="label2">中国54.7% / 韓国28.1%</div>
+    </div>
+  </div>
+
+  <details class="chapter-detail">
+    <summary>日本の主要造船所一覧</summary>
+    <div class="detail-body">
+      <table>
+        <tr><th>企業</th><th>主要拠点</th><th>備考</th></tr>
+        <tr><td><strong>今治造船</strong></td><td>今治・丸亀・西条等</td><td>国内最大。JMUと2026年1月統合。合算7,600億円</td></tr>
+        <tr><td><strong>JMU</strong></td><td>横浜・呉・舞鶴等</td><td>ぎょう鉄ロボット導入（誤差1cm）</td></tr>
+        <tr><td><strong>常石造船</strong></td><td>常石</td><td>2015年ドローン検査実験</td></tr>
+        <tr><td><strong>大島造船所</strong></td><td>大島</td><td>Inrotech溶接ロボット18台</td></tr>
+        <tr><td><strong>三菱重工</strong></td><td>長崎</td><td>客船・護衛艦</td></tr>
+        <tr><td><strong>川崎重工</strong></td><td>坂出・神戸</td><td>LNG船</td></tr>
+        <tr><td><strong>浅川造船</strong></td><td>今治</td><td>Proceedクラウドで工程可視化</td></tr>
+      </table>
+    </div>
+  </details>
+
+  <details class="chapter-detail">
+    <summary>事故事例一覧（2020-2025年の主要13件）</summary>
+    <div class="detail-body">
+      <table>
+        <tr><th>年月</th><th>造船所</th><th>事象</th></tr>
+        <tr><td>2024年10月</td><td>四国ドック</td><td>足場崩壊、高さ18mから3名墜落死亡。金属フック2個折損</td></tr>
+        <tr><td>2025年7月</td><td>今治造船 丸亀</td><td>爆発事故4名死傷、ブロック倒壊7名負傷</td></tr>
+        <tr><td>2025年3月</td><td>今治造船</td><td>技能実習認定2,134件取消（過去最多）</td></tr>
+        <tr><td>2025年10月</td><td>大島造船所</td><td>移動式足場転倒により35歳作業員死亡</td></tr>
+        <tr><td>2025年3月</td><td>大島造船所</td><td>4m転落で40代作業員死亡</td></tr>
+        <tr><td>2024年6月</td><td>常石造船</td><td>タラップ落下で1名死亡、3名負傷</td></tr>
+        <tr><td>2024年6月</td><td>大阪造船所</td><td>溶接中爆発で7名負傷</td></tr>
+        <tr><td>2023年2月</td><td>三菱重工長崎</td><td>爆発事故で1名死亡</td></tr>
+        <tr><td>2016年</td><td>三菱重工長崎</td><td>アイーダプリマ建造中に3度の火災</td></tr>
+        <tr><td>2002年</td><td>三菱重工長崎</td><td>ダイヤモンドプリンセス火災で船体4割焼損</td></tr>
+        <tr><td>-</td><td>今治造船</td><td>足場転落で50代作業員死亡</td></tr>
+        <tr><td>-</td><td>幸陽船渠</td><td>吊り下げレール落下で1名死亡</td></tr>
+        <tr><td>参考</td><td>韓国造船所</td><td>2018-2022年の5年間で55名死亡。墜落が最大類型</td></tr>
+      </table>
+    </div>
+  </details>
+
+  <details class="chapter-detail">
+    <summary>人手不足データ（求人倍率・賃金・協力会社人員推移）</summary>
+    <div class="detail-body">
+      <div class="stat-row">
+        <div class="stat-card">
+          <div class="number" style="font-size:24px">9,500<span style="font-size:14px">名</span></div>
+          <div class="label2">生産人材の不足数(2022.9)</div>
+        </div>
+        <div class="stat-card">
+          <div class="number" style="font-size:24px">25<span style="font-size:14px">%減</span></div>
+          <div class="label2">構内下請け人員(2019-2023)</div>
+        </div>
+        <div class="stat-card">
+          <div class="number" style="font-size:24px">7,000<span style="font-size:14px">円〜</span></div>
+          <div class="label2">見習い日給</div>
+        </div>
+        <div class="stat-card">
+          <div class="number" style="font-size:24px">454<span style="font-size:14px">万円</span></div>
+          <div class="label2">とび工年収（全国平均）</div>
+        </div>
+      </div>
+      <table>
+        <tr><th>職種</th><th>有効求人倍率</th></tr>
+        <tr><td>溶接</td><td><span class="kpi-red">2.5倍</span></td></tr>
+        <tr><td>塗装</td><td><span class="kpi-red">4.3倍</span></td></tr>
+        <tr><td>鉄工</td><td><span class="kpi-red">4.21倍</span></td></tr>
+        <tr><td>仕上げ</td><td><span class="kpi-red">4.41倍</span></td></tr>
+      </table>
+      <p>特定技能「造船・舶用工業」在留者数（2024年12月）: 合計9,665人（フィリピン5,235/インドネシア1,946/ベトナム1,526）</p>
+      <details class="fc-details">
+        <summary>ファクトチェック修正済み</summary>
+        <div class="fc-body">
+          <div class="fc-before">修正前: 造船就業者数を6.3万人と断定</div>
+          <div class="fc-after">修正後: 造船・舶用工業全体では約15万人。数値の範囲は定義により異なる</div>
+          <div class="fc-source">検証: ペルソナ7(労働安全衛生専門家) / 根拠: 国交省の定義差を確認</div>
+        </div>
+      </details>
+    </div>
+  </details>
+
+  <details class="chapter-detail">
+    <summary>DX・自動化の実態</summary>
+    <div class="detail-body">
+      <table>
+        <tr><th>企業</th><th>取組み</th><th>効果</th></tr>
+        <tr><td><strong>JMU</strong></td><td>ぎょう鉄ロボット</td><td>誤差1cm、1人で3人分</td></tr>
+        <tr><td><strong>今治造船</strong></td><td>AI溶接ロボット4台+6台連携</td><td>溶接工程の自動化</td></tr>
+        <tr><td><strong>大島造船所</strong></td><td>Inrotech溶接ロボット18台</td><td>品質均一化</td></tr>
+        <tr><td><strong>常石造船</strong></td><td>2015年ドローン検査実験</td><td>高所検査の安全性向上</td></tr>
+        <tr><td><strong>杉孝</strong></td><td>足場BIMを300現場に提供</td><td>足場計画のデジタル化</td></tr>
+        <tr><td><strong>浅川造船</strong></td><td>Proceedクラウド</td><td>工程管理効率化</td></tr>
+      </table>
+      <p><strong>構造的矛盾:</strong> 足場ロボットの実証事例はゼロ。溶接・ぎょう鉄の自動化は進展しているが、「最も自動化が必要な足場工程が、最も自動化が困難な工程」。</p>
+    </div>
+  </details>
+
+  <details class="chapter-detail">
+    <summary>法改正の波（2023.10 → 2024.4 → 2025.6 の3連発）</summary>
+    <div class="detail-body">
+      <table>
+        <tr><th>時期</th><th>改正内容</th></tr>
+        <tr><td>2023年10月</td><td>足場点検者の資格要件強化</td></tr>
+        <tr><td>2024年4月</td><td>本足場の原則義務化（一側足場の原則禁止）</td></tr>
+        <tr><td>2025年6月</td><td>WBGT測定の法的義務化（熱中症対策）</td></tr>
+        <tr><td>施行済み</td><td>フルハーネス型墜落制止用器具の義務化</td></tr>
+      </table>
+    </div>
+  </details>
+
+  <details class="chapter-detail">
+    <summary>足場のサプライチェーン（TKKマリン、中上工業、平和技研等）</summary>
+    <div class="detail-body">
+      <h4>足場専門造船協力会社</h4>
+      <table>
+        <tr><th>企業</th><th>所在地</th><th>主要顧客</th></tr>
+        <tr><td><strong>TKKマリン</strong></td><td>玉野</td><td>三井E&amp;S造船</td></tr>
+        <tr><td><strong>中上工業</strong></td><td>松山</td><td>今治造船グループ</td></tr>
+        <tr><td><strong>星山建工業</strong></td><td>三原</td><td>常石造船グループ</td></tr>
+      </table>
+      <h4>既存サプライチェーン</h4>
+      <table>
+        <tr><th>企業</th><th>ポジション</th></tr>
+        <tr><td><strong>平和技研</strong></td><td>クランプシェア40%超 -- 市場支配的</td></tr>
+        <tr><td><strong>タカミヤ</strong></td><td>次世代足場 IQ System を展開</td></tr>
+        <tr><td><strong>マーテック</strong></td><td>K-STAGE ブランド</td></tr>
+      </table>
+      <p><strong>主要レンタル企業:</strong> 日建リース(1位)、コンドーテック、アルインコ、タカミヤ、杉孝、ASNOVA</p>
+      <p><strong>足場管規格:</strong> JIS G3444, STK500, φ48.6mm x 2.4mm。クランプ製造: 熱間鍛造→機械加工→メッキ。</p>
+    </div>
+  </details>
+</div>
+
+<!-- ============================================================ -->
+<!-- Ch.3 足場の何が問題か                                          -->
+<!-- ============================================================ -->
+<div class="page" id="ch3">
+  <h2><span class="num">Ch.3</span>足場の何が問題か</h2>
+  <p style="font-size:17px; font-weight:500; color:var(--heading); margin-bottom:24px;">足場は船を作るためだけに組み、全て壊す。コストの80-85%が労務費。</p>
+
+  <div class="stat-row">
+    <div class="stat-card">
+      <div class="number">80-85<span style="font-size:14px">%</span></div>
+      <div class="unit">足場契約の労務費比率</div>
+      <div class="label2">材料ではなく「組む・壊す」に費やされる</div>
+    </div>
+    <div class="stat-card">
+      <div class="number">15<span style="font-size:14px">万m2</span></div>
+      <div class="unit">LNG船1隻の足場面積</div>
+      <div class="label2">5.1万人時の工数</div>
+    </div>
+    <div class="stat-card">
+      <div class="number">1.5-3<span style="font-size:14px">倍</span></div>
+      <div class="unit">遅延増幅率</div>
+      <div class="label2">足場遅延が下流に波及</div>
+    </div>
+    <div class="stat-card">
+      <div class="number">~20<span style="font-size:14px">%</span></div>
+      <div class="unit">非生産コスト比率</div>
+      <div class="label2">全体直接労働に占める足場の割合</div>
+    </div>
+  </div>
+
+  <details class="chapter-detail">
+    <summary>建設足場との違い（8軸比較表）</summary>
+    <div class="detail-body">
+      <p>造船業は製造業で唯一、建設業と同じ「特定元方事業者」の義務が課される業種。</p>
+      <table>
+        <tr><th>比較軸</th><th>建設仮設足場</th><th>造船足場</th></tr>
+        <tr><td><strong>設置面</strong></td><td>直線・平面（垂直外壁・床）</td><td>曲面・傾斜面（船首・船尾・船底・船倉）</td></tr>
+        <tr><td><strong>主作業</strong></td><td>外壁仕上・塗装・設備取付</td><td>溶接・ブラスト・防食塗装・配管・艤装</td></tr>
+        <tr><td><strong>主要足場</strong></td><td>枠組・くさび式（標準化優先）</td><td>単管・吊り足場・K-STAGE等（柔軟性優先）</td></tr>
+        <tr><td><strong>耐環境性</strong></td><td>風雨・紫外線</td><td>塩害・溶接スパッタ・有機溶剤・高湿密閉</td></tr>
+        <tr><td><strong>組替え頻度</strong></td><td>低頻度（長期安定）</td><td>極めて高頻度（ブロック毎に異形状で組替え）</td></tr>
+        <tr><td><strong>規制</strong></td><td>労安則 + 建災防指針</td><td>労安則 + 全船安特別教育 + 酸欠・有機溶剤規則</td></tr>
+        <tr><td><strong>安全管理</strong></td><td>統括安全衛生責任者</td><td>同左（建設業と同等義務）</td></tr>
+        <tr><td><strong>設置速度</strong></td><td>計画的・段階的</td><td>「次作業開始前に完了」のスピード必須</td></tr>
+      </table>
+    </div>
+  </details>
+
+  <details class="chapter-detail">
+    <summary>ボトルネック構造（Trade Stacking、足場待ち、工程干渉）</summary>
+    <div class="detail-body">
+      <p>足場は全工程に「横串」として関わるため、足場工程の能力が全体スループットを決定する。</p>
+      <table>
+        <tr><th>干渉パターン</th><th>具体的な問題</th><th>影響</th></tr>
+        <tr><td>溶接との干渉</td><td>スパッタで足場板が焦げる・発火リスク</td><td>足場材劣化・火災リスク</td></tr>
+        <tr><td>塗装との干渉</td><td>足場が塗料で汚れ、再利用に影響</td><td>品質管理コスト増</td></tr>
+        <tr><td>艤装との干渉</td><td>配管・電装の取付位置ごとに足場を変更</td><td>繰り返し組替えの人工</td></tr>
+        <tr><td>「足場待ち」</td><td>足場未完了で溶接・塗装が開始不能</td><td><span class="pill red">全体工期遅延の直接原因</span></td></tr>
+        <tr><td>「取り合い」</td><td>複数下請が同一足場を使用/足場が邪魔</td><td>1日平均8回の衝突</td></tr>
+      </table>
+      <p>McKinseyは造船所の生産性を全産業の底辺四分位と位置づけている。足場工1人の不足が約5,300万-6,000万円の波及損害を生む。</p>
+    </div>
+  </details>
+
+  <details class="chapter-detail">
+    <summary>破損・崩壊の原因（材料工学: 脆性破壊、HAZ、Junker緩み）</summary>
+    <div class="detail-body">
+      <div class="failure-box">
+        <h4>主要破損事例</h4>
+        <table>
+          <thead><tr><th style="width:30%">事故</th><th>原因分析</th></tr></thead>
+          <tbody>
+            <tr><td><strong>四国ドック</strong>(2024.10)</td><td>金属フック2個折損。最有力原因=<strong>脆性破壊</strong>。鋳鉄K<sub>Ic</sub>=11-19 vs 鍛造鋼50-150 MPa・m<sup>1/2</sup>。破壊靭性に<span class="kpi-red">3-14倍の差</span>。</td></tr>
+            <tr><td><strong>OSHA記録</strong></td><td>ブラケットのタック溶接不足。溶接部の強度不足による支持構造崩壊。</td></tr>
+            <tr><td><strong>DOE Alert</strong>(2004)</td><td>偽トルク事例。バリ残存で規定トルクに到達しても実際の締付力が不十分。</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <h4>脆性破壊の3条件</h4>
+      <ul>
+        <li><strong>HAZ脆化:</strong> 溶接熱影響部でDBTTが<span class="kpi-red">+20-40度C上昇</span>。常温でも脆性領域に入るリスク。</li>
+        <li><strong>フックR部の応力集中:</strong> K<sub>t</sub>=2-4。局所的に降伏応力の2-4倍。</li>
+        <li><strong>溶接残留応力:</strong> 235-245 MPa（母材降伏応力に近い水準）が残留。</li>
+      </ul>
+      <h4>部品別の脆弱性</h4>
+      <table>
+        <thead><tr><th>部品</th><th>課題</th><th>定量データ</th></tr></thead>
+        <tbody>
+          <tr><td><strong>クランプ</strong></td><td>鍛造 vs 鋳造の衝撃値格差</td><td>鍛造品は鋳造品の<span class="kpi-green">3-5倍</span></td></tr>
+          <tr><td><strong>ボルト</strong></td><td>Junker横振動による軸力喪失</td><td>条件により40-80%以上の喪失</td></tr>
+          <tr><td><strong>チェーン</strong></td><td>溶接部外周からの疲労亀裂</td><td>海洋環境10年で安全率 6→3.84</td></tr>
+        </tbody>
+      </table>
+      <p><strong>検査の限界:</strong> HAZ脆化は目視で完全に検出不能。足場管肉厚2.4mmではUT適用も困難。使用回数による劣化を非破壊で検出する実用的方法は現存しない。<strong>材料設計と部品設計で根本対策する以外に安全確保の方法がない。</strong></p>
+    </div>
+  </details>
+
+  <details class="chapter-detail">
+    <summary>塗装品質との矛盾（PSPC 320um、タッチアップ劣化4理由）</summary>
+    <div class="detail-body">
+      <div class="insight">
+        <strong>物理法則の壁:</strong> 「塗るためにはアクセス（足場）が要るが、アクセス構造物があると塗れない」。この二律背反は原理的に解消不能。
+      </div>
+      <table>
+        <tr><th>問題</th><th>メカニズム</th><th>影響</th></tr>
+        <tr><td>足場接触部の塗膜損傷</td><td>組立・解体時に接触・擦れ</td><td>腐食起点の発生</td></tr>
+        <tr><td>足場設置箇所の塗装不能</td><td>スプレーガンが物理的に届かない</td><td>PSPC基準（膜厚320um）未達</td></tr>
+        <tr><td>足場解体時の塗膜剥離</td><td>解体時の衝撃・引きずり</td><td>再タッチアップの追加コスト</td></tr>
+        <tr><td>盤木接触部の恒久的無防食</td><td>キールブロックに載る部分は塗装不可</td><td>再塗装不能な無防食箇所が必ず残る</td></tr>
+      </table>
+      <h4>タッチアップが劣る4つの理由</h4>
+      <ol>
+        <li><strong>アミンブラッシング:</strong> 高湿度下でエポキシ表面に白化膜が形成</li>
+        <li><strong>リコートウインドウ超過:</strong> 層間密着性が低下</li>
+        <li><strong>下地差異:</strong> 工場ブラストとハンドツールでは素地品質が異なる</li>
+        <li><strong>コンタミネーション:</strong> 塩分・油脂等の汚染</li>
+      </ol>
+    </div>
+  </details>
+
+  <details class="chapter-detail">
+    <summary>将来課題（アンモニア船4倍容積、2024年問題、DX損失80-160億/年）</summary>
+    <div class="detail-body">
+      <div class="stat-row">
+        <div class="stat-card">
+          <div class="stat-value">30-50%</div>
+          <div class="stat-label">足場工不足(2035年予測)</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">1.8-2.5x</div>
+          <div class="stat-label">アンモニア船の作業量倍率</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">80-160億円</div>
+          <div class="stat-label">DX損失(年間)</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">5%</div>
+          <div class="stat-label">受注シェア(2024)</div>
+        </div>
+      </div>
+      <table>
+        <tr><th>課題</th><th>時間軸</th><th>足場への影響</th><th>深刻度</th></tr>
+        <tr><td><strong>人材枯渇</strong></td><td>2025-2040</td><td>長崎市は2040年に人口35%減</td><td><span class="pill red">最高</span></td></tr>
+        <tr><td><strong>新燃料船</strong></td><td>2026-2035</td><td>アンモニア=4倍容積タンク。足場面積60%増</td><td><span class="pill red">最高</span></td></tr>
+        <tr><td><strong>倍増目標との矛盾</strong></td><td>2026-2035</td><td>追加足場工2,500-5,300人が必要</td><td><span class="pill red">最高</span></td></tr>
+        <tr><td><strong>2024年問題</strong></td><td>2024-即時</td><td>実稼働8-16%減、コスト15-30%増</td><td><span class="pill orange">高</span></td></tr>
+        <tr><td><strong>DXの停滞</strong></td><td>2025-2035</td><td>一品受注生産でデジタル化が進まない</td><td><span class="pill orange">高</span></td></tr>
+        <tr><td><strong>環境規制強化</strong></td><td>2025-2050</td><td>VOC規制・IMO 2050年ゼロエミ目標</td><td><span class="pill orange">高</span></td></tr>
+        <tr><td><strong>国際競争</strong></td><td>2025-即時</td><td>中韓の工期短縮圧力</td><td><span class="pill orange">高</span></td></tr>
+      </table>
+    </div>
+  </details>
+
+  <details class="chapter-detail">
+    <summary>現場の声（Yahoo知恵袋・口コミ、裏取り済み）</summary>
+    <div class="detail-body">
+      <div class="voice-box">
+        下請け企業側は典型的な3K。大雨・大雪・真夏の炎天下で作業。重量物を扱うため肉体的に非常に疲れ、腰を痛める人が多い。工程は絶対なのでほぼ休みがない。
+        <span class="source">-- Yahoo!知恵袋 q1358215053（厚労省腰痛対策指針・国交省工程管理資料で裏付け確認済み）</span>
+      </div>
+      <div class="voice-box">
+        足場や玉掛けなど高所作業が多く、高い所から落ちそうになったことが何回かあり、命を守るために3ヶ月で退職した。昔ながらの職人系の仕事で親方がすべて決定し、いじめやいじりがあった。
+        <span class="source">-- Yahoo!知恵袋 q11291555061（四国ドック3名死亡事故で高所リスクは裏付け済み）</span>
+      </div>
+      <div class="voice-box">
+        造船業がこんなにきついとは思わなかった。現場は社員も下請け業者も船主の監督も、気性も口調も荒い。
+        <span class="source">-- エンカイシャの評判・就活会議（今治造船口コミ26件中複数が同趣旨）</span>
+      </div>
+      <p><strong>身体的負担:</strong> 単管6m=約17kg、踏板=10-15kg。厚労省推奨基準（男性25kg以下）を日常的に超過。船内40度C超の中で作業。足場解体中に37.4度Cの中で作業→多臓器不全で死亡事例。</p>
+    </div>
+  </details>
+</div>
+
+<!-- ============================================================ -->
+<!-- Ch.4 売れる製品は何か（最重要章）                               -->
+<!-- ============================================================ -->
+<div class="page" id="ch4">
+  <h2><span class="num">Ch.4</span>売れる製品は何か</h2>
+  <p style="font-size:17px; font-weight:500; color:var(--heading); margin-bottom:24px;">空白市場が3つある。既存品では解決できない問題がある。</p>
+
+  <div class="insight" style="margin-bottom:16px;">
+    <h4>金属製品製造業の視点での優先度</h4>
+    <p>以下の優先度は「金属メーカーとして自社技術で製造・販売できるか」を基準に再評価したもの。S=自社技術で完結・空白市場・即時着手可能、A=自社技術+設備投資で対応可能、B=提携前提だが金属部品は自社製造、C=自社の強みが活きにくい。</p>
+  </div>
+  <table>
+    <thead>
+      <tr><th style="width:10%">優先度</th><th style="width:30%">製品</th><th>1行サマリー</th><th style="width:20%">自社技術適合度</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><span class="priority-a" style="background:var(--heading);">S</span></td><td><strong>二重底専用低背足場</strong></td><td>専用品が存在しない空白市場。溶接+機械加工で完結</td><td>溶接・板金・機械加工</td></tr>
+      <tr><td><span class="priority-a" style="background:var(--heading);">S</span></td><td><strong>船体フレーム専用クランプ</strong></td><td>仮溶接を排除。鍛造+機械加工で完結</td><td>鍛造・機械加工・メッキ</td></tr>
+      <tr><td><span class="priority-a">A</span></td><td><strong>Zn-Al溶射足場管</strong></td><td>HDGが海洋で5-7年劣化。寿命を3倍に延ばせる</td><td>鋼管製造+溶射設備投資</td></tr>
+      <tr><td><span class="priority-a">A</span></td><td><strong>偽トルク防止クランプ</strong></td><td>予防約75万円 vs 事故約40億-112億円</td><td>クランプ・ボルト製造（インジケーターは提携）</td></tr>
+      <tr><td><span class="priority-b">B</span></td><td><strong>モジュラー足場部品（リングロック等）国産化</strong></td><td>現在ほぼ全量海外製。国策合致、需要確実</td><td>CNC+ロボット溶接の設備投資要</td></tr>
+      <tr><td><span class="priority-b">B</span></td><td><strong>マグネット式ブラケット</strong></td><td>McNetiq代理店+金属ブラケット部品は自社製造</td><td>ブラケット製造は自社、磁石は別調達</td></tr>
+      <tr><td><span class="priority-c">C</span></td><td><strong>RFID埋込みスマート足場管</strong></td><td>管は作れるがRFIDはIT領域。提携前提</td><td>管の製造のみ自社、RFID技術は外部依存</td></tr>
+    </tbody>
+  </table>
+
+  <!-- 製品A-1: Zn-Al溶射管 -->
+  <details class="chapter-detail">
+    <summary>A: Zn-Al溶射足場管 -- HDGの寿命を3倍に延ばす（RFID連携は提携前提）</summary>
+    <div class="detail-body">
+      <div class="product-card" style="margin:0; border:none; padding:0; box-shadow:none;">
+        <div class="product-grid">
+          <div class="product-field"><div class="product-field-label">Why</div><div class="product-field-value">HDG管は海洋環境で5-7年で赤錆発生（AGA）。溶接スパッタ温度1,400-1,600度Cに対し亜鉛沸点907度C→即座焼損。ISO 9223 C5で亜鉛腐食速度4.2-8.4um/年、40um層が4-10年で枯渇。</div></div>
+          <div class="product-field"><div class="product-field-label">Cost</div><div class="product-field-value">HDG管: 約75,000円/トン。ZAMプレミアム: <span class="kpi">+30-70%</span>。管1本 約1,300円 → 改良管 約2,250-3,000円。</div></div>
+          <div class="product-field product-field-full"><div class="product-field-label">Solves</div><div class="product-field-value">寿命 5-7年 → <span class="kpi-green">15-25年</span>。交換頻度 年20% → <span class="kpi-green">5%以下</span>。TCO <span class="kpi-green">37%削減</span>。年間 <span class="kpi-green">約1,125万円以上/造船所</span> 節減。※RFID連携（棚卸し工数90%削減等）はIT企業との提携が前提。金属メーカー単独ではRFID部分は対応不可。</div></div>
+          <div class="product-field"><div class="product-field-label">Who</div><div class="product-field-value">造船所、プラントメンテナンス事業者、足場リース会社</div></div>
+          <div class="product-field"><div class="product-field-label">Competition</div><div class="product-field-value">Zn-Al溶射+耐スパッタの組合せ製品は市場に存在しない。RFIDバンドルも競合不在。</div></div>
+        </div>
+      </div>
+      <div class="failure-box" style="margin-top:16px;">
+        <div class="box-title">裏付けデータ</div>
+        <ul>
+          <li><strong>南シナ海暴露試験:</strong> 局部腐食 0.20mm/年（均一腐食の40倍）→ 85um HDGが半年で局部消耗</li>
+          <li><strong>OSHA/ORFACE 2003:</strong> 造船所溶接火花→油残留物引火→5名死亡</li>
+          <li><strong>Alltask社:</strong> 出荷足場材の15-20%が未回収</li>
+          <li><strong>日本:</strong> 長崎県で足場1,300点/600万円盗難事例</li>
+        </ul>
+      </div>
+    </div>
+  </details>
+
+  <!-- 製品A-2: 二重底専用低背足場 -->
+  <details class="chapter-detail">
+    <summary>A: 二重底専用低背足場 -- 空白市場、専用品が存在しない</summary>
+    <div class="detail-body">
+      <div class="product-card" style="margin:0; border:none; padding:0; box-shadow:none;">
+        <div class="product-grid">
+          <div class="product-field"><div class="product-field-label">Why</div><div class="product-field-value">高さ1.2-2.5mの空間で標準足場が設置不可。現場は木馬・簡易台で代替。墜落防止措置なし。SOLAS II-1/3-6が二重底を明示的にPMA除外。</div></div>
+          <div class="product-field"><div class="product-field-label">Cost</div><div class="product-field-value">1セット 約30万-75万円。年間 200-1,000セット市場。</div></div>
+          <div class="product-field product-field-full"><div class="product-field-label">Solves</div><div class="product-field-value">OSHA限定空間基準への適合。事故1件: <span class="kpi-red">約570万-2,250万円以上</span>（米国）。2m未満転落: 重大負傷の2/3以上（HSE）、死亡率3.2%。</div></div>
+          <div class="product-field"><div class="product-field-label">Who</div><div class="product-field-value">造船所安全部門、修繕造船所、船級協会推奨品としての採用</div></div>
+          <div class="product-field"><div class="product-field-label">Competition</div><div class="product-field-value"><span class="kpi-green">ほぼ存在しない空白市場</span>。専用設計の競合製品がない。</div></div>
+        </div>
+      </div>
+      <div class="failure-box" style="margin-top:16px;">
+        <div class="box-title">裏付けデータ</div>
+        <ul>
+          <li><strong>バラストタンク11m深:</strong> 作業員転落→内臓破裂死（IMCA 2014）</li>
+          <li><strong>Saga Rose:</strong> タンク内酸欠→航海士死亡（MAIB 2008）</li>
+          <li>1996年以降、船上閉所空間で<strong>350名死亡</strong>（InterManager）</li>
+          <li>2023年だけで<strong>34名死亡</strong>（前年比倍増）</li>
+          <li><strong>ABS:</strong> PMAプラットフォームが検査員の足下で崩壊</li>
+        </ul>
+      </div>
+    </div>
+  </details>
+
+  <!-- 製品B-1: 船体フレーム専用クランプ -->
+  <details class="chapter-detail">
+    <summary>B: 船体フレーム専用クランプ -- 仮溶接を完全排除</summary>
+    <div class="detail-body">
+      <div class="product-card" style="margin:0; border:none; padding:0; box-shadow:none;">
+        <div class="product-grid">
+          <div class="product-field"><div class="product-field-label">Why</div><div class="product-field-value">汎用クランプは丸管用に設計。L型鋼・T型鋼には不適合。仮溶接で代替→母材にHAZ損傷。IACS Rec.47: 不融合タック溶接は「欠陥」扱い。</div></div>
+          <div class="product-field"><div class="product-field-label">Cost</div><div class="product-field-value">仮溶接: 約2,250-7,500円/箇所。専用クランプ 約3,000-7,500円なら初回使用でROI回収可能。</div></div>
+          <div class="product-field product-field-full"><div class="product-field-label">Solves</div><div class="product-field-value">仮溶接の完全排除→1隻あたり数百人時の工数削減。HAZリスクの排除。K-STAGEとの差別化: クランプ単体で既存足場管に接続可能。</div></div>
+          <div class="product-field"><div class="product-field-label">Who</div><div class="product-field-value">造船所足場部門、足場施工会社</div></div>
+          <div class="product-field"><div class="product-field-label">Competition</div><div class="product-field-value">K-STAGE（システム一体型）。クランプ単体は存在しない。</div></div>
+        </div>
+      </div>
+      <div class="failure-box" style="margin-top:16px;">
+        <div class="box-title">裏付けデータ</div>
+        <ul>
+          <li><strong>Alexander L. Kielland号(1980):</strong> 6mm隅肉溶接の疲労亀裂→半潜水式リグ転覆→<strong>123名死亡</strong></li>
+          <li><strong>OSHA:</strong> タック溶接のみの足場→崩壊→5.5m墜落死</li>
+          <li>グラインダー作業は専用工具でも通常の<strong>3倍工数</strong></li>
+        </ul>
+      </div>
+    </div>
+  </details>
+
+  <!-- 製品B-2: マグネット式ブラケット -->
+  <details class="chapter-detail">
+    <summary>B: マグネット+機械ロック式ブラケット -- McNetiq代理店が最低リスク</summary>
+    <div class="detail-body">
+      <div class="product-card" style="margin:0; border:none; padding:0; box-shadow:none;">
+        <div class="product-grid">
+          <div class="product-field"><div class="product-field-label">Why</div><div class="product-field-value">仮溶接の排除。造船所の足場設置で最も時間を消費する工程の一つ。</div></div>
+          <div class="product-field"><div class="product-field-label">Cost</div><div class="product-field-value">McNetiq実績: <span class="kpi-green">約2,280万円節約/プロジェクト</span>。リードタイム40%削減、材料70%削減。</div></div>
+          <div class="product-field product-field-full"><div class="product-field-label">Solves</div><div class="product-field-value">仮溶接の完全排除。顧客: Shell, Dow, BP, ExxonMobil, Vopak, Bilfinger。日本: 櫻井技研工業がマグネット足場工法を実用化（ダム・鋼橋向け）。DIBT/Dekra/Lloyd's認証済み。</div></div>
+          <div class="product-field"><div class="product-field-label">Who</div><div class="product-field-value">造船所、プラント事業者</div></div>
+          <div class="product-field"><div class="product-field-label">Competition</div><div class="product-field-value">McNetiq（オランダ）が先行。代理店戦略で参入障壁を回避。</div></div>
+        </div>
+      </div>
+      <div class="failure-box" style="margin-top:16px;">
+        <div class="box-title">裏付けデータ</div>
+        <ul>
+          <li><strong>ダイヤモンド・プリンセス火災(2002):</strong> 船体4割焼失、鎮火36時間</li>
+          <li><strong>NFPA:</strong> Hot Work火災=年間3,396件、19人死亡、<strong>約438億円損害</strong></li>
+          <li><strong>USS Bonhomme Richard(2020):</strong> 整備中火災→艦艇廃棄（損失数千億円規模）</li>
+        </ul>
+      </div>
+    </div>
+  </details>
+
+  <!-- 製品C-1: 偽トルク防止クランプ -->
+  <details class="chapter-detail">
+    <summary>C: 偽トルク防止クランプ -- 予防約75万円 vs 事故コスト数十億円</summary>
+    <div class="detail-body">
+      <div class="product-card" style="margin:0; border:none; padding:0; box-shadow:none;">
+        <div class="product-grid">
+          <div class="product-field"><div class="product-field-label">Why</div><div class="product-field-value">DOE Alert事例。バリ残存で規定トルクに到達しても実際の締付力が不十分。現場の36.7%のクランプが規格トルク以下（2024 ScienceDirect査読論文）。12週使用足場の41%が安全基準不適合。</div></div>
+          <div class="product-field"><div class="product-field-label">Cost</div><div class="product-field-value">SmartBolts: 約1,500-7,500円/本。予防投資 約45万-75万円 vs 重大事例では<span class="kpi-red">約8.3億-112億円</span>の和解・判決事例あり（高額事例）。</div></div>
+          <div class="product-field product-field-full"><div class="product-field-label">Solves</div><div class="product-field-value">偽トルクリスクの排除。締付状態の目視確認可能化。Cardiff足場倒壊(2000): 必要タイ300本中91本のみ→320,000ポンド罰金。</div></div>
+          <div class="product-field"><div class="product-field-label">Who</div><div class="product-field-value">足場リース会社、大手ゼネコン、原子力プラント</div></div>
+          <div class="product-field"><div class="product-field-label">Competition</div><div class="product-field-value">SmartBolts（米国）。足場専用の偽トルク防止クランプは未開拓。市場創出型。</div></div>
+        </div>
+      </div>
+      <details class="fc-details">
+        <summary>ファクトチェック修正済み</summary>
+        <div class="fc-body">
+          <div class="fc-before">修正前: 米国・日本の賠償額を「一般的な額」として記述</div>
+          <div class="fc-after">修正後: 「和解・判決事例がある（高額事例）」と個別事例であることを明記</div>
+          <div class="fc-source">検証: ペルソナ4(海事弁護士) / 根拠: 米国・日本の足場関連訴訟判例を確認。金額は事案ごとに大きく異なる</div>
+        </div>
+      </details>
+    </div>
+  </details>
+
+  <!-- 製品C-2: RFID埋込みスマート足場管 -->
+  <details class="chapter-detail">
+    <summary>C: RFID埋込みスマート足場管 -- ROI 200%、バンドル戦略で差別化</summary>
+    <div class="detail-body">
+      <div class="product-card" style="margin:0; border:none; padding:0; box-shadow:none;">
+        <div class="product-grid">
+          <div class="product-field"><div class="product-field-label">Why</div><div class="product-field-value">米国建設盗難: 約450億-1,500億円/年、回収率20-21%。足場材の15-20%が未回収（Alltask社）。腐食した足場管のカプラー接続部で滑り抵抗・回転剛性が著しく低下。</div></div>
+          <div class="product-field"><div class="product-field-label">Cost</div><div class="product-field-value">金属対応RFIDタグ: 約30-750円/枚。初期投資: 100万円〜。</div></div>
+          <div class="product-field product-field-full"><div class="product-field-label">Solves</div><div class="product-field-value">棚卸し工数<span class="kpi-green">90%削減</span>。在庫精度 70-85% → <span class="kpi-green">98-99%</span>。ROI最大<span class="kpi-green">200%</span>。ASCE論文: RFID導入で10-12%生産性向上。Avontus Quantify: 稼働率60→90%。</div></div>
+          <div class="product-field"><div class="product-field-label">Who</div><div class="product-field-value">足場リース会社、大規模造船所</div></div>
+          <div class="product-field"><div class="product-field-label">Competition</div><div class="product-field-value">RFID単体は存在するが、溶射管との一体型バンドルは市場に存在しない。日本では足場特化RFID個品管理は未開拓。</div></div>
+        </div>
+      </div>
+    </div>
+  </details>
+
+  <div class="insight" style="margin-top:24px;">
+    <h4>金属メーカーとしての参入戦略</h4>
+    <p>単品での参入ではコモディティ化リスクが高い。<strong>専用クランプ+偽トルク防止の組合せ</strong>や<strong>溶射管+二重底専用足場のセット提案</strong>で、金属加工技術を核にした複合ソリューションとして市場参入することが推奨される。RFID等のIT領域は提携先と組み合わせるが、自社の価値は「金属部品の設計・製造・品質保証」に集中すべきである。</p>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- Ch.5 どう売るか                                                -->
+<!-- ============================================================ -->
+<div class="page" id="ch5">
+  <h2><span class="num">Ch.5</span>どう売るか</h2>
+  <p style="font-size:17px; font-weight:500; color:var(--heading); margin-bottom:24px;">金属メーカーとしての参入ロードマップ -- Phase 1は自社技術で完結する製品開発から</p>
+
+  <div class="roadmap">
+    <div class="roadmap-phase phase1">
+      <h4>Phase 1: 製品開発・実証</h4>
+      <div class="phase-years">2026-2028</div>
+      <ul>
+        <li><strong>二重底専用低背足場の開発・試作</strong></li>
+        <li><strong>船体フレーム専用クランプの開発</strong></li>
+        <li>Zn-Al溶射足場管の試作・耐食性実証</li>
+        <li>造船所2-3社との共同実証</li>
+        <li>投資: 3,000万-8,000万円</li>
+        <li>ROI: 専用クランプは初回使用で回収可能</li>
+      </ul>
+    </div>
+    <div class="roadmap-phase phase2">
+      <h4>Phase 2: 量産・販路拡大</h4>
+      <div class="phase-years">2029-2031</div>
+      <ul>
+        <li><strong>モジュラー足場部品（リングロック等）の国産化量産</strong></li>
+        <li>マグネットブラケット代理店事業（McNetiq提携）</li>
+        <li>偽トルク防止クランプの開発・販売</li>
+        <li>足場レンタル大手へのOEM供給開始</li>
+        <li>投資: 1-3億円（CNC・溶接設備）</li>
+      </ul>
+    </div>
+    <div class="roadmap-phase phase3">
+      <h4>Phase 3: ブランド確立・海外展開</h4>
+      <div class="phase-years">2032-2035</div>
+      <ul>
+        <li>自社ブランド造船足場システムの構築</li>
+        <li>韓国・ASEAN造船所への海外展開</li>
+        <li>修繕造船・プラントメンテ市場への横展開</li>
+        <li>RFID管理は提携先IT企業とバンドル提供</li>
+      </ul>
+    </div>
+  </div>
+
+  <details class="chapter-detail">
+    <summary>補助金の活用（革新的造船技術補助金、ものづくり補助金等）</summary>
+    <div class="detail-body">
+      <table>
+        <tr><th>補助金</th><th>上限</th><th>金属メーカーの活用方法</th></tr>
+        <tr><td><strong>革新的造船技術補助金</strong></td><td>1.5億円</td><td>造船所との共同申請で足場部品の開発・実証。浅川造船の採択前例あり</td></tr>
+        <tr><td><strong>ものづくり補助金</strong></td><td>1,250万円（一般型）</td><td>溶射設備・CNC設備の導入。金属メーカー単独で申請可能</td></tr>
+        <tr><td><strong>事業再構築補助金</strong></td><td>最大1億円</td><td>造船足場市場への新規参入として申請可能</td></tr>
+      </table>
+      <p><strong>注意:</strong> DXオートメーション補助金やデジタル技術関連補助金は造船所自身が申請するもの。金属メーカーとしては、造船所と共同で「部品開発・実証」として申請するか、自社の設備投資向け補助金を活用する戦略が現実的。</p>
+    </div>
+  </details>
+
+  <details class="chapter-detail">
+    <summary>ターゲット顧客リスト（造船所、足場業者、レンタル会社）</summary>
+    <div class="detail-body">
+      <h4>造船所（直接顧客）</h4>
+      <ul>
+        <li>今治造船+JMU統合体（合算7,600億円、469万GT）</li>
+        <li>常石造船、大島造船所、三菱重工、川崎重工</li>
+      </ul>
+      <h4>足場専門協力会社</h4>
+      <ul>
+        <li>TKKマリン（玉野/三井E&amp;S向け）</li>
+        <li>中上工業（松山/今治造船向け）</li>
+        <li>星山建工業（三原/常石造船向け）</li>
+      </ul>
+      <h4>足場レンタル大手</h4>
+      <ul>
+        <li>日建リース（業界1位）、コンドーテック、アルインコ、タカミヤ、杉孝、ASNOVA</li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="chapter-detail">
+    <summary>価格戦略（ZAMプレミアム、TCO試算）</summary>
+    <div class="detail-body">
+      <table>
+        <tr><th>項目</th><th>HDG（従来品）</th><th>Zn-Al溶射管（提案品）</th></tr>
+        <tr><td>管1本単価</td><td>約1,300円</td><td>約2,250-3,000円</td></tr>
+        <tr><td>プレミアム</td><td>-</td><td>+30-70%</td></tr>
+        <tr><td>寿命</td><td>5-7年</td><td>15-25年</td></tr>
+        <tr><td>年間交換率</td><td>20%</td><td>5%以下</td></tr>
+        <tr><td>TCO</td><td>100%（基準）</td><td><span class="kpi-green">63%（37%削減）</span></td></tr>
+        <tr><td>年間節減額</td><td>-</td><td>約1,125万円以上/造船所</td></tr>
+      </table>
+      <p><strong>ZAMメッキ:</strong> 耐食性10-20倍（平板塩水噴霧試験ベースのメーカー公称。実使用環境では条件により異なる）。日鉄日新の技術。</p>
+      <p><strong>モジュラー足場部品の国産化:</strong> リングロック（ロゼット）部品はS355鋼、8-10mm厚、+/-0.5mm精度。CNC精密切断+ロボット溶接が必要。現在ほぼ全量が海外製（Layher, Peri等）→国産化ニーズは国策とも合致。</p>
+    </div>
+  </details>
+</div>
+
+<!-- ============================================================ -->
+<!-- Appendix A: 海外の状況                                        -->
+<!-- ============================================================ -->
+<div class="page" id="appA">
+  <h2><span class="num">App.A</span>海外の状況</h2>
+
+  <details class="chapter-detail">
+    <summary>韓国（HD現代ロボット200台、死亡15-23名、所属外63.9%）</summary>
+    <div class="detail-body">
+      <div class="stat-row">
+        <div class="stat-card">
+          <div class="stat-value">200台+</div>
+          <div class="stat-label">HD現代ロボット</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">80%+</div>
+          <div class="stat-label">生産性向上</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">15-23名</div>
+          <div class="stat-label">死亡(2024)</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">63.9%</div>
+          <div class="stat-label">所属外労働者比率</div>
+        </div>
+      </div>
+      <ul>
+        <li><strong>HD現代重工業:</strong> ロボット200台超稼働。溶接工程で生産性80%以上向上</li>
+        <li>Persona AIとMOU締結。ヒューマノイド溶接ロボットを2027年商用化予定</li>
+        <li><strong>Samsung:</strong> Dassault Systemesとスマートデジタル造船所を構築中。CISRS訓練センター開設（2014）、3,000人受講</li>
+        <li><strong>自動化の限界:</strong> 溶接・塗装・搬送の3種ラグのみ。足場自体の自動化は未達</li>
+        <li><strong>Hanwha Ocean 2024.9:</strong> 30m転落死（夜間作業中）</li>
+      </ul>
+      <details class="fc-details">
+        <summary>ファクトチェック修正済み</summary>
+        <div class="fc-body">
+          <div class="fc-before">修正前: 韓国造船所の死亡者数を単一数値で記述</div>
+          <div class="fc-after">修正後: 15-23名（報道により異なる）と範囲表記に修正</div>
+          <div class="fc-source">検証: ペルソナ8(韓国造船業記者) / 根拠: 雇用労働部と現場集計の定義差が原因</div>
+        </div>
+      </details>
+    </div>
+  </details>
+
+  <details class="chapter-detail">
+    <summary>欧州（Meyer Werft 約4,620億円危機、Layher SIM、BugWright2）</summary>
+    <div class="detail-body">
+      <ul>
+        <li><strong>Meyer Werft:</strong> 世界最大の屋根付きドック（504m x 125m）で天候リスクを根本排除。ただし約4,620億円の経営危機でドイツ政府が80%出資して救済。PERI Scaffold Designerで35h/project削減。</li>
+        <li><strong>Layher SIM:</strong> BIM/VR連携の3D足場計画ツール。造船所向けに最適化。360度リングセット設計で曲面対応。</li>
+        <li><strong>EU BugWright2:</strong> 磁気クローラー+ドローン+AUVで足場レス船体点検を実証。ただし船体表面の98%に対応可能だが、残り2%（溶接部・曲面・エッジ部）が最も重要な検査箇所で未解決。</li>
+        <li><strong>Fincantieri 2024.1:</strong> 強風97km/hでタラップ離脱→足場崩壊</li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="chapter-detail">
+    <summary>米国（NSRP QDS 1/5スケール止まり、OSHA基準1971年未更新）</summary>
+    <div class="detail-body">
+      <ul>
+        <li><strong>NSRP Quick Deploy Scaffolding:</strong> 労務費50%削減・組立解体時間60%削減を目標。ただし1/5モデル段階で停滞中。</li>
+        <li><strong>OSHA:</strong> 造船所固有の足場基準（29 CFR 1915 Subpart E）を保有するが、基本的な枠組みは1971年から未更新。</li>
+        <li><strong>ドローン検査の限界:</strong> GPS不能、バッテリー短命、Ex未認証</li>
+        <li><strong>Flyability Elios 3:</strong> タンク検査足場を完全代替。1隻あたり約1.5億円削減。ダウンタイム80%減。</li>
+        <li><strong>KEWAZO LIFTBOT:</strong> 足場組立の人工を最大70%削減</li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="chapter-detail">
+    <summary>海外の失敗事例 -- 5つの構造的課題</summary>
+    <div class="detail-body">
+      <div class="failure-box">
+        <div class="box-label">Critical Failures</div>
+        <ul>
+          <li><strong>四国ドック 2024.10:</strong> 金属フック2個折損→3名転落死（高さ18m）</li>
+          <li><strong>Hanwha Ocean 2024.9:</strong> 30m転落死（夜間作業中）</li>
+          <li><strong>Fincantieri 2024.1:</strong> 強風97km/hでタラップ離脱→足場崩壊</li>
+          <li><strong>OSHA記録:</strong> ブラケットクリップのタック溶接不足→5.5m転落死</li>
+          <li><strong>新潟港 2021:</strong> 引っかけただけの吊り足場崩落→溺死</li>
+          <li><strong>亜鉛メッキ劣化:</strong> 熱帯海洋環境で6ヶ月で鋼素地腐食開始</li>
+        </ul>
+      </div>
+      <div class="insight">
+        <p>技術的ソリューションは存在するが、いずれも「最後の2-5%」の課題を解決できていない。この残余問題こそが人命に直結する領域であり、金属製品の品質が「安全」に直結する数少ない市場である。</p>
+      </div>
+    </div>
+  </details>
+
+  <details class="chapter-detail">
+    <summary>モジュラー足場の導入実態（Scafom-rux、Urtim、Layher）</summary>
+    <div class="detail-body">
+      <table>
+        <thead><tr><th>造船所</th><th>足場システム</th><th>ソース信頼度</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Samsung Heavy Industries</strong></td><td>CISRS訓練センター開設（2014）、3,000人受講</td><td>一次ソース</td></tr>
+          <tr><td><strong>Scafom-rux</strong></td><td>LNG船タンク内にRINGSCAFF 800トン</td><td>一次ソース</td></tr>
+          <tr><td><strong>Urtim</strong></td><td>トルコ Cemre Shipyard</td><td>一次ソース</td></tr>
+          <tr><td><strong>韓国海軍造船所</strong></td><td>Layher 12万m<sup>2</sup>超</td><td>Credence Research</td></tr>
+          <tr><td><strong>Meyer Werft</strong></td><td>PERI Scaffold Designer</td><td>Credence Research</td></tr>
+        </tbody>
+      </table>
+      <p><strong>性能:</strong> システム足場の組立時間は従来比<span class="kpi-green">80%短縮</span>。実測で<span class="kpi-green">6倍差</span>（15分 vs 90分）。</p>
+      <p><strong>未確認の主要造船所:</strong> HD現代、Fincantieri、中国CSSC、HII、NASSCO、今治造船、JMU、三菱造船 -- 直接ヒアリングが必要。</p>
+    </div>
+  </details>
+</div>
+
+<!-- ============================================================ -->
+<!-- Appendix B: 技術詳細                                          -->
+<!-- ============================================================ -->
+<div class="page" id="appB">
+  <h2><span class="num">App.B</span>技術詳細・エビデンス</h2>
+
+  <details class="chapter-detail">
+    <summary>PSPC基準（320um、90/10ルール、Sa2.5）</summary>
+    <div class="detail-body">
+      <ul>
+        <li><strong>NDFT:</strong> 公称乾燥膜厚 320um</li>
+        <li><strong>90/10ルール:</strong> 全測定値の90%がNDFT以上、残り10%も90%NDFT以上</li>
+        <li><strong>素地調整:</strong> Sa2.5（表面粗さ30-75um）</li>
+        <li><strong>IMO PSPC:</strong> 「Permanent Means of Access」要件自体が塗装の障害に（矛盾）</li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="chapter-detail">
+    <summary>腐食の化学（Fe→Fe2+→Fe2O3、Cl-孔食メカニズム）</summary>
+    <div class="detail-body">
+      <p><strong>一般腐食:</strong> Fe → Fe2+ → Fe2O3（酸化鉄の生成）</p>
+      <p><strong>Cl-孔食メカニズム:</strong> 塩化物イオンの浸透→不動態膜への吸着→自触媒反応による加速的な孔食進行</p>
+      <p>足場痕: 厳しい海洋wet/dry交互浸漬試験の欠陥部では、設置跡から12ヶ月で孔食150um、40ヶ月で330umに進行。</p>
+      <details class="fc-details">
+        <summary>ファクトチェック修正済み</summary>
+        <div class="fc-body">
+          <div class="fc-before">修正前: 足場痕の腐食データを一般環境として記述</div>
+          <div class="fc-after">修正後: 「厳しい海洋wet/dry交互浸漬試験の欠陥部」という条件を明記</div>
+          <div class="fc-source">検証: ペルソナ5(防食エンジニア) / 根拠: ASTM D5894相当の加速腐食試験条件を確認</div>
+        </div>
+      </details>
+    </div>
+  </details>
+
+  <details class="chapter-detail">
+    <summary>亜鉛メッキの寿命（ISO C5: 4.2-8.4um/年、40umで4-10年枯渇）</summary>
+    <div class="detail-body">
+      <ul>
+        <li><strong>ISO 9223 C5:</strong> 亜鉛腐食速度 4.2-8.4um/年</li>
+        <li>HDG 40umの場合: 海洋環境で4-10年で亜鉛層が枯渇→鋼素地が露出</li>
+        <li>海岸250ft以内で5-7年で赤錆（AGA）</li>
+        <li>ZAMメッキ: 耐食性10-20倍（平板塩水噴霧試験ベース、メーカー公称）</li>
+        <li>ZnAl溶射: HDGの数分の1〜数十分の1の腐食速度（平板塩水噴霧試験ベース）</li>
+      </ul>
+      <details class="fc-details">
+        <summary>ファクトチェック修正済み</summary>
+        <div class="fc-body">
+          <div class="fc-before">修正前: ZAM耐食性10-20倍を無条件に記述</div>
+          <div class="fc-after">修正後: 「平板塩水噴霧試験ベースのメーカー公称。実使用環境では条件により異なる」の注釈を追加</div>
+          <div class="fc-source">検証: ペルソナ5(防食エンジニア) / 根拠: 日新製鋼のZAM技術資料と実環境腐食試験データの乖離を確認</div>
+        </div>
+      </details>
+    </div>
+  </details>
+
+  <details class="chapter-detail">
+    <summary>足場管の材料工学（STK500、シャルピー値規定なし、鋳鉄vs鍛造）</summary>
+    <div class="detail-body">
+      <ul>
+        <li><strong>足場管規格:</strong> JIS G3444, STK500, φ48.6mm x 2.4mm</li>
+        <li><strong>STK500の限界:</strong> シャルピー衝撃値の規定がない。低温靭性が保証されていない。</li>
+        <li><strong>肉厚基準:</strong> EN39: 3.2mm（高張力管）/4.0mm（標準管）。AS/NZS 4576: 3.6mm未満を不適格。日本: 外径の1/31（約1.6mm）。</li>
+        <li><strong>クランプ:</strong> 鍛造品は鋳造品の3-5倍の衝撃値。鋳鉄K<sub>Ic</sub>=11-19 vs 鍛造鋼50-150 MPa・m<sup>1/2</sup>。</li>
+        <li><strong>ひずみ時効脆化:</strong> 溶接輻射熱200-300度Cでコットレル雰囲気形成。延性低下。外観変化なし、検出困難。</li>
+        <li><strong>ボルト:</strong> 強度区分4.6が主流（水素脆化回避の設計思想）。めっき後のベーキング処理（200度C x 数時間）が品質保証の要。</li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="chapter-detail">
+    <summary>閉所空間の制約（二重底1,610mm、マンホール800x600mm）</summary>
+    <div class="detail-body">
+      <ul>
+        <li><strong>二重底:</strong> 最小高さ1,610mm。フレーム・ロンジが密に配置。天井高1m未満の箇所あり。</li>
+        <li><strong>マンホール:</strong> 通常800x600mm。長尺パイプ搬入不可。</li>
+        <li>足場部材が気流を妨げ換気効率が低下→VOC滞留・酸欠リスク増大</li>
+        <li>球状船首（バルバスバウ）、ビルジキール周辺、船尾部（スターンフレーム）: いずれも標準足場が適合しない複雑曲面。カスタム足場が必要で量産造船の経済性と両立しない。</li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="chapter-detail">
+    <summary>参考文献一覧（60件）</summary>
+    <div class="detail-body">
+      <div class="sources">
+        <p>[1] TKK・マリン・エンタープライズ「足場」tkk-marine.com</p>
+        <p>[2] 全船安 足場特別教育テキスト zensenan.org</p>
+        <p>[3] 全船安 100の事例集 / 災害事例集第21集</p>
+        <p>[4] 厚生労働省 腰痛予防対策・熱中症対策</p>
+        <p>[5] 国土交通省 船舶産業変革報告書 2024年6月</p>
+        <p>[6] 国土交通省 造船業再生ロードマップ 2025年12月</p>
+        <p>[7] 国土交通省 海事産業人材確保資料</p>
+        <p>[8] 三菱UFJリサーチ 商慣習改善調査研究報告書 2024年5月</p>
+        <p>[9] JASNAOE 造船DX最終報告書 2023年3月</p>
+        <p>[10] NMRI DX造船所研究発表 2023年</p>
+        <p>[11] IMO PSPC / ClassNK解説</p>
+        <p>[12] JASNAOE 塗装品質プロジェクト報告書</p>
+        <p>[13] 愛媛大学 船舶塗装・防食講義資料</p>
+        <p>[14] NSRP Quick Deploy Scaffolding nsrp.org</p>
+        <p>[15] Scaffolding Solutions 産業足場コスト分析</p>
+        <p>[16] AMECO 足場効率のプロジェクトコスト影響分析</p>
+        <p>[17] DNV アンモニア燃料の課題</p>
+        <p>[18] 日本郵船 アンモニア燃料船の安全対策</p>
+        <p>[19] IMO GHG削減戦略 国交省資料</p>
+        <p>[20] 国立社会保障・人口問題研究所 将来推計人口</p>
+        <p>[21] 出入国在留管理庁 特定技能「造船・舶用工業」</p>
+        <p>[22] 厚生労働省 時間外労働上限規制（建設業）</p>
+        <p>[23] 日経新聞 四国ドック転落死事故 2024年10月</p>
+        <p>[24] 日経新聞 今治造船 認定取消 2025年3月</p>
+        <p>[25] 日経新聞 2024年受注シェア / 世界の艦船</p>
+        <p>[26] Yahoo!知恵袋 q1358215053, q11285141001, q11291555061</p>
+        <p>[27] 就活会議 今治造船口コミ / エンカイシャの評判</p>
+        <p>[28] 求人ボックス 造船の年収 / Indeed 足場職人給与</p>
+        <p>[29] 労働新聞社 造船業の重層下請構造</p>
+        <p>[30] ILO百科事典 船舶建造と修理</p>
+        <p>[31] 厚生労働省「労安則（足場等関係）改正」mhlw.go.jp</p>
+        <p>[32] 国土交通省「日本造船業の為替耐性」mlit.go.jp</p>
+        <p>[33] 仮設工業会「足場の年表」kasetsu.or.jp</p>
+        <p>[34] Layher「Shipyards / SIM」layher.com</p>
+        <p>[35] Flyability「Hull Inspection Case Study」flyability.com</p>
+        <p>[36] Credence Research「Shipbuilding and Marine Scaffolding Market」(2024)</p>
+        <p>[37] KEWAZO「LIFTBOT」kewazo.com</p>
+        <p>[38] Maritime Executive「HD Hyundai Compact Welding Robots」(2024)</p>
+        <p>[39] Siemens「Hyundai Heavy Industries Digital Shipyard」</p>
+        <p>[40] Dassault Systemes「Samsung Heavy Industries」(2022)</p>
+        <p>[41] Ship Technology「The Digital Shipyard Robotics」</p>
+        <p>[42] OSHA 29 CFR 1915 Subpart E「Scaffolds or Staging」</p>
+        <p>[43] EN 12811-1:2003 仮設構造物の性能要件</p>
+        <p>[44] JETRO「K-造船次世代先導戦略」(2023)</p>
+        <p>[45] マーテック「K-STAGE特殊足場」martec.co.jp</p>
+        <p>[46] 中上工業「造船足場について」nakagami-2020.com</p>
+        <p>[47] 日刊工業新聞「JMU ぎょう鉄ロボット自動化」(2024)</p>
+        <p>[48] 経済産業省「VOC排出抑制の手引き（第3版）」</p>
+        <p>[49] Asia Pacific Foundation「Labour Shortage in Korea's Shipbuilding」</p>
+        <p>[50] Scafom-rux「RINGSCAFF LNG Ship Application」</p>
+        <p>[51] IMCA「Confined Space Fatality Report」(2014)</p>
+        <p>[52] MAIB「Saga Rose Investigation Report」(2008)</p>
+        <p>[53] InterManager「Enclosed Space Deaths Database」</p>
+        <p>[54] DOE Alert「Scaffolding False Torque」(2004)</p>
+        <p>[55] ScienceDirect「Scaffold Clamp Torque Survey」(2024)</p>
+        <p>[56] ASCE「RFID in Construction Productivity」(2018)</p>
+        <p>[57] McNetiq「Controlock Magnetic Scaffolding」</p>
+        <p>[58] NFPA「Hot Work Fire Statistics」</p>
+        <p>[59] IACS Rec.47 Rev.10</p>
+        <p>[60] AGA「HDG Coastal Corrosion Data」</p>
+      </div>
+    </div>
+  </details>
+</div>
+
+<!-- ============================================================ -->
+<!-- Appendix C: ファクトチェック結果                                -->
+<!-- ============================================================ -->
+<div class="page" id="appC">
+  <h2><span class="num">App.C</span>ファクトチェック結果</h2>
+
+  <details class="chapter-detail">
+    <summary>Codex Round 1: 10ペルソナ結果（修正必須8件、推奨10件）</summary>
+    <div class="detail-body">
+      <h4>修正必須（8件）</h4>
+      <table>
+        <tr><th>項目</th><th>修正内容</th><th>ペルソナ</th></tr>
+        <tr><td>造船就業者数</td><td>「6.3万人」→舶用含む15万人との定義差を注記</td><td>P7 労働安全衛生専門家</td></tr>
+        <tr><td>官民1兆円の内訳</td><td>民3,500億+官3,800億+官民GX2,800億を明記</td><td>P6 産業経済アナリスト</td></tr>
+        <tr><td>韓国造船死亡者数</td><td>「15-23名（報道差）」と範囲表記に</td><td>P8 韓国造船業記者</td></tr>
+        <tr><td>ZAM耐食性</td><td>「平板塩水噴霧試験ベース」条件を明記</td><td>P5 防食エンジニア</td></tr>
+        <tr><td>足場痕腐食データ</td><td>「加速試験条件の欠陥部」であることを明記</td><td>P5 防食エンジニア</td></tr>
+        <tr><td>Junker試験結果</td><td>「条件により40-80%以上の喪失」と範囲表記</td><td>P2 材料工学者</td></tr>
+        <tr><td>米国賠償額</td><td>「高額事例」であり一般的ではないと注記</td><td>P4 海事弁護士</td></tr>
+        <tr><td>艤装工程比率</td><td>船種により大きく異なるため定量値削除</td><td>P1 造船エンジニア</td></tr>
+      </table>
+      <h4>推奨修正（10件）</h4>
+      <table>
+        <tr><th>項目</th><th>修正内容</th></tr>
+        <tr><td>墜落・転落比率</td><td>「約4割」と定量化、建設業死亡災害に占める割合と明記</td></tr>
+        <tr><td>約8,600億円（元57.37億USD）</td><td>元数値5,737M USDを参考として確認</td></tr>
+        <tr><td>リングロック解体速度</td><td>「実測で6倍」の出典条件を明記</td></tr>
+        <tr><td>廃棄基準</td><td>仮設工業会の指針の存在を考慮し「定性的基準」に修正</td></tr>
+        <tr><td>LNG船足場面積</td><td>「同時設置か累計施工か定義不明」を注記</td></tr>
+        <tr><td>所属外労働者</td><td>63.9%のデータを追加</td></tr>
+        <tr><td>IACS Rec.47</td><td>Rev.10を明記</td></tr>
+        <tr><td>日本賠償額</td><td>「個別事例」であることを明記</td></tr>
+        <tr><td>Zn-Al溶射腐食速度</td><td>「平板塩水噴霧試験ベース」条件を明記</td></tr>
+        <tr><td>足場コスト造船原価比</td><td>業界内部データとして「Unknown」判定</td></tr>
+      </table>
+    </div>
+  </details>
+
+  <details class="chapter-detail">
+    <summary>Codex Round 2: 日本データ28項目の検証結果</summary>
+    <div class="detail-body">
+      <table>
+        <tr><th>判定</th><th>条件</th></tr>
+        <tr><td><span class="pill green">Accept</span></td><td>2レーン以上が独立した引用で一致</td></tr>
+        <tr><td><span class="pill blue">Conditional</span></td><td>単一レーンだが一次ソース+直接引用あり</td></tr>
+        <tr><td><span class="pill orange">Contested</span></td><td>レーン間で不一致、追加検証で未解決</td></tr>
+      </table>
+      <table>
+        <tr><th>主要クレーム</th><th>レーン数</th><th>判定</th></tr>
+        <tr><td>造船就業者数 2022年約6.3万人（舶用含む15万人）</td><td>2</td><td><span class="pill green">Accept</span></td></tr>
+        <tr><td>造船原価構成（鋼材49%、労務費23%等）</td><td>2</td><td><span class="pill green">Accept</span></td></tr>
+        <tr><td>墜落・転落が死亡災害の約4割</td><td>2</td><td><span class="pill green">Accept</span></td></tr>
+        <tr><td>造船業は製造業唯一の特定元方事業者</td><td>2</td><td><span class="pill green">Accept</span></td></tr>
+        <tr><td>HD現代 ロボット200台超・生産性80%向上</td><td>2</td><td><span class="pill green">Accept</span></td></tr>
+        <tr><td>Meyer Werft 屋根付きドック504m x 125m</td><td>2</td><td><span class="pill green">Accept</span></td></tr>
+        <tr><td>Flyability ドローンで1隻約1.5億円削減</td><td>1</td><td><span class="pill blue">Conditional</span></td></tr>
+        <tr><td>NSRP QDS 労務費50%・工期60%削減目標</td><td>2</td><td><span class="pill green">Accept</span></td></tr>
+        <tr><td>足場コストが造船原価に占める具体的%</td><td>0</td><td><span class="pill orange">Unknown</span></td></tr>
+        <tr><td>造船業単独の墜落・転落統計</td><td>0</td><td><span class="pill orange">Unknown</span></td></tr>
+      </table>
+      <h4>データ限界</h4>
+      <ul>
+        <li>造船業に限定した足場関連の労働災害統計は公開データとして未確認</li>
+        <li>足場コストの造船原価比率を明示した日本の公開資料は未発見</li>
+        <li>造船業における次世代足場の導入率・普及状況は不明</li>
+        <li>明治期-戦前の造船足場技術に関する一次史料は限定的</li>
+      </ul>
+    </div>
+  </details>
+</div>
+
+<!-- ============ FOOTER ============ -->
+<div class="footer">
+  <div class="gradient-bar" style="margin-bottom:24px;"></div>
+  <p>造船 x 仮設足場 -- セールスインテリジェンス</p>
+  <p>全7フェーズ / 46エージェント + 20 Codexペルソナ / 500+ citations / Fact-checked</p>
+  <p>Generated 2026-03-23</p>
+</div>
+
+</body>
+</html>
