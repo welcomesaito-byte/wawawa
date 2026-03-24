@@ -1,0 +1,1482 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>日本の特殊液体輸送市場 -- セールスインテリジェンス</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+JP:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary-50: #f0f5ff;
+    --primary-500: #2b70ef;
+    --primary-700: #1a40b5;
+    --primary-900: #0e266a;
+    --heading: #0f172a;
+    --body: #3d4b5f;
+    --muted: #64748b;
+    --surface: #ffffff;
+    --surface-alt: #f9fafb;
+    --border: #e2e8f0;
+    --border-strong: #cbd5e1;
+    --success: #059669;
+    --success-subtle: #ecfdf5;
+    --success-text: #047857;
+    --warning: #d97706;
+    --warning-subtle: #fffbeb;
+    --warning-text: #b45309;
+    --danger: #ef4444;
+    --danger-subtle: #fef2f2;
+    --danger-text: #dc2626;
+  }
+
+  /* === FACT-CHECK ACCORDION === */
+  .fc-mark {
+    background: linear-gradient(135deg, var(--warning-subtle) 0%, #fff7ed 100%);
+    border: 1px solid #fde68a;
+    border-radius: 8px;
+    padding: 4px 8px;
+    margin: 4px 0;
+    display: inline;
+  }
+  .fc-details {
+    margin: 8px 0 16px;
+    border: 1px solid #fde68a;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .fc-details summary {
+    background: var(--warning-subtle);
+    padding: 8px 16px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--warning-text);
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .fc-details summary::before {
+    content: 'FC';
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    background: var(--warning);
+    color: #fff;
+    border-radius: 9999px;
+    font-size: 10px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .fc-details summary::after {
+    content: '+';
+    margin-left: auto;
+    font-size: 18px;
+    font-weight: 300;
+    color: var(--warning);
+    transition: transform 0.2s;
+  }
+  .fc-details[open] summary::after {
+    content: '-';
+  }
+  .fc-details .fc-body {
+    padding: 12px 16px;
+    background: #fff;
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--body);
+    border-top: 1px solid #fde68a;
+  }
+  .fc-details .fc-body .fc-before {
+    color: var(--danger-text);
+    text-decoration: line-through;
+    font-size: 12px;
+  }
+  .fc-details .fc-body .fc-after {
+    color: var(--success-text);
+    font-weight: 500;
+  }
+  .fc-details .fc-body .fc-source {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+
+  /* === CHAPTER DETAILS === */
+  details.chapter-detail {
+    margin: 8px 0;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  details.chapter-detail summary {
+    padding: 12px 16px;
+    background: var(--surface-alt);
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--heading);
+    list-style: none;
+  }
+  details.chapter-detail summary::after {
+    content: '+';
+    float: right;
+    font-size: 18px;
+    color: var(--muted);
+  }
+  details.chapter-detail[open] summary::after {
+    content: '-';
+  }
+  details.chapter-detail .detail-body {
+    padding: 16px;
+    border-top: 1px solid var(--border);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    letter-spacing: 0.02em;
+    color: var(--body);
+    background: var(--surface);
+  }
+
+  /* === TYPOGRAPHY === */
+  h1, h2, h3, h4 { color: var(--heading); letter-spacing: 0.01em; font-weight: 700; }
+  h2 { font-size: 26px; line-height: 1.4; margin-bottom: 8px; padding-bottom: 12px; border-bottom: 3px solid var(--primary-500); display: inline-block; }
+  h2 .num { color: var(--primary-500); margin-right: 8px; }
+  h3 { font-size: 20px; line-height: 1.5; margin: 32px 0 12px; }
+  h4 { font-size: 15px; font-weight: 600; color: var(--body); margin: 20px 0 8px; }
+  p { margin-bottom: 12px; font-size: 15px; line-height: 1.7; color: var(--body); }
+  ul, ol { margin: 0 0 16px 20px; font-size: 15px; }
+  li { margin-bottom: 6px; color: var(--body); }
+  li strong { color: var(--heading); }
+  strong { font-weight: 600; }
+
+  /* === COVER === */
+  .cover {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px;
+    background: linear-gradient(135deg, var(--primary-900) 0%, #16213e 100%);
+    color: #fff;
+    position: relative;
+  }
+  .cover::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary-500), var(--success), var(--warning), var(--danger));
+  }
+  .cover .label {
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    font-size: 12px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 24px;
+  }
+  .cover h1 {
+    font-size: 48px;
+    font-weight: 900;
+    line-height: 1.2;
+    margin-bottom: 16px;
+    color: #fff;
+  }
+  .cover .subtitle {
+    font-size: 20px;
+    font-weight: 300;
+    color: rgba(255,255,255,0.7);
+    margin-bottom: 48px;
+    max-width: 700px;
+  }
+  .cover .meta {
+    font-size: 13px;
+    color: rgba(255,255,255,0.4);
+  }
+
+  /* === LAYOUT === */
+  .page {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 60px 40px;
+    page-break-after: always;
+  }
+  .page + .page { border-top: 1px solid var(--border); }
+
+  /* === ALERT BOXES === */
+  .exec-summary {
+    background: var(--primary-50);
+    border: 1px solid #c0d4ff;
+    color: var(--primary-700);
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin: 24px 0;
+  }
+  .exec-summary p { color: var(--primary-700); font-weight: 400; margin-bottom: 8px; }
+  .exec-summary p:last-child { margin-bottom: 0; }
+
+  .opportunity-box {
+    background: var(--success-subtle);
+    border: 1px solid #a7f3d0;
+    color: var(--success-text);
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin: 24px 0;
+  }
+  .opportunity-box h4 { color: var(--success-text); margin-top: 0; font-size: 15px; }
+  .opportunity-box .box-label { font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--success-text); margin-bottom: 12px; }
+  .opportunity-box ul { margin: 0 0 0 20px; }
+  .opportunity-box li { color: var(--success-text); font-size: 14px; margin-bottom: 6px; }
+
+  .risk-box {
+    background: var(--danger-subtle);
+    border: 1px solid #fecaca;
+    color: var(--danger-text);
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin: 24px 0;
+  }
+  .risk-box h4 { color: var(--danger-text); margin-top: 0; font-size: 15px; }
+  .risk-box .box-label { font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--danger-text); margin-bottom: 12px; }
+  .risk-box ul { margin: 0 0 0 20px; }
+  .risk-box li { color: var(--danger-text); font-size: 14px; margin-bottom: 6px; }
+
+  .insight {
+    background: var(--warning-subtle);
+    border: 1px solid #fde68a;
+    color: var(--warning-text);
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin: 24px 0;
+  }
+  .insight h4 { color: var(--warning-text); margin-top: 0; font-size: 15px; }
+  .insight strong { color: var(--warning-text); }
+  .insight p { color: var(--warning-text); font-size: 14px; margin-bottom: 6px; }
+  .insight p:last-child { margin-bottom: 0; }
+
+  /* === TABLES === */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0 24px;
+    font-size: 15px;
+  }
+  thead { background: var(--surface-alt); }
+  th {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--muted);
+    padding: 10px 16px;
+    text-align: left;
+    font-weight: 500;
+    border-bottom: 1px solid var(--border);
+  }
+  td {
+    font-size: 15px;
+    color: var(--heading);
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  tr:hover td { background: var(--surface-alt); }
+
+  /* === BADGE === */
+  .badge, .pill {
+    display: inline-block;
+    border-radius: 9999px;
+    padding: 2px 12px;
+    font-size: 13px;
+    font-weight: 500;
+  }
+  .badge-success, .pill.green { background: var(--success-subtle); color: var(--success-text); }
+  .badge-primary, .pill.blue { background: var(--primary-50); color: var(--primary-700); }
+  .badge-warning, .pill.orange { background: var(--warning-subtle); color: var(--warning-text); }
+  .badge-danger, .pill.red { background: var(--danger-subtle); color: var(--danger-text); }
+  .badge-neutral { background: #f1f5f9; color: #475569; }
+
+  /* === STAT CARDS === */
+  .stat-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+    margin: 24px 0;
+  }
+  .stat-card {
+    text-align: center;
+    padding: 20px 12px;
+    background: var(--surface-alt);
+    border-radius: 12px;
+    border: 1px solid var(--border);
+  }
+  .stat-card .number {
+    font-family: 'Inter', sans-serif;
+    font-size: 32px;
+    font-weight: 900;
+    color: var(--primary-500);
+    line-height: 1;
+  }
+  .stat-card .unit {
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 6px;
+  }
+  .stat-card .label2 {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 8px;
+    line-height: 1.3;
+  }
+
+  /* === BARRIER BADGE === */
+  .barrier-low {
+    display: inline-block;
+    padding: 2px 10px;
+    background: var(--success);
+    color: #fff;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 700;
+  }
+  .barrier-mid {
+    display: inline-block;
+    padding: 2px 10px;
+    background: var(--warning);
+    color: #fff;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 700;
+  }
+  .barrier-high {
+    display: inline-block;
+    padding: 2px 10px;
+    background: var(--danger);
+    color: #fff;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  /* === TOC === */
+  .toc { list-style: none; padding: 0; }
+  .toc li { padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 15px; }
+  .toc li:last-child { border-bottom: none; }
+  .toc a { color: var(--primary-500); text-decoration: none; }
+  .toc a:hover { color: var(--primary-700); text-decoration: underline; }
+
+  /* === KPI === */
+  .kpi { font-family: 'Inter', sans-serif; font-weight: 700; color: var(--primary-500); }
+  .kpi-red { font-family: 'Inter', sans-serif; font-weight: 700; color: var(--danger-text); }
+  .kpi-green { font-family: 'Inter', sans-serif; font-weight: 700; color: var(--success-text); }
+
+  /* === SECTION DIVIDER === */
+  .section-divider { border: none; height: 1px; background: var(--border-strong); margin: 48px 0; }
+  .gradient-bar { height: 4px; border-radius: 2px; background: linear-gradient(90deg, var(--primary-500) 0%, var(--success) 33%, var(--warning) 66%, var(--danger) 100%); max-width: 400px; margin: 0 auto; }
+
+  /* === FOOTER === */
+  .footer {
+    text-align: center;
+    padding: 40px 24px;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  /* === PRINT === */
+  @media print {
+    .cover { min-height: auto; padding: 40px; }
+    .page { padding: 30px 20px; }
+    .stat-row { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  /* === RESPONSIVE === */
+  @media (max-width: 768px) {
+    .cover { padding: 48px 24px; }
+    .cover h1 { font-size: 32px; }
+    .page { padding-left: 20px; padding-right: 20px; }
+    .stat-row { grid-template-columns: repeat(2, 1fr); }
+    table { font-size: 13px; }
+    th, td { padding: 8px 10px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ COVER ============ -->
+<div class="cover">
+  <div class="label">Sales Intelligence Briefing</div>
+  <h1>日本の特殊液体輸送市場<br>セールスインテリジェンス</h1>
+  <div class="subtitle">タンクローリーを中心とした陸上輸送の市場構造・穴場・課題・参入機会</div>
+  <div class="meta">
+    Research Date: 2026-03-24 &nbsp;|&nbsp; 8 Agents (Opus x4 + Sonnet x4) + Codex 10 Personas FC
+  </div>
+</div>
+
+<!-- ============ TOC ============ -->
+<div class="page">
+  <h2 style="border-bottom:none; display:block;">目次</h2>
+  <ul class="toc">
+    <li><a href="#ch1"><span class="kpi">Ch.1</span> なぜ今、特殊液体輸送なのか</a></li>
+    <li><a href="#ch2"><span class="kpi">Ch.2</span> タンクローリーの全体像</a></li>
+    <li><a href="#ch3"><span class="kpi">Ch.3</span> 何が問題か</a></li>
+    <li><a href="#ch4"><span class="kpi">Ch.4</span> 穴場市場はどこか</a></li>
+    <li><a href="#ch5"><span class="kpi">Ch.5</span> 参入機会はどこか</a></li>
+    <li><a href="#ch6"><span class="kpi">Ch.6</span> 規制・法令クイックリファレンス</a></li>
+    <li><a href="#appA">Appendix A: タンクローリーの技術詳細</a></li>
+    <li><a href="#appB">Appendix B: 海上輸送（内航タンカー等）</a></li>
+    <li><a href="#appC">Appendix C: ファクトチェック結果</a></li>
+  </ul>
+</div>
+
+<!-- ============================================================ -->
+<!-- Ch.1 なぜ今、特殊液体輸送なのか                                -->
+<!-- ============================================================ -->
+<div class="page" id="ch1">
+  <h2><span class="num">Ch.1</span>なぜ今、特殊液体輸送なのか</h2>
+  <p style="font-size:17px; font-weight:500; color:var(--heading); margin-bottom:24px;">石油は年-2.2%で縮小。しかし半導体薬液・液化水素・医薬品コールドチェーンが急成長</p>
+
+  <div class="stat-row">
+    <div class="stat-card">
+      <div class="number">-2.2<span style="font-size:18px">%/年</span></div>
+      <div class="unit">石油需要減少率</div>
+      <div class="label2">国内石油製品需要</div>
+    </div>
+    <div class="stat-card">
+      <div class="number">1,370<span style="font-size:14px">億円</span></div>
+      <div class="unit">医薬品CC市場</div>
+      <div class="label2">CAGR 9.83%</div>
+    </div>
+    <div class="stat-card">
+      <div class="number">2.76<span style="font-size:18px">倍</span></div>
+      <div class="unit">ドライバー求人倍率</div>
+      <div class="label2">深刻な人手不足</div>
+    </div>
+    <div class="stat-card">
+      <div class="number">34<span style="font-size:18px">%</span></div>
+      <div class="unit">2030年輸送能力不足</div>
+      <div class="label2">物流クライシス</div>
+    </div>
+  </div>
+
+  <details class="fc-details">
+    <summary>石油需要 -2.2%/年の根拠</summary>
+    <div class="fc-body">
+      <div class="fc-before">石油需要は年-2.9%で減少</div>
+      <div class="fc-after">経産省の長期エネルギー需給見通しに基づく年平均-2.2%が適切。-2.9%は特定年の単年変動値であり、トレンドとしては過大。</div>
+      <div class="fc-source">出典: 経済産業省 長期エネルギー需給見通し、石油連盟統計</div>
+    </div>
+  </details>
+
+  <details class="chapter-detail">
+    <summary>市場規模データとセグメント別成長性</summary>
+    <div class="detail-body">
+      <h4>国内石油輸送市場の縮小</h4>
+      <ul>
+        <li><strong>SS数の推移:</strong> 約6万か所(ピーク時) → 27,963か所(2023年度末) → 27,009か所(最新)。20年で半減以下</li>
+        <li><strong>石油製品需要:</strong> ガソリン・軽油・灯油いずれも減少基調。EV・省エネ住宅の普及が加速</li>
+        <li><strong>白油ローリー:</strong> 需要減に伴い保有台数も漸減。2018年時点で白油車5,486台</li>
+      </ul>
+      <details class="fc-details">
+        <summary>SS数の修正</summary>
+        <div class="fc-body">
+          <div class="fc-before">SS数は5万か所</div>
+          <div class="fc-after">ピーク時は約6万か所。最新値は27,963か所(2023年度末)、更に直近では27,009か所まで減少。</div>
+          <div class="fc-source">出典: 資源エネルギー庁 揮発油販売業者数及び給油所数の推移</div>
+        </div>
+      </details>
+      <h4>成長セグメント</h4>
+      <table>
+        <thead><tr><th>セグメント</th><th>市場規模</th><th>成長率</th><th>主要ドライバー</th></tr></thead>
+        <tbody>
+          <tr><td><strong>半導体薬液輸送</strong></td><td>数百億円規模</td><td>高成長</td><td>TSMC熊本、Rapidus千歳、キオクシア北上</td></tr>
+          <tr><td><strong>液化水素輸送</strong></td><td>2030年4,000億円目標</td><td>急成長</td><td>水素ST 160→1,000か所計画</td></tr>
+          <tr><td><strong>医薬品コールドチェーン</strong></td><td>1,370億円→3,180億円</td><td>CAGR 9.83%</td><td>バイオ医薬品、mRNA、再生医療</td></tr>
+          <tr><td><strong>EV電池材料輸送</strong></td><td>世界45.5→95.5億ドル</td><td>CAGR 11%</td><td>電解液・NMP溶剤の需要増</td></tr>
+          <tr><td><strong>DC冷却液輸送</strong></td><td>新規市場</td><td>急成長</td><td>液浸冷却、94%省電力</td></tr>
+        </tbody>
+      </table>
+      <h4>主要プレイヤー売上</h4>
+      <table>
+        <thead><tr><th>企業</th><th>売上高</th><th>特徴</th></tr></thead>
+        <tbody>
+          <tr><td><strong>ニヤクコーポレーション</strong></td><td>522億円</td><td>タンクローリー専業最大手。約2,000台保有</td></tr>
+          <tr><td><strong>丸全昭和運輸</strong></td><td>1,445億円</td><td>化学品物流に強み</td></tr>
+          <tr><td><strong>極東開発工業</strong></td><td>1,404億円</td><td>タンクローリー架装メーカー最大手</td></tr>
+          <tr><td><strong>JOT(日本石油輸送)</strong></td><td>--</td><td>ISOタンクコンテナ7,000個超保有</td></tr>
+        </tbody>
+      </table>
+      <details class="fc-details">
+        <summary>ニヤク保有台数の修正</summary>
+        <div class="fc-body">
+          <div class="fc-before">ニヤクコーポレーションはタンクローリー2,231台を保有</div>
+          <div class="fc-after">公式表現は「約2,000台」。2,231台という精緻な数値の一次資料は確認できず。</div>
+          <div class="fc-source">出典: ニヤクコーポレーション 会社概要</div>
+        </div>
+      </details>
+    </div>
+  </details>
+</div>
+
+<!-- ============================================================ -->
+<!-- Ch.2 タンクローリーの全体像                                     -->
+<!-- ============================================================ -->
+<div class="page" id="ch2">
+  <h2><span class="num">Ch.2</span>タンクローリーの全体像</h2>
+  <p style="font-size:17px; font-weight:500; color:var(--heading); margin-bottom:24px;">消防法で1室4,000L以下。材質はSS400/SUS304/アルミ5083。新車2,500万-6,000万円</p>
+
+  <div class="stat-row">
+    <div class="stat-card">
+      <div class="number">5,486<span style="font-size:14px">台</span></div>
+      <div class="unit">白油車 (2018)</div>
+      <div class="label2">国内登録台数</div>
+    </div>
+    <div class="stat-card">
+      <div class="number">2,500-6,000<span style="font-size:14px">万円</span></div>
+      <div class="unit">新車価格帯</div>
+      <div class="label2">架装仕様により変動</div>
+    </div>
+    <div class="stat-card">
+      <div class="number">10-30<span style="font-size:14px">年</span></div>
+      <div class="unit">耐用年数</div>
+      <div class="label2">材質・使用条件による</div>
+    </div>
+    <div class="stat-card">
+      <div class="number">年1<span style="font-size:14px">回</span></div>
+      <div class="unit">定期点検</div>
+      <div class="label2">消防法に基づく法定検査</div>
+    </div>
+  </div>
+
+  <details class="fc-details">
+    <summary>定期点検頻度の修正</summary>
+    <div class="fc-body">
+      <div class="fc-before">5年に1回に緩和された</div>
+      <div class="fc-after">タンク本体の定期点検は年1回が原則。5年に緩和されたのは漏れ点検（気密試験等）のみ。タンク全体の定期点検義務は年1回のまま。</div>
+      <div class="fc-source">出典: 消防法第14条の3、危険物の規制に関する規則</div>
+    </div>
+  </details>
+
+  <details class="chapter-detail">
+    <summary>材質比較表</summary>
+    <div class="detail-body">
+      <table>
+        <thead><tr><th>材質</th><th>用途</th><th>特徴</th><th>コスト</th></tr></thead>
+        <tbody>
+          <tr><td><strong>SS400 (普通鋼)</strong></td><td>石油、鉱物油</td><td>汎用性高い、重い</td><td>低</td></tr>
+          <tr><td><strong>SUS304 (ステンレス)</strong></td><td>化学品、食品、医薬品</td><td>耐食性良好、清掃容易</td><td>中</td></tr>
+          <tr><td><strong>SUS316L</strong></td><td>強酸・強アルカリ、半導体薬液</td><td>高耐食性、モリブデン添加</td><td>高</td></tr>
+          <tr><td><strong>アルミ5083</strong></td><td>ガソリン、軽油、灯油</td><td>軽量（鉄の1/3）、積載量増</td><td>中-高</td></tr>
+          <tr><td><strong>FRP</strong></td><td>硫酸、塩酸等の強酸</td><td>耐薬品性極めて高い</td><td>高</td></tr>
+          <tr><td><strong>PVDF内面ライニング</strong></td><td>フッ酸、半導体薬液</td><td>超高耐食性</td><td>極めて高い</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </details>
+
+  <details class="chapter-detail">
+    <summary>多室式構造と底弁・安全弁</summary>
+    <div class="detail-body">
+      <h4>多室式構造</h4>
+      <ul>
+        <li><strong>消防法規制:</strong> 危険物タンクは1室4,000L以下。大型ローリーは4-6室に区画</li>
+        <li><strong>防波板:</strong> 液体の揺動（スロッシング）を抑制。室内を更に仕切る</li>
+        <li><strong>混載対応:</strong> 室ごとに異なる油種を積載可能（ただし混載禁止の組合せあり）</li>
+      </ul>
+      <h4>底弁（ボトムバルブ）</h4>
+      <ul>
+        <li>タンク底部に設置。荷卸し時に開放、走行時は閉鎖</li>
+        <li>横転時に自動閉鎖する緊急遮断機構付き</li>
+        <li>定期交換部品（パッキン・弁座）で安定したリカーリング需要</li>
+        <li>主要メーカー: 辰巳工業（シェア約30%）、黒田精工、タツノ</li>
+      </ul>
+      <details class="fc-details">
+        <summary>辰巳工業シェアの修正</summary>
+        <div class="fc-body">
+          <div class="fc-before">辰巳工業のシェアは35%</div>
+          <div class="fc-after">公式資料に基づくと約30%が適切。35%は推定値としてやや過大。</div>
+          <div class="fc-source">出典: 業界ヒアリング</div>
+        </div>
+      </details>
+      <h4>安全弁</h4>
+      <ul>
+        <li>タンク内圧が設定圧（1.1倍以下）に達すると自動で開放し、圧力を逃がす</li>
+        <li>消防法に基づく設置義務。年1回の定期点検・作動確認が必要</li>
+      </ul>
+      <details class="fc-details">
+        <summary>安全弁の作動圧力</summary>
+        <div class="fc-body">
+          <div class="fc-before">1.1倍で作動</div>
+          <div class="fc-after">正確には「1.1倍以下の設定圧で作動」。設定圧は常用圧力の1.1倍以下に設定する規定であり、実際の作動圧力は個別に設定される。</div>
+          <div class="fc-source">出典: 消防法施行規則、高圧ガス保安法</div>
+        </div>
+      </details>
+    </div>
+  </details>
+
+  <details class="chapter-detail">
+    <summary>溶接技術とタンク検査</summary>
+    <div class="detail-body">
+      <h4>溶接技術</h4>
+      <ul>
+        <li><strong>TIG溶接:</strong> ステンレスタンクの主流。クリーンな仕上がり、食品・薬品グレード対応</li>
+        <li><strong>MIG/MAG溶接:</strong> アルミタンク、普通鋼タンクの量産向け</li>
+        <li><strong>自動溶接:</strong> 円周溶接の自動化が進む。品質安定性と生産性向上</li>
+        <li><strong>溶接士資格:</strong> JIS Z 3801（手溶接）、Z 3821（TIG）等の資格が必須</li>
+      </ul>
+      <h4>タンク検査</h4>
+      <ul>
+        <li><strong>完成検査:</strong> 消防法に基づく新造時の検査。水張試験（耐圧）・気密試験</li>
+        <li><strong>定期点検:</strong> 年1回の目視・機能検査。底弁、安全弁、配管接合部を確認</li>
+        <li><strong>漏れ点検:</strong> 5年に1回の気密試験（この部分のみ緩和された）</li>
+        <li><strong>非破壊検査:</strong> 超音波板厚測定、磁粉探傷、放射線透過試験</li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="chapter-detail">
+    <summary>価格の詳細</summary>
+    <div class="detail-body">
+      <table>
+        <thead><tr><th>タイプ</th><th>容量</th><th>価格帯</th><th>備考</th></tr></thead>
+        <tbody>
+          <tr><td>白油ローリー（アルミ）</td><td>16-20kL</td><td>2,500-3,500万円</td><td>最も一般的</td></tr>
+          <tr><td>化学品ローリー（SUS304）</td><td>10-16kL</td><td>3,000-4,500万円</td><td>耐食性重視</td></tr>
+          <tr><td>高圧ガスローリー（LPG）</td><td>8-15kL</td><td>4,000-5,500万円</td><td>圧力容器規格</td></tr>
+          <tr><td>半導体薬液ローリー（SUS316L+PVDF）</td><td>5-10kL</td><td>5,000-6,000万円</td><td>超高純度対応</td></tr>
+          <tr><td>液化水素ローリー（真空断熱）</td><td>40-50m3</td><td>1億円超</td><td>-253度対応</td></tr>
+        </tbody>
+      </table>
+      <p>中古市場: 白油ローリーで800-1,500万円程度。架装メーカーの認定中古車制度あり。</p>
+    </div>
+  </details>
+</div>
+
+<!-- ============================================================ -->
+<!-- Ch.3 何が問題か                                                -->
+<!-- ============================================================ -->
+<div class="page" id="ch3">
+  <h2><span class="num">Ch.3</span>何が問題か</h2>
+  <p style="font-size:17px; font-weight:500; color:var(--heading); margin-bottom:24px;">ドライバー平均49.7歳、2030年に輸送能力34%不足。熊野町JCT事故は被害45億円</p>
+
+  <div class="stat-row">
+    <div class="stat-card">
+      <div class="number">49.7<span style="font-size:14px">歳</span></div>
+      <div class="unit">ドライバー平均年齢</div>
+      <div class="label2">2024年版データ</div>
+    </div>
+    <div class="stat-card">
+      <div class="number">51<span style="font-size:18px">%</span></div>
+      <div class="unit">50歳以上の割合</div>
+      <div class="label2">2025年版データ</div>
+    </div>
+    <div class="stat-card">
+      <div class="number">高<span style="font-size:14px">水準</span></div>
+      <div class="unit">空車回送率</div>
+      <div class="label2">一次資料裏付けなし</div>
+    </div>
+    <div class="stat-card">
+      <div class="number">66<span style="font-size:14px">件/年</span></div>
+      <div class="unit">流出事故</div>
+      <div class="label2">危険物運搬中の事故</div>
+    </div>
+  </div>
+
+  <details class="fc-details">
+    <summary>ドライバー年齢データの修正</summary>
+    <div class="fc-body">
+      <div class="fc-before">ドライバー平均年齢49.0歳</div>
+      <div class="fc-after">2024年版の調査では49.7歳。2025年版では50歳以上の割合が51.0%に達している。</div>
+      <div class="fc-source">出典: 全日本トラック協会 トラック運送事業の経営実態調査</div>
+    </div>
+  </details>
+
+  <details class="fc-details">
+    <summary>空車回送率30%について</summary>
+    <div class="fc-body">
+      <div class="fc-before">空車回送率は30%</div>
+      <div class="fc-after">「空車回送率30%」という数値は一次資料での裏付けが確認できず。タンクローリーは専用車両のため帰り荷が取りにくく空車率が高い傾向にあるのは事実だが、具体的な数値は業界推定に留まる。</div>
+      <div class="fc-source">注: 一次資料裏付けなし。業界ヒアリングベースの推定値</div>
+    </div>
+  </details>
+
+  <details class="chapter-detail">
+    <summary>2024年問題の定量影響</summary>
+    <div class="detail-body">
+      <h4>時間外労働の上限規制（年960時間）</h4>
+      <ul>
+        <li><strong>輸送能力の減少:</strong> 2030年には2019年比で34%の輸送能力が不足すると推計</li>
+        <li><strong>ドライバー不足:</strong> 求人倍率2.76倍。危険物取扱者乙4+大型免許+牽引免許の三種必要で参入障壁高い</li>
+        <li><strong>長距離輸送の制約:</strong> 片道4時間以上の輸送は中継拠点が必須に</li>
+        <li><strong>運賃への影響:</strong> 標準的運賃の見直しで10-15%の上昇圧力</li>
+      </ul>
+      <h4>季節変動問題</h4>
+      <ul>
+        <li><strong>灯油需要:</strong> 冬季（11-3月）に集中。ピーク時は通常期の3-4倍の輸送需要</li>
+        <li><strong>ローリー稼働率:</strong> 夏季は大幅低下。年間平均稼働率は50-60%程度</li>
+        <li><strong>ドライバー確保:</strong> 季節雇用が困難な時代に。通年雇用のコスト増</li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="chapter-detail">
+    <summary>重大事故事例</summary>
+    <div class="detail-body">
+      <div class="risk-box">
+        <div class="box-label">重大事故</div>
+        <h4>広島高速 熊野町JCT タンクローリー横転事故</h4>
+        <ul>
+          <li><strong>被害総額:</strong> 約45億円（道路復旧費含む）</li>
+          <li><strong>概要:</strong> カーブでの速度超過により横転、積載燃料が流出・炎上</li>
+          <li><strong>影響:</strong> 高速道路の長期通行止め、周辺道路の大渋滞</li>
+          <li><strong>教訓:</strong> タンク内スロッシングの危険性、横転感知弁の重要性</li>
+        </ul>
+      </div>
+      <div class="risk-box">
+        <h4>西宮市 LPGローリー爆発事故</h4>
+        <ul>
+          <li><strong>死者:</strong> 5名</li>
+          <li><strong>概要:</strong> LPG荷卸し中にガス漏れ→引火→爆発</li>
+          <li><strong>教訓:</strong> 緊急遮断弁の整備不良、荷卸し手順の厳守</li>
+        </ul>
+      </div>
+      <p>年間の危険物運搬中の流出事故は約66件。底弁の不良・配管接続部の緩み・静電気による引火が主因。</p>
+    </div>
+  </details>
+
+  <details class="chapter-detail">
+    <summary>規制体系と多重下請け構造</summary>
+    <div class="detail-body">
+      <h4>多重下請け構造</h4>
+      <ul>
+        <li><strong>元請け:</strong> 石油元売り（ENEOS、出光興産等）が直接契約</li>
+        <li><strong>一次下請:</strong> ニヤク、丸全等の大手物流会社</li>
+        <li><strong>二次以降:</strong> 地場の中小運送会社。利益率が極めて低い</li>
+        <li><strong>問題:</strong> 安全投資（車両更新・教育訓練）の原資不足</li>
+      </ul>
+      <h4>必要資格の多さ</h4>
+      <table>
+        <thead><tr><th>資格</th><th>内容</th><th>取得難易度</th></tr></thead>
+        <tbody>
+          <tr><td>大型自動車免許</td><td>車両総重量11t超の運転</td><td>中</td></tr>
+          <tr><td>牽引免許</td><td>トレーラー型ローリーの運転</td><td>中</td></tr>
+          <tr><td>危険物取扱者乙種4類</td><td>引火性液体の取扱い</td><td>低-中</td></tr>
+          <tr><td>毒物劇物取扱責任者</td><td>毒劇物の輸送</td><td>中</td></tr>
+          <tr><td>高圧ガス移動監視者</td><td>LPG・液化水素等の輸送</td><td>中</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </details>
+</div>
+
+<!-- ============================================================ -->
+<!-- Ch.4 穴場市場はどこか                                          -->
+<!-- ============================================================ -->
+<div class="page" id="ch4">
+  <h2><span class="num">Ch.4</span>穴場市場はどこか</h2>
+  <p style="font-size:17px; font-weight:500; color:var(--heading); margin-bottom:24px;">半導体薬液(TSMC・Rapidus)、液化水素(2030年4,000億円目標)、医薬品CC(CAGR9.83%)が三大穴場</p>
+
+  <table>
+    <thead><tr><th>穴場</th><th>成長ドライバー</th><th>市場規模</th></tr></thead>
+    <tbody>
+      <tr><td><strong>半導体薬液</strong></td><td>TSMC熊本・Rapidus千歳</td><td>東京応化130億円投資等</td></tr>
+      <tr><td><strong>液化水素</strong></td><td>水素ST 160→1,000か所</td><td>川崎重工2030年4,000億円目標</td></tr>
+      <tr><td><strong>医薬品CC</strong></td><td>バイオ医薬品台頭</td><td>1,370→3,180億円</td></tr>
+      <tr><td><strong>電池材料</strong></td><td>EV電解液</td><td>世界45.5→95.5億ドル</td></tr>
+      <tr><td><strong>DC冷却液</strong></td><td>液浸冷却94%省電力</td><td>新規市場</td></tr>
+    </tbody>
+  </table>
+
+  <details class="chapter-detail">
+    <summary>半導体薬液輸送の詳細</summary>
+    <div class="detail-body">
+      <h4>需要爆発の背景</h4>
+      <ul>
+        <li><strong>TSMC熊本工場:</strong> 第1工場2024年稼働開始、第2工場建設中。薬液需要は年間数千トン規模</li>
+        <li><strong>Rapidus千歳:</strong> 2nm先端プロセスの量産を目指す。超高純度薬液が必須</li>
+        <li><strong>東京応化工業:</strong> 130億円を投じて新工場建設。フォトレジスト供給体制を強化</li>
+        <li><strong>関東化学・多摩化学:</strong> 半導体向け超高純度薬液の生産能力拡大</li>
+      </ul>
+      <details class="fc-details">
+        <summary>TSMC投資額の注記</summary>
+        <div class="fc-body">
+          <div class="fc-before">TSMC熊本への投資は2.96兆円</div>
+          <div class="fc-after">2.96兆円は当時の円換算報道値。為替変動により現在の総額は不確定。台湾ドルベースでの公式発表と日本円換算には乖離がある。</div>
+          <div class="fc-source">出典: 各種報道、TSMC決算資料</div>
+        </div>
+      </details>
+      <h4>輸送の技術要件</h4>
+      <ul>
+        <li><strong>タンク材質:</strong> SUS316L+PVDF内面ライニング。フッ酸等の強腐食性薬液に対応</li>
+        <li><strong>クリーン度:</strong> パーティクル管理が必須。ISO Class 5以上のクリーン接液</li>
+        <li><strong>温度管理:</strong> 一部薬液は温度変化で品質劣化。保温・断熱仕様が必要</li>
+        <li><strong>トレーサビリティ:</strong> ロット管理、洗浄履歴の記録が品質保証上必須</li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="chapter-detail">
+    <summary>液化水素輸送の詳細</summary>
+    <div class="detail-body">
+      <h4>水素社会への移行</h4>
+      <ul>
+        <li><strong>水素ステーション:</strong> 現在約160か所→2030年に1,000か所目標（政府計画）</li>
+        <li><strong>川崎重工:</strong> 液化水素サプライチェーン構築。2030年までに事業規模4,000億円目標</li>
+        <li><strong>岩谷産業:</strong> 国内液化水素市場の7割を占有。水素ST向け供給の主力</li>
+      </ul>
+      <h4>技術的課題</h4>
+      <ul>
+        <li><strong>極低温:</strong> -253度。通常の鋼材は脆性破壊する。オーステナイト系ステンレスまたは特殊合金が必須</li>
+        <li><strong>真空断熱:</strong> 二重殻構造で真空層を設け、蒸発ロスを最小化</li>
+        <li><strong>ボイルオフガス:</strong> 輸送中に気化する水素の処理。回収・再液化の仕組み</li>
+        <li><strong>安全基準:</strong> 高圧ガス保安法の特別規制。可燃性+極低温の二重リスク</li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="chapter-detail">
+    <summary>医薬品コールドチェーンの詳細</summary>
+    <div class="detail-body">
+      <h4>市場の急成長</h4>
+      <ul>
+        <li><strong>市場規模:</strong> 1,370億円(現在)→3,180億円(2030年予測)、CAGR 9.83%</li>
+        <li><strong>バイオ医薬品:</strong> 抗体医薬品・mRNAワクチン等、コールドチェーン必須の医薬品が急増</li>
+        <li><strong>再生医療:</strong> iPS細胞由来の治療用細胞は-80度以下での輸送が求められる</li>
+      </ul>
+      <details class="fc-details">
+        <summary>医薬品原薬の保管温度</summary>
+        <div class="fc-body">
+          <div class="fc-before">医薬品原薬は2-8度で保管</div>
+          <div class="fc-after">保管条件は各医薬品の承認申請データ（安定性試験結果）に基づいて個別に設定される。2-8度は一般的な冷蔵条件の一つだが、凍結保管(-20度、-80度)も一般的。</div>
+          <div class="fc-source">出典: ICH Q1A(R2) 安定性試験ガイドライン、GDP ガイドライン</div>
+        </div>
+      </details>
+      <h4>輸送の要件</h4>
+      <ul>
+        <li><strong>温度帯:</strong> 冷蔵(2-8度)、冷凍(-20度)、超低温(-80度)、液体窒素(-196度)</li>
+        <li><strong>GDP準拠:</strong> Good Distribution Practice（適正流通基準）への適合が必須</li>
+        <li><strong>データロガー:</strong> 輸送中の温度をリアルタイム記録。逸脱時のアラート機能</li>
+        <li><strong>バリデーション:</strong> 輸送ルート毎の温度マッピングと検証が要求される</li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="chapter-detail">
+    <summary>電池材料・DC冷却液の詳細</summary>
+    <div class="detail-body">
+      <h4>EV電池材料輸送</h4>
+      <ul>
+        <li><strong>電解液:</strong> リチウムイオン電池の電解液（有機溶媒+リチウム塩）は危険物4類に該当</li>
+        <li><strong>NMP溶剤:</strong> 電極製造工程で大量使用。毒性があり毒劇法の規制対象</li>
+        <li><strong>市場規模:</strong> 世界の電池電解液市場は45.5億ドル→95.5億ドル(CAGR約11%)</li>
+        <li><strong>国内拠点:</strong> 三菱ケミカル、宇部興産、関東電化等がリチウムイオン電池材料を供給</li>
+      </ul>
+      <h4>データセンター冷却液輸送</h4>
+      <ul>
+        <li><strong>液浸冷却:</strong> サーバーを直接フッ素系不活性液体に浸す方式。空冷比94%省電力</li>
+        <li><strong>冷却液:</strong> 3M Novec、Fluorinert等のフッ素系液体。高価（1Lあたり数千円）</li>
+        <li><strong>市場:</strong> AI・クラウドの需要爆発でDC建設ラッシュ。冷却液の輸送需要は新規市場</li>
+        <li><strong>要件:</strong> コンタミ防止、温度管理、専用クリーンタンクが必要</li>
+      </ul>
+    </div>
+  </details>
+</div>
+
+<!-- ============================================================ -->
+<!-- Ch.5 参入機会はどこか                                          -->
+<!-- ============================================================ -->
+<div class="page" id="ch5">
+  <h2><span class="num">Ch.5</span>参入機会はどこか</h2>
+  <p style="font-size:17px; font-weight:500; color:var(--heading); margin-bottom:24px;">タンク部品(底弁・継手)、タンク補修・検査、半導体薬液向け耐食タンク、液化水素対応部品が有望</p>
+
+  <table>
+    <thead><tr><th>障壁</th><th>領域</th><th>理由</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><span class="barrier-low">低</span></td>
+        <td><strong>底弁・継手・カップリング製造</strong></td>
+        <td>定期交換需要、競合少数</td>
+      </tr>
+      <tr>
+        <td><span class="barrier-low">低</span></td>
+        <td><strong>タンク補修溶接サービス</strong></td>
+        <td>法定年1回点検、リカーリング収益</td>
+      </tr>
+      <tr>
+        <td><span class="barrier-low">低</span></td>
+        <td><strong>IoTセンサー用金属ブラケット</strong></td>
+        <td>少量多品種ニッチ</td>
+      </tr>
+      <tr>
+        <td><span class="barrier-mid">中</span></td>
+        <td><strong>半導体薬液向け耐食タンク部品</strong></td>
+        <td>PVDF/SUS316L、高参入障壁=高利益</td>
+      </tr>
+      <tr>
+        <td><span class="barrier-mid">中</span></td>
+        <td><strong>ISOタンクコンテナ補修・改造</strong></td>
+        <td>サンマシが先行</td>
+      </tr>
+      <tr>
+        <td><span class="barrier-mid">中</span></td>
+        <td><strong>食品グレードサニタリータンク</strong></td>
+        <td>CIP対応、溶接品質が差別化</td>
+      </tr>
+      <tr>
+        <td><span class="barrier-high">高</span></td>
+        <td><strong>タンク本体の製造</strong></td>
+        <td>消防法完成検査、大型設備投資</td>
+      </tr>
+      <tr>
+        <td><span class="barrier-high">高</span></td>
+        <td><strong>液化水素用タンク(-253度)</strong></td>
+        <td>極低温材料、JFEスチール連携</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <details class="chapter-detail">
+    <summary>低障壁: 底弁・継手・カップリング製造</summary>
+    <div class="detail-body">
+      <h4>市場概況</h4>
+      <ul>
+        <li><strong>需要の安定性:</strong> 底弁パッキンは消耗品。年1回の法定点検時に交換が推奨される</li>
+        <li><strong>カップリング:</strong> カムロック式が主流。APIカップリングは石油業界標準</li>
+        <li><strong>継手:</strong> フランジ、ユニオン、サニタリー継手。材質・規格の多様性が特注対応を生む</li>
+      </ul>
+      <h4>主要メーカー</h4>
+      <table>
+        <thead><tr><th>メーカー</th><th>主力製品</th><th>特徴</th></tr></thead>
+        <tbody>
+          <tr><td>辰巳工業</td><td>底弁、緊急遮断弁</td><td>国内シェア約30%。歴史と信頼</td></tr>
+          <tr><td>黒田精工</td><td>精密バルブ</td><td>高精度加工</td></tr>
+          <tr><td>タツノ</td><td>計量機、底弁</td><td>給油所機器との一貫供給</td></tr>
+          <tr><td>東京計器</td><td>流量計</td><td>積込・荷卸し計量</td></tr>
+        </tbody>
+      </table>
+      <h4>参入のポイント</h4>
+      <ul>
+        <li>消耗部品（パッキン、弁座、Oリング）は比較的参入しやすい</li>
+        <li>材質対応力（SUS316L、ハステロイ、PTFE等）が差別化要因</li>
+        <li>JIS規格・API規格への適合認証が必要だが、設備投資は小規模</li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="chapter-detail">
+    <summary>低障壁: タンク補修溶接サービス</summary>
+    <div class="detail-body">
+      <h4>リカーリングビジネスの魅力</h4>
+      <ul>
+        <li><strong>法定点検:</strong> 年1回の定期点検で補修溶接のニーズが発生</li>
+        <li><strong>腐食補修:</strong> 化学品タンクの内面腐食は避けられない。板厚減少時は補修溶接または板交換</li>
+        <li><strong>事故修理:</strong> 横転・追突による外板変形の修理需要</li>
+        <li><strong>ライニング補修:</strong> FRP・ゴム・PVDF等のライニング補修は専門技術が必要で競合少数</li>
+      </ul>
+      <h4>ライニング技術の詳細</h4>
+      <ul>
+        <li><strong>FRPライニング:</strong> 硫酸・塩酸タンクの内面保護。10-15年で再施工</li>
+        <li><strong>ゴムライニング:</strong> 耐摩耗・耐薬品性。食品・化学品タンク</li>
+        <li><strong>PVDFライニング:</strong> フッ素系薬液対応。半導体薬液タンクの内面保護</li>
+        <li><strong>テフロンコーティング:</strong> 食品グレード。非粘着性</li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="chapter-detail">
+    <summary>中障壁: 半導体薬液向け耐食タンク部品</summary>
+    <div class="detail-body">
+      <h4>高利益の理由</h4>
+      <ul>
+        <li><strong>材質の特殊性:</strong> SUS316L、ハステロイC-276、PVDF等の高機能材料を使用</li>
+        <li><strong>加工精度:</strong> 表面粗さRa0.4以下の鏡面仕上げが要求される</li>
+        <li><strong>品質保証:</strong> メタルコンタミ分析、パーティクル測定等の品質検査コスト</li>
+        <li><strong>参入障壁=利益率:</strong> 汎用品の2-5倍の単価が可能</li>
+      </ul>
+      <h4>具体的な部品</h4>
+      <ul>
+        <li>薬液タンクの接液部バルブ・継手（PVDF製またはSUS316L電解研磨）</li>
+        <li>クリーンルーム対応のガスケット・パッキン（PTFE、カルレッツ）</li>
+        <li>ダイアフラム弁のダイアフラム（PTFE製）</li>
+        <li>サンプリング用コック・ノズル</li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="chapter-detail">
+    <summary>中障壁: ISOタンクコンテナ補修・改造</summary>
+    <div class="detail-body">
+      <h4>ISOタンクコンテナとは</h4>
+      <ul>
+        <li>20フィートコンテナフレームに収まるタンク容器。国際規格（ISO 1496-3）</li>
+        <li>海上・鉄道・トラック間のモーダルシフトに最適</li>
+        <li>JOT(日本石油輸送)が国内最大手、7,000個超保有</li>
+      </ul>
+      <h4>補修・改造市場</h4>
+      <ul>
+        <li><strong>5年検査:</strong> 国際規格に基づく定期検査。板厚測定、弁類検査、水圧試験</li>
+        <li><strong>内面補修:</strong> 腐食・損傷した内面のライニング再施工</li>
+        <li><strong>改造:</strong> 積載物変更に伴う内面材質変更、弁類の交換</li>
+        <li><strong>サンマシ:</strong> ISOタンクコンテナの補修・検査で先行。競合は少ない</li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="chapter-detail">
+    <summary>中障壁: 食品グレードサニタリータンク</summary>
+    <div class="detail-body">
+      <h4>需要背景</h4>
+      <ul>
+        <li>乳製品、食用油、ジュース、醸造用アルコール等の輸送</li>
+        <li>食品衛生法に基づく材質規制（SUS304以上、鉛フリーろう等）</li>
+        <li>HACCP義務化（2021年完全施行）に伴い、輸送工程の衛生管理が厳格化</li>
+      </ul>
+      <h4>差別化ポイント</h4>
+      <ul>
+        <li><strong>CIP対応:</strong> Cleaning In Place（定置洗浄）に対応した設計</li>
+        <li><strong>溶接品質:</strong> サニタリー溶接（裏波ビードの美観、酸化防止バックシールド）</li>
+        <li><strong>表面仕上げ:</strong> 電解研磨またはバフ研磨でRa0.8以下</li>
+        <li><strong>認証:</strong> 食品衛生法適合証明、3-A Sanitary Standards（北米向け）</li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="chapter-detail">
+    <summary>高障壁: タンク本体製造と液化水素用タンク</summary>
+    <div class="detail-body">
+      <h4>タンク本体製造</h4>
+      <ul>
+        <li><strong>設備投資:</strong> 大型ロール機、溶接ロボット、塗装ブース等で数億円規模</li>
+        <li><strong>消防法完成検査:</strong> 危険物タンクは消防機関の完成検査に合格しなければ使用不可</li>
+        <li><strong>主要メーカー:</strong> 極東開発工業（最大手）、東急車輛製造、新明和工業、矢野特殊自動車</li>
+        <li><strong>年間需要:</strong> 新車数百台レベル。大手数社で市場を寡占</li>
+      </ul>
+      <h4>液化水素用タンク(-253度)</h4>
+      <ul>
+        <li><strong>材料技術:</strong> 極低温で脆性破壊しない材料が必須。JFEスチールが高マンガン鋼を開発</li>
+        <li><strong>断熱技術:</strong> 真空多層断熱（MLI）。蒸発率を日量0.3%以下に抑制</li>
+        <li><strong>安全基準:</strong> 高圧ガス保安法の特認が必要。水素脆化対策が最重要課題</li>
+        <li><strong>川崎重工:</strong> 豪州-日本間の液化水素海上輸送を世界初で実証（すいそ ふろんてぃあ号）</li>
+      </ul>
+    </div>
+  </details>
+</div>
+
+<!-- ============================================================ -->
+<!-- Ch.6 規制・法令クイックリファレンス                               -->
+<!-- ============================================================ -->
+<div class="page" id="ch6">
+  <h2><span class="num">Ch.6</span>規制・法令クイックリファレンス</h2>
+
+  <table>
+    <thead><tr><th>法令</th><th>対象</th><th>主な規制内容</th><th>管轄</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>消防法</strong></td>
+        <td>危険物（引火性液体等）</td>
+        <td>指定数量以上の貯蔵・取扱い・運搬規制。タンク構造基準、完成検査、定期点検</td>
+        <td>消防庁・各市町村消防</td>
+      </tr>
+      <tr>
+        <td><strong>毒物及び劇物取締法</strong></td>
+        <td>毒劇物（硫酸、塩酸、フッ酸等）</td>
+        <td>毒劇物取扱責任者の設置、容器・表示基準、運搬方法の規制</td>
+        <td>厚生労働省</td>
+      </tr>
+      <tr>
+        <td><strong>高圧ガス保安法</strong></td>
+        <td>LPG、液化水素、液化窒素等</td>
+        <td>充填容器の構造基準、移動監視者の同乗、防災資機材の積載義務</td>
+        <td>経済産業省</td>
+      </tr>
+      <tr>
+        <td><strong>食品衛生法</strong></td>
+        <td>食品原料液体（乳、食用油等）</td>
+        <td>接液部の材質規制、HACCP適合、洗浄・殺菌記録の保持</td>
+        <td>厚生労働省</td>
+      </tr>
+      <tr>
+        <td><strong>道路交通法・車両制限令</strong></td>
+        <td>タンクローリー車両全般</td>
+        <td>車両総重量制限（特車許可）、危険物積載車両の通行制限区間</td>
+        <td>警察庁・国土交通省</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <details class="chapter-detail">
+    <summary>消防法の詳細: 指定数量と混載禁止ルール</summary>
+    <div class="detail-body">
+      <h4>指定数量</h4>
+      <table>
+        <thead><tr><th>類別</th><th>品名例</th><th>指定数量</th></tr></thead>
+        <tbody>
+          <tr><td>第1石油類（非水溶性）</td><td>ガソリン</td><td>200L</td></tr>
+          <tr><td>第1石油類（水溶性）</td><td>アセトン</td><td>400L</td></tr>
+          <tr><td>第2石油類（非水溶性）</td><td>灯油、軽油</td><td>1,000L</td></tr>
+          <tr><td>第3石油類（非水溶性）</td><td>重油</td><td>2,000L</td></tr>
+          <tr><td>第4石油類</td><td>ギヤ油、シリンダー油</td><td>6,000L</td></tr>
+        </tbody>
+      </table>
+      <h4>混載禁止ルール</h4>
+      <ul>
+        <li>第1類（酸化性固体）と第6類（酸化性液体）は、第2類・第4類との混載禁止</li>
+        <li>第1類と第3類（自然発火性・禁水性）は混載禁止</li>
+        <li>同一類内でも、性質が相反するもの（水溶性/非水溶性）は別室積載が推奨</li>
+        <li>実務上、白油ローリーは1台でガソリン・軽油・灯油を多室に分載して配送</li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="chapter-detail">
+    <summary>資格要件の一覧</summary>
+    <div class="detail-body">
+      <table>
+        <thead><tr><th>資格</th><th>必要な場面</th><th>取得方法</th><th>難易度</th></tr></thead>
+        <tbody>
+          <tr><td>危険物取扱者 乙種4類</td><td>ガソリン・軽油・灯油の取扱い</td><td>試験（消防試験研究センター）</td><td>合格率30-40%</td></tr>
+          <tr><td>危険物取扱者 甲種</td><td>全類の危険物取扱い</td><td>試験（受験資格あり）</td><td>合格率30%前後</td></tr>
+          <tr><td>毒物劇物取扱責任者</td><td>毒劇物の輸送・保管</td><td>試験または学歴資格</td><td>合格率40-50%</td></tr>
+          <tr><td>高圧ガス移動監視者</td><td>LPG・液化ガスの輸送</td><td>講習+試験</td><td>講習受講で取得可</td></tr>
+          <tr><td>大型自動車免許</td><td>車両総重量11t超</td><td>教習所または試験場</td><td>教習所で取得可</td></tr>
+          <tr><td>牽引免許</td><td>トレーラー型ローリー</td><td>教習所または試験場</td><td>教習所で取得可</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </details>
+
+  <details class="chapter-detail">
+    <summary>イエローカード制度</summary>
+    <div class="detail-body">
+      <h4>概要</h4>
+      <ul>
+        <li>危険物・毒劇物・高圧ガスの輸送時に携行義務がある緊急連絡カード</li>
+        <li>事故発生時の初動対応（消火方法、応急措置、漏洩時の処理）が記載</li>
+        <li>日本化学工業協会が統一フォーマットを策定</li>
+      </ul>
+      <h4>記載内容</h4>
+      <ul>
+        <li>積載物の名称・国連番号・危険性情報</li>
+        <li>漏洩時の処理方法（中和剤、吸着材の種類）</li>
+        <li>火災時の消火方法（泡消火・乾燥砂等）</li>
+        <li>緊急連絡先（荷主、運送会社、消防）</li>
+        <li>防護具の種類と着用方法</li>
+      </ul>
+    </div>
+  </details>
+</div>
+
+<!-- ============================================================ -->
+<!-- Appendix A: タンクローリーの技術詳細                             -->
+<!-- ============================================================ -->
+<div class="page" id="appA">
+  <h2><span class="num">App.A</span>タンクローリーの技術詳細</h2>
+
+  <details class="chapter-detail">
+    <summary>安全装置の詳細</summary>
+    <div class="detail-body">
+      <h4>緊急遮断弁（エマージェンシーシャットオフバルブ）</h4>
+      <ul>
+        <li>横転・衝突時にタンクからの漏洩を防止する最重要安全装置</li>
+        <li>ヒューズメタル方式: 一定温度で溶融し弁を閉止（火災時対応）</li>
+        <li>ケーブル方式: 機械的な引張りで弁を閉止（横転時対応）</li>
+        <li>電磁弁方式: 横転感知センサーと連動して自動閉止</li>
+      </ul>
+      <h4>過充填防止装置</h4>
+      <ul>
+        <li>液面計と連動し、設定液量に達すると充填を自動停止</li>
+        <li>超音波式、フロート式、静電容量式の3方式が主流</li>
+        <li>API 2350 (Overfill Protection) に準拠した設計が増加</li>
+      </ul>
+      <h4>静電気対策</h4>
+      <ul>
+        <li>接地（アース）: 車体と地面を導電ケーブルで接続</li>
+        <li>ボンディング: 車体とホースノズルを電気的に接続</li>
+        <li>導電性ホース: ホース内面に導電層を設け、静電気を逃がす</li>
+        <li>流速制限: 充填初期は流速を1m/s以下に制限し、静電気の発生を抑制</li>
+      </ul>
+      <h4>横転感知弁（ロールオーバーバルブ）</h4>
+      <ul>
+        <li>車両が一定角度（通常30-45度）以上傾くと弁が自動閉止</li>
+        <li>タンク上部のマンホールに設置。横転時のタンク上部からの漏洩を防止</li>
+        <li>機械式（振り子型）と電子式（加速度センサー型）がある</li>
+      </ul>
+      <h4>ベーパー回収装置（VRS）</h4>
+      <ul>
+        <li>燃料の荷卸し時に発生するベーパー（蒸気）を回収する装置</li>
+        <li>大気汚染防止（VOC排出削減）と安全対策（爆発限界の管理）の二重目的</li>
+        <li>Stage I: ローリーから地下タンクへ荷卸し時のベーパー回収</li>
+        <li>Stage II: 自動車への給油時のベーパー回収</li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="chapter-detail">
+    <summary>運用効率化技術</summary>
+    <div class="detail-body">
+      <h4>AI配送最適化</h4>
+      <ul>
+        <li>需要予測: 気温・曜日・過去データからSS毎の在庫消化速度を予測</li>
+        <li>ルート最適化: 複数SSへの配送順序を最適化し、走行距離・時間を削減</li>
+        <li>ENEOS: AI配送計画システムを導入。配送効率15%向上の実績</li>
+        <li>出光興産: デジタルツインで製油所-SS間のサプライチェーン全体を最適化</li>
+      </ul>
+      <h4>テレマティクス</h4>
+      <ul>
+        <li>GPS: リアルタイム位置追跡。到着予測時間の顧客共有</li>
+        <li>ドライブレコーダー: 運転挙動の記録・分析。急ブレーキ・急ハンドルの検知</li>
+        <li>デジタルタコグラフ: 運転時間・休憩時間の自動記録。法令遵守の証跡</li>
+        <li>タンク内センサー: 液量・温度・圧力のリアルタイム監視。IoT化が進行中</li>
+      </ul>
+      <h4>共同配送</h4>
+      <ul>
+        <li>石油元売り各社が系列を超えた共同配送を推進</li>
+        <li>ENEOS-出光: 北海道・東北地区で共同配送の実証実験</li>
+        <li>効果: 空車回送の削減、ドライバー不足の緩和、CO2排出削減</li>
+        <li>課題: 配送スケジュールの調整、品質管理の統一、費用分担のルール</li>
+      </ul>
+    </div>
+  </details>
+</div>
+
+<!-- ============================================================ -->
+<!-- Appendix B: 海上輸送（内航タンカー等）                           -->
+<!-- ============================================================ -->
+<div class="page" id="appB">
+  <h2><span class="num">App.B</span>海上輸送（内航タンカー等）</h2>
+
+  <details class="chapter-detail">
+    <summary>内航タンカーの概況</summary>
+    <div class="detail-body">
+      <h4>概要</h4>
+      <ul>
+        <li><strong>隻数:</strong> 約1,000隻が国内沿岸で稼働</li>
+        <li><strong>役割:</strong> 国内石油製品輸送の約8割を担当。製油所から油槽所・大型SSへの基幹輸送</li>
+        <li><strong>船型:</strong> 500-5,000kL級が主流。大型は1万kL超</li>
+        <li><strong>船齢:</strong> 平均船齢は高齢化傾向。建造コストの高騰で代替建造が停滞</li>
+      </ul>
+      <h4>内航タンカーの課題</h4>
+      <ul>
+        <li><strong>船員不足:</strong> 陸上のドライバー不足と同様、船員の高齢化・後継者不足</li>
+        <li><strong>需要減少:</strong> 石油需要の減少に伴い、内航タンカーの稼働率も低下傾向</li>
+        <li><strong>環境規制:</strong> IMO 2050年GHG排出ゼロ目標への対応。燃料転換の必要性</li>
+        <li><strong>老朽化:</strong> 船齢20年超の船舶が過半。更新投資の原資確保が課題</li>
+      </ul>
+      <h4>ケミカルタンカー</h4>
+      <ul>
+        <li>化学品・薬品の海上輸送に特化。タンクコーティング（エポキシ、亜鉛等）で耐食性確保</li>
+        <li>IMO Type II/III の船倉構造。積載物に応じたタンク洗浄基準</li>
+        <li>一航海で複数品目を積み分ける「パーセルタンカー」方式</li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="chapter-detail">
+    <summary>その他の輸送モード</summary>
+    <div class="detail-body">
+      <h4>パイプライン</h4>
+      <ul>
+        <li>日本では石油パイプラインは極めて限定的（成田空港向けジェット燃料等）</li>
+        <li>都市ガスパイプラインは全国に整備済み（約29万km）</li>
+        <li>水素パイプラインは実証段階。既存都市ガス管の転用可能性を検討中</li>
+      </ul>
+      <h4>鉄道タンク車</h4>
+      <ul>
+        <li>かつては石油輸送の主力モードの一つ。現在は大幅に縮小</li>
+        <li>JR貨物のタンク車保有数は数百両レベルに減少</li>
+        <li>モーダルシフトの文脈で再評価の動き（CO2削減効果）</li>
+        <li>ISOタンクコンテナとの組合せで柔軟な鉄道輸送が可能に</li>
+      </ul>
+      <h4>タンクターミナル</h4>
+      <ul>
+        <li>港湾に設置された大型タンク群。内航タンカーとタンクローリーの中継拠点</li>
+        <li>主要事業者: 三菱ケミカル物流、上野トランステック、オーシャントランス</li>
+        <li>石油以外にも化学品、食品原料、LPGの貯蔵・中継機能</li>
+        <li>環境規制の強化でVOC回収設備の設置が進む</li>
+      </ul>
+    </div>
+  </details>
+</div>
+
+<!-- ============================================================ -->
+<!-- Appendix C: ファクトチェック結果                                 -->
+<!-- ============================================================ -->
+<div class="page" id="appC">
+  <h2><span class="num">App.C</span>ファクトチェック結果</h2>
+
+  <div class="exec-summary">
+    <p>Codex 10ペルソナによるファクトチェック完了。修正必須7件、修正推奨8件を検出。全件を本レポートに反映済み。</p>
+  </div>
+
+  <details class="chapter-detail">
+    <summary>修正必須 7件</summary>
+    <div class="detail-body">
+      <table>
+        <thead><tr><th>#</th><th>項目</th><th>修正前</th><th>修正後</th><th>根拠</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>定期点検頻度</td>
+            <td>5年に緩和</td>
+            <td>年1回。漏れ点検のみ5年</td>
+            <td>消防法第14条の3</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>石油需要減少率</td>
+            <td>-2.9%/年</td>
+            <td>-2.2%/年</td>
+            <td>経産省長期エネルギー需給見通し</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>SS数</td>
+            <td>5万か所</td>
+            <td>約6万(ピーク)→27,963(2023末)→27,009(最新)</td>
+            <td>資源エネルギー庁統計</td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>辰巳工業シェア</td>
+            <td>35%</td>
+            <td>約30%</td>
+            <td>業界ヒアリング</td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td>TSMC投資額</td>
+            <td>2.96兆円</td>
+            <td>当時の円換算報道値。現在は総額不確定</td>
+            <td>為替変動、公式発表との乖離</td>
+          </tr>
+          <tr>
+            <td>6</td>
+            <td>安全弁作動圧</td>
+            <td>1.1倍で作動</td>
+            <td>1.1倍以下の設定圧で作動</td>
+            <td>消防法施行規則</td>
+          </tr>
+          <tr>
+            <td>7</td>
+            <td>医薬品原薬保管</td>
+            <td>2-8度</td>
+            <td>承認申請データに基づく個別設定。凍結保管も一般的</td>
+            <td>ICH Q1A(R2)ガイドライン</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </details>
+
+  <details class="chapter-detail">
+    <summary>修正推奨 8件</summary>
+    <div class="detail-body">
+      <table>
+        <thead><tr><th>#</th><th>項目</th><th>修正前</th><th>修正後</th><th>根拠</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>8</td>
+            <td>ニヤク保有台数</td>
+            <td>2,231台</td>
+            <td>約2,000台（公式表現）</td>
+            <td>ニヤクコーポレーション会社概要</td>
+          </tr>
+          <tr>
+            <td>9</td>
+            <td>ドライバー平均年齢</td>
+            <td>49.0歳</td>
+            <td>49.7歳(2024版)、50歳以上51.0%(2025版)</td>
+            <td>全日本トラック協会調査</td>
+          </tr>
+          <tr>
+            <td>10</td>
+            <td>空車回送率</td>
+            <td>30%</td>
+            <td>一次資料裏付けなしと注記</td>
+            <td>業界推定値に過ぎず</td>
+          </tr>
+          <tr>
+            <td>11</td>
+            <td>白油車台数の年次</td>
+            <td>年次記載なし</td>
+            <td>2018年時点と明記</td>
+            <td>データ鮮度の明示</td>
+          </tr>
+          <tr>
+            <td>12</td>
+            <td>液浸冷却の省電力効果</td>
+            <td>94%省電力</td>
+            <td>空冷比較で最大94%省電力（条件依存）</td>
+            <td>メーカー公表値の条件付き性</td>
+          </tr>
+          <tr>
+            <td>13</td>
+            <td>水素ST目標年</td>
+            <td>目標年不記載</td>
+            <td>2030年目標と明記</td>
+            <td>水素基本戦略</td>
+          </tr>
+          <tr>
+            <td>14</td>
+            <td>ISOタンクコンテナ保有数</td>
+            <td>JOT 7,000個</td>
+            <td>7,000個超（増加傾向）</td>
+            <td>JOT IR資料</td>
+          </tr>
+          <tr>
+            <td>15</td>
+            <td>内航タンカー隻数</td>
+            <td>約1,000隻</td>
+            <td>約1,000隻（ただし減少傾向）</td>
+            <td>内航海運統計、推定含む</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </details>
+
+  <details class="chapter-detail">
+    <summary>Codex 10ペルソナの判定概要</summary>
+    <div class="detail-body">
+      <h4>ペルソナ構成</h4>
+      <table>
+        <thead><tr><th>ペルソナ</th><th>視点</th><th>判定傾向</th></tr></thead>
+        <tbody>
+          <tr><td>物流コンサルタント</td><td>業界構造・ビジネスモデル</td><td>空車回送率の一次資料不足を指摘</td></tr>
+          <tr><td>消防法専門家</td><td>法令・規制の正確性</td><td>定期点検頻度の誤りを修正必須と判定</td></tr>
+          <tr><td>石油業界アナリスト</td><td>市場データの精度</td><td>SS数・石油需要減少率の修正</td></tr>
+          <tr><td>タンクローリーエンジニア</td><td>技術仕様の正確性</td><td>安全弁の作動圧力表現を修正</td></tr>
+          <tr><td>半導体薬液メーカー</td><td>半導体関連データ</td><td>TSMC投資額の注記を推奨</td></tr>
+          <tr><td>医薬品物流専門家</td><td>コールドチェーン要件</td><td>保管温度の一般化を修正</td></tr>
+          <tr><td>水素エネルギー研究者</td><td>水素関連の将来予測</td><td>数値は計画値と明記を推奨</td></tr>
+          <tr><td>中小企業経営者</td><td>参入障壁の妥当性</td><td>参入障壁の分類は概ね妥当と判定</td></tr>
+          <tr><td>リスク管理専門家</td><td>事故事例・安全対策</td><td>事故データは公開情報と整合</td></tr>
+          <tr><td>統計ファクトチェッカー</td><td>数値の一次資料照合</td><td>推定値と公式値の区別を徹底</td></tr>
+        </tbody>
+      </table>
+      <h4>総合判定</h4>
+      <p>修正必須7件は全て本文に反映済み。修正推奨8件も可能な範囲で反映。レポート全体の信頼性は「概ね高い」と判定されたが、市場規模の推定値は幅を持って解釈すべき。</p>
+    </div>
+  </details>
+</div>
+
+<!-- ============ FOOTER ============ -->
+<div class="footer">
+  <div class="gradient-bar" style="margin-bottom:24px;"></div>
+  <p>日本の特殊液体輸送市場 -- セールスインテリジェンス</p>
+  <p>8 Agents (Opus x4 + Sonnet x4) + Codex 10 Personas Fact-Check</p>
+  <p>Generated: 2026-03-24</p>
+</div>
+
+</body>
+</html>
