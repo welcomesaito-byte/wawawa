@@ -1,0 +1,1806 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude CodeでITツールを作る — 経営者のための全工程ガイド</title>
+<style>
+*,*::before,*::after{box-sizing:border-box}
+body{max-width:800px;margin:0 auto;padding:1rem;font-family:system-ui,-apple-system,sans-serif;line-height:2.0;color:#1e293b;background:#f8fafc;font-size:1.125rem}
+h1{font-size:1.75rem;color:#2250df;border-bottom:3px solid #2250df;padding-bottom:.5rem;margin-top:2rem}
+h2{font-size:1.5rem;color:#2250df;margin-top:3rem;border-left:4px solid #2250df;padding-left:.75rem}
+h3{font-size:1.25rem;color:#334155;margin-top:2rem}
+h4{font-size:1.1rem;color:#475569;margin-top:1.5rem}
+.tw{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:1rem 0}
+table{width:100%;border-collapse:collapse;min-width:400px}
+th{background:#f0f5ff;color:#2250df;padding:.5rem;border:1px solid #e2e8f0;font-size:.875rem;text-align:left}
+td{padding:.5rem;border:1px solid #e2e8f0;font-size:.875rem}
+details{margin:1rem 0;background:#f8fafc;border:1px solid #e2e8f0;border-radius:.75rem;padding:0}
+summary{cursor:pointer;padding:.75rem 1rem;font-weight:600;color:#2250df;font-size:.95rem}
+details[open]>summary{border-bottom:1px solid #e2e8f0}
+.dc{padding:1rem}
+pre{background:#1e293b;color:#e2e8f0;border-radius:.5rem;padding:1rem;overflow-x:auto;font-size:.8rem;line-height:1.6}
+code{background:#1e293b;color:#e2e8f0;padding:.15rem .3rem;border-radius:.25rem;font-size:.85rem}
+pre code{padding:0;background:none}
+blockquote{border-left:4px solid #2b70ef;background:#f0f5ff;padding:.75rem 1rem;margin:1rem 0;border-radius:0 .5rem .5rem 0}
+.w{background:#fef2f2;border-left:4px solid #ef4444;padding:.75rem 1rem;margin:1rem 0;border-radius:0 .5rem .5rem 0}
+.ti{background:#f0fdf4;border-left:4px solid #22c55e;padding:.75rem 1rem;margin:1rem 0;border-radius:0 .5rem .5rem 0}
+nav{background:white;border-radius:.75rem;border:1px solid #e2e8f0;padding:1.5rem;box-shadow:0 1px 2px rgba(0,0,0,.05);margin:2rem 0}
+nav ol{margin:0;padding-left:1.5rem}
+nav li{margin:.3rem 0}
+nav a{color:#2250df;text-decoration:none;font-weight:500}
+nav a:hover{text-decoration:underline}
+a{color:#2b70ef}
+header{text-align:center;padding:2rem 0 1rem}
+header h1{border-bottom:none;font-size:1.75rem;margin-bottom:.5rem}
+header p{color:#64748b;margin:.25rem 0}
+footer{margin-top:4rem;padding:2rem 0;border-top:1px solid #e2e8f0;color:#64748b;font-size:.875rem;text-align:center}
+.ic{background:white;border:1px solid #e2e8f0;border-left:4px solid #ef4444;border-radius:0 .75rem .75rem 0;padding:1rem 1.5rem;margin:1rem 0;box-shadow:0 1px 2px rgba(0,0,0,.05)}
+.ic h4{color:#ef4444;margin-top:0}
+@media(max-width:640px){body{padding:.75rem;font-size:1rem}h1{font-size:1.5rem}h2{font-size:1.25rem}h3{font-size:1.1rem}nav{padding:1rem}}
+</style>
+</head>
+<body>
+
+<header>
+<h1>Claude CodeでITツールを作る</h1>
+<p style="font-size:1.1rem;color:#334155;font-weight:500">経営者のための全工程ガイド</p>
+<p>作成日: 2026年4月12日</p>
+<p>題材: PII抽出＋復元ツール / チャット自動日報ツール</p>
+</header>
+
+<!-- ============================================================ -->
+<!-- 目次                                                          -->
+<!-- ============================================================ -->
+
+<nav>
+<h3 style="margin-top:0">目次</h3>
+<ol>
+<li><a href="#ch1">第1章: これから作るもの</a> — ITツールの全体像と題材2ツール</li>
+<li><a href="#ch2">第2章: 開発のロールとAIの限界</a> — 6ロール＋「AIは指示しないとやらない」</li>
+<li><a href="#ch3">第3章: 知っておくべき設計パターン</a> — アーキテクチャ6種＋通信/API認証</li>
+<li><a href="#ch4">第4章: 要件定義 — 選択肢を知って決める</a> — 入力/保存/出力＋題材の要件定義実演</li>
+<li><a href="#ch5">第5章: セキュリティ — 事故は設定1つで起きる</a> — 事故7件＋賠償金＋統計</li>
+<li><a href="#ch6">第6章: 構築 — AIへの正しい指示</a> — 構築実践＋指示テンプレート＋全工程フロー</li>
+<li><a href="#ch7">第7章: 運用と判断</a> — 運用設計＋3つの判断フローチャート</li>
+</ol>
+</nav>
+
+
+<!-- ============================================================ -->
+<!-- 第1章: これから作るもの                                        -->
+<!-- ============================================================ -->
+
+<h1 id="ch1">第1章: これから作るもの</h1>
+
+<h2>ITツールで解決できる課題の類型</h2>
+
+<p>まず全体像を掴む。経営者がITツールで解決したい課題は、大きく4つの類型に分けられる。</p>
+
+<div class="tw">
+<table>
+<tr><th>#</th><th>類型</th><th>解決する課題</th><th>代表的な手法</th></tr>
+<tr><td>1</td><td><strong>データ管理</strong></td><td>散在するデータの整理・保護・検索</td><td>DB構築、PII管理、マスタ統合</td></tr>
+<tr><td>2</td><td><strong>コミュニケーション自動化</strong></td><td>報告・通知・情報共有の手間削減</td><td>チャットBot、自動日報、通知連携</td></tr>
+<tr><td>3</td><td><strong>業務フロー自動化</strong></td><td>承認・集計・転記などの定型作業の自動化</td><td>ワークフロー、RPA、バッチ処理</td></tr>
+<tr><td>4</td><td><strong>分析・可視化</strong></td><td>経営数値の見える化と傾向把握</td><td>ダッシュボード、KPI集計、レポート自動生成</td></tr>
+</table>
+</div>
+
+<p>この教科書では、<strong>類型1（データ管理）と類型2（コミュニケーション自動化）から各1つずつ、計2つのツールを例として</strong>設計から実装まで進める。ただし、各章で学ぶ知識（設計パターン・セキュリティ・要件定義・AIへの指示方法）は、類型3や類型4のツールを作る場合にもそのまま応用できる。</p>
+
+<p>先に「何を作るか」の全体像を掴んでから、各章で技術・セキュリティ・判断の知識を積み上げていく。</p>
+
+<h2>ツール1: PII抽出＋復元システム</h2>
+
+<p>PII（Personally Identifiable Information＝個人を特定できる情報）を安全に管理するツール。</p>
+
+<p><strong>解決する問題：</strong> Google Driveに散在するファイルにL2個人情報（住所・電話番号・メールアドレス）が含まれている。これをそのままAIに渡すと個人情報漏洩になる。</p>
+
+<details>
+<summary>動作の流れ（システム構成図）</summary>
+<div class="dc">
+<div style="border:2px solid #2250df;border-radius:.75rem;padding:1rem;background:white;margin:1rem 0">
+<h4 style="color:#2250df;margin:0 0 .75rem;font-size:.95rem">PII抽出＋復元システム</h4>
+
+<!-- メインフロー -->
+<div style="display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;margin-bottom:1rem">
+<div style="background:#f0f5ff;border:1px solid #cbd5e1;border-radius:.5rem;padding:.5rem;font-size:.8rem;min-width:5rem;text-align:center">
+<strong>Google Drive</strong><br>
+<span style="font-size:.75rem;color:#64748b">・顧客名簿<br>・議事録<br>・契約書</span>
+</div>
+<div style="color:#2250df;font-weight:bold">→</div>
+<div style="background:#f0f5ff;border:1px solid #cbd5e1;border-radius:.5rem;padding:.5rem;font-size:.8rem;min-width:5rem;text-align:center">
+<strong>PII抽出エンジン</strong><br>
+<span style="font-size:.75rem;color:#64748b">1.読込 → 2.検出<br>3.変換 → 4.対応表</span>
+</div>
+<div style="color:#2250df;font-weight:bold">→</div>
+<div style="background:#f0f5ff;border:1px solid #cbd5e1;border-radius:.5rem;padding:.5rem;font-size:.8rem;min-width:5rem;text-align:center">
+<strong>出力（マスク済み）</strong><br>
+<span style="font-size:.75rem;color:#64748b">NAME_001<br>TEL_001</span>
+</div>
+</div>
+
+<!-- 補足情報 -->
+<div style="display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:1rem">
+<div style="background:#fef2f2;border:1px solid #fca5a5;border-radius:.5rem;padding:.5rem;font-size:.8rem;flex:1;min-width:8rem">
+<strong>対応表</strong>（暗号化保存）<br>NAME_001 = 山田太郎
+</div>
+<div style="background:#f0fdf4;border:1px solid #86efac;border-radius:.5rem;padding:.5rem;font-size:.8rem;flex:1;min-width:8rem">
+<strong>復元エンジン</strong><br>対応表＋マスクデータから原文を復元
+</div>
+</div>
+
+<!-- 出力 -->
+<div style="display:flex;justify-content:center">
+<div style="background:#f0f5ff;border:2px solid #2250df;border-radius:.5rem;padding:.5rem .75rem;font-size:.85rem;font-weight:600;text-align:center">
+復元済み原文
+</div>
+</div>
+</div>
+</div>
+</details>
+
+<p><strong>アーキテクチャ選択：</strong> モノリシック（利用者1〜5人、社内限定、シンプルな入出力）</p>
+
+<details>
+<summary>使用する技術と費用</summary>
+<div class="dc">
+<div class="tw">
+<table>
+<tr><th>要素</th><th>技術</th><th>理由</th></tr>
+<tr><td>実行環境</td><td>Python 3.12</td><td>正規表現処理・ファイル操作が得意</td></tr>
+<tr><td>Google Drive接続</td><td>Google Drive API + OAuth 2.0</td><td>公式APIで安全に認証</td></tr>
+<tr><td>PII検出</td><td>正規表現 + Claude API</td><td>定型パターンは正規表現、文脈依存はAIで検出</td></tr>
+<tr><td>対応表の保存</td><td>暗号化JSON（AES-256）</td><td>対応表自体が個人情報のため暗号化必須</td></tr>
+<tr><td>費用</td><td>月額 約2,000〜5,000円（Claude API従量課金分）</td><td>Google Drive API自体は無料枠内</td></tr>
+</table>
+</div>
+</div>
+</details>
+
+<h2>ツール2: チャット→自動日報化システム</h2>
+
+<p>チャットの発言を自動的に日報に変換するツール。</p>
+
+<p><strong>解決する問題：</strong> 社員はSlack/Discordで業務報告しているが、日報を別途書く二重作業が発生している。発言内容から自動で日報を生成し、Backlog（タスク管理ツール）と紐づける。</p>
+
+<details>
+<summary>動作の流れ（システム構成図）</summary>
+<div class="dc">
+<div style="border:2px solid #2250df;border-radius:.75rem;padding:1rem;background:white;margin:1rem 0">
+<h4 style="color:#2250df;margin:0 0 .75rem;font-size:.95rem">チャット→自動日報化システム</h4>
+
+<!-- 上段フロー：収集→整形 -->
+<div style="display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;margin-bottom:1rem">
+<div style="background:#f0f5ff;border:1px solid #cbd5e1;border-radius:.5rem;padding:.5rem;font-size:.8rem;min-width:5rem;text-align:center">
+<strong>Slack / Discord</strong><br>
+<span style="font-size:.75rem;color:#64748b">社員発言<br>#sales #dev #general</span>
+</div>
+<div style="color:#2250df;font-weight:bold">→</div>
+<div style="background:#f0f5ff;border:1px solid #cbd5e1;border-radius:.5rem;padding:.5rem;font-size:.8rem;min-width:5rem;text-align:center">
+<strong>収集サービス</strong><br>
+<span style="font-size:.75rem;color:#64748b">Webhook受信<br>ID別にグループ</span>
+</div>
+<div style="color:#2250df;font-weight:bold">→</div>
+<div style="background:#f0f5ff;border:1px solid #cbd5e1;border-radius:.5rem;padding:.5rem;font-size:.8rem;min-width:5rem;text-align:center">
+<strong>整形・要約サービス</strong><br>
+<span style="font-size:.75rem;color:#64748b">Claude API<br>分類・整理・日報変換</span>
+</div>
+</div>
+
+<!-- 下段フロー：日報DB→連携→Backlog -->
+<div style="display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;flex-direction:row-reverse">
+<div style="background:#f0f5ff;border:1px solid #cbd5e1;border-radius:.5rem;padding:.5rem;font-size:.8rem;min-width:5rem;text-align:center">
+<strong>日報DB</strong><br>
+<span style="font-size:.75rem;color:#64748b">PostgreSQL<br>本文・発言元・タスクID</span>
+</div>
+<div style="color:#2250df;font-weight:bold">→</div>
+<div style="background:#f0f5ff;border:1px solid #cbd5e1;border-radius:.5rem;padding:.5rem;font-size:.8rem;min-width:5rem;text-align:center">
+<strong>連携サービス</strong><br>
+<span style="font-size:.75rem;color:#64748b">作業項目とタスクを照合</span>
+</div>
+<div style="color:#2250df;font-weight:bold">→</div>
+<div style="background:#f0f5ff;border:1px solid #cbd5e1;border-radius:.5rem;padding:.5rem;font-size:.8rem;min-width:5rem;text-align:center">
+<strong>Backlog</strong><br>
+<span style="font-size:.75rem;color:#64748b">タスクに工数を自動記録</span>
+</div>
+</div>
+</div>
+</div>
+</details>
+
+<p><strong>アーキテクチャ選択：</strong> 3層アーキテクチャ ＋ イベント駆動（Webhook受信がイベント駆動、処理と保存が3層）</p>
+
+<details>
+<summary>使用する技術と費用</summary>
+<div class="dc">
+<div class="tw">
+<table>
+<tr><th>要素</th><th>技術</th><th>理由</th></tr>
+<tr><td>サーバー</td><td>Node.js + Express</td><td>イベント駆動に最適。Webhook受信が得意</td></tr>
+<tr><td>チャット連携</td><td>Slack Events API / Discord Gateway</td><td>リアルタイムで発言を受信</td></tr>
+<tr><td>要約エンジン</td><td>Claude API（Haiku）</td><td>高速・低コスト。日報要約には十分</td></tr>
+<tr><td>データベース</td><td>PostgreSQL</td><td>50人規模の常時稼働Webhook受信には同時書き込み耐性が必要</td></tr>
+<tr><td>タスク連携</td><td>Backlog API（REST）</td><td>公式API。OAuth 2.0認証</td></tr>
+<tr><td>ホスティング</td><td>Google Cloud Run</td><td>月額 3,000〜8,000円。従量課金で無駄なし</td></tr>
+<tr><td>合計費用</td><td>月額 約5,000〜15,000円</td><td>Claude API + Cloud Run + ドメイン</td></tr>
+</table>
+</div>
+</div>
+</details>
+
+<h2>2つのツールの位置づけ</h2>
+
+<div class="tw">
+<table>
+<tr><th>観点</th><th>ツール1: PII抽出</th><th>ツール2: 自動日報</th><th>これ以外にも応用できる例</th></tr>
+<tr><td>学べる設計</td><td>モノリシック、APIキー管理、暗号化</td><td>3層+イベント駆動、OAuth 2.0、Webhook</td><td>マスタ統合ツール、ワークフロー自動化</td></tr>
+<tr><td>難易度</td><td>入門（処理が直線的）</td><td>中級（複数サービス連携）</td><td>類型3・4も同じ難易度の幅がある</td></tr>
+<tr><td>作る順番</td><td><strong>先に作る</strong></td><td>後に作る</td><td>自社の課題に近いものから着手</td></tr>
+<tr><td>セキュリティ要件</td><td>高（個人情報を直接扱う）</td><td>中（発言内容の取り扱い）</td><td>扱うデータの機密度で判断する</td></tr>
+</table>
+</div>
+
+<p><strong>ツール1で基礎を固め、ツール2で応用に進む。</strong></p>
+
+
+<!-- ============================================================ -->
+<!-- 第2章: 開発のロールとAIの限界                                  -->
+<!-- ============================================================ -->
+
+<h1 id="ch2">第2章: 開発のロールとAIの限界</h1>
+
+<p>何を作るかを知ったところで、次は「誰が何をやるのか」を整理する。IT開発には6つの専門職がある。大企業では別々の人間が担当するが、経営者が1人でAIと作る場合、<strong>全ロールを自分+AIで兼任する</strong>。これが「1人開発」の正体だ。</p>
+
+<h2>6つのロール一覧</h2>
+
+<div class="tw">
+<table>
+<tr><th>#</th><th>ロール</th><th>何を判断する人か</th><th>AIで代替できる範囲</th><th>あなたの負担</th></tr>
+<tr><td>1</td><td><strong>ビジネスアーキテクト</strong></td><td>何を作るか。なぜ作るか。誰が使うか。投資判断</td><td><strong>代替不可</strong>。経営者本人がやる</td><td>最大</td></tr>
+<tr><td>2</td><td><strong>デザイナー（UI/UX）</strong></td><td>画面の配置、操作の流れ、見た目</td><td>テンプレート提案まで可能。最終判断は人間</td><td>中</td></tr>
+<tr><td>3</td><td><strong>データサイエンティスト</strong></td><td>データの構造、テーブル設計、分析ロジック</td><td>設計案の提示まで可能。業務知識に基づく判断は人間</td><td>中</td></tr>
+<tr><td>4</td><td><strong>ソフトウェアエンジニア</strong></td><td>コードを書く、テストする、バグを直す</td><td><strong>大部分代替可能</strong>（Claude Codeの主戦場）</td><td>小</td></tr>
+<tr><td>5</td><td><strong>サイバーセキュリティ</strong></td><td>脆弱性（ぜいじゃくせい＝攻撃される穴）対策、権限設計</td><td>指示すれば対策コードを書ける。<strong>指示しないと何もしない</strong></td><td>中</td></tr>
+<tr><td>6</td><td><strong>インフラ/DevOps</strong></td><td>サーバー構築、デプロイ（本番環境への配置）、監視</td><td><strong>大部分代替可能</strong>。設定ファイル生成、コマンド実行まで可</td><td>小</td></tr>
+</table>
+</div>
+
+<h2>AIの構造的欠陥 — 指示しないと何もしない</h2>
+
+<p>AIは「要求されたことだけ」を作る。要求されなかったことは無視する。これは仕様であり、バグではない。</p>
+
+<div class="w">
+<strong>結論：AIは優秀な実装者だが、指示書がなければ最低限しかやらない。指示書の質＝成果物の質。</strong>
+</div>
+
+<details>
+<summary>具体例: あなたの指示 → AIが作るもの → 欠けているもの</summary>
+<div class="dc">
+<div class="tw">
+<table>
+<tr><th>あなたの指示</th><th>AIが作るもの</th><th>欠けているもの</th></tr>
+<tr><td>「ログイン機能を作って」</td><td>IDとパスワードで認証する画面</td><td>パスワードが<strong>平文保存</strong>。暗号化していない</td></tr>
+<tr><td>「APIを作って」</td><td>データを返す窓口</td><td><strong>認証なし</strong>。URLを知っていれば誰でもアクセスできる</td></tr>
+<tr><td>「データベースを作って」</td><td>テーブルとCRUD操作</td><td><strong>SQLインジェクション対策なし</strong>。入力欄から攻撃可能</td></tr>
+</table>
+</div>
+
+<h4>例えるなら</h4>
+<ul>
+<li>「棚を作って」と頼んだら、棚だけ作る。耐震固定はしない</li>
+<li>「扉を付けて」と頼んだら、扉だけ付ける。鍵は付けない</li>
+<li>「配管を通して」と頼んだら、管だけ通す。漏れ検査はしない</li>
+</ul>
+
+<p><strong>AIにとってセキュリティは「追加要件」であり、当然入るものではない。</strong></p>
+</div>
+</details>
+
+<h3>AIが自発的にやらないこと</h3>
+
+<p>以下は明示的に指示しない限り、省略される。</p>
+
+<div class="tw">
+<table>
+<tr><th>省略されること</th><th>放置した場合の結果</th><th>対策</th></tr>
+<tr><td>セキュリティ対策</td><td>個人情報が漏洩する。SQLインジェクション（データベースへの不正操作）が可能になる</td><td>「セキュリティ対策を入れて」と毎回指示する</td></tr>
+<tr><td>エラーハンドリング</td><td>ネットワーク切断やデータ不整合で画面が白くなる。原因不明のまま止まる</td><td>「エラー処理を入れて」と指示する</td></tr>
+<tr><td>非機能要件（性能・可用性）</td><td>10人同時アクセスで応答が10秒超える。メモリ不足でサーバーが落ちる</td><td>「同時50人でも動くようにして」と数値で指示する</td></tr>
+<tr><td>将来の拡張性</td><td>機能追加のたびに既存コードを大幅に書き直す。工数が倍増する</td><td>「後から機能追加しやすい構造にして」と指示する</td></tr>
+</table>
+</div>
+
+<h3>3つの「無視される領域」</h3>
+
+<p>AIが自発的に考慮しない領域を、身近な例で言えば「品質・コスト・納期」に対応させる。</p>
+
+<div class="tw">
+<table>
+<tr><th>領域</th><th>内容</th><th>AIの態度</th><th>結果</th></tr>
+<tr><td><strong>セキュリティ</strong></td><td>認証・暗号化・入力検証・権限管理</td><td>指示がなければ一切入れない</td><td>情報漏洩・不正アクセスの温床</td></tr>
+<tr><td><strong>非機能要件</strong></td><td>速度・拡張性・耐障害性</td><td>「今の要件だけ」で作る</td><td>利用者が増えた瞬間に停止する</td></tr>
+<tr><td><strong>異常系処理</strong></td><td>通信エラー・不正入力・システム障害</td><td>正常系だけ動けばOKとする</td><td>本番で予期せぬ停止が起きる</td></tr>
+</table>
+</div>
+
+<details>
+<summary>「動く」と「安全に動く」は別物</summary>
+<div class="dc">
+<div class="tw">
+<table>
+<tr><th>状態</th><th>意味</th></tr>
+<tr><td>テストが通る</td><td>正常系で期待通りの結果が出る。<strong>セキュリティは未確認</strong></td></tr>
+<tr><td>エラーが出ない</td><td>正常な入力では壊れない。<strong>異常な入力は未検証</strong></td></tr>
+<tr><td>デモで動く</td><td>1人が使う分には問題ない。<strong>10人同時は未検証</strong></td></tr>
+</table>
+</div>
+</div>
+</details>
+
+
+<!-- ============================================================ -->
+<!-- 第3章: 知っておくべき設計パターン                              -->
+<!-- ============================================================ -->
+
+<h1 id="ch3">第3章: 知っておくべき設計パターン</h1>
+
+<p>ロールとAIの限界を理解したところで、次は「設計の骨格」を学ぶ。アーキテクチャ（設計の骨格）を知らなければ、要件定義（何を作るかの定義書）は書けない。以下の6パターンを「家の建て方」に例えて解説し、続けて通信とAPI認証の必須知識を扱う。</p>
+
+<h2>アーキテクチャ6パターン</h2>
+
+<div class="tw">
+<table>
+<tr><th>#</th><th>パターン</th><th>家で例えると</th><th>適した規模</th><th>初期コスト</th><th>保守の難しさ</th><th>変更の柔軟性</th></tr>
+<tr><td>1</td><td><strong>モノリシック</strong></td><td>ワンルームマンション。台所も寝室も1部屋</td><td>1〜10人</td><td>最安</td><td>易（1ファイルで完結）</td><td>低（1箇所の変更が全体に波及）</td></tr>
+<tr><td>2</td><td><strong>3層アーキテクチャ</strong></td><td>3階建ての家。1F=店舗、2F=事務所、3F=倉庫</td><td>10〜100人</td><td>中</td><td>中（各階を独立に改装可能）</td><td>中</td></tr>
+<tr><td>3</td><td><strong>モジュラー</strong></td><td>部屋ごとにユニット化されたプレハブ。部屋単位で増改築</td><td>10〜200人</td><td>中〜高</td><td>中（部屋単位でテスト可能）</td><td>高</td></tr>
+<tr><td>4</td><td><strong>イベント駆動</strong></td><td>インターホンが鳴ったら応答する家。常に待機している</td><td>規模問わず</td><td>中</td><td>中（イベントの連鎖が複雑化しうる）</td><td>高</td></tr>
+<tr><td>5</td><td><strong>CQRS</strong></td><td>受付窓口と出荷窓口を分けた倉庫。入庫と出庫は別ルート</td><td>大量データ＋リアルタイム</td><td>高</td><td>高</td><td>高</td></tr>
+<tr><td>6</td><td><strong>マイクロサービス</strong></td><td>商店街。各店舗が独立経営。連絡は電話（API）で行う</td><td>500人以上</td><td>最高</td><td>最高（店舗間の調整が煩雑）</td><td>最高</td></tr>
+</table>
+</div>
+
+<details>
+<summary>各パターンの詳細 — 向いている場面・費用目安</summary>
+<div class="dc">
+
+<h4>1. モノリシック（一枚岩）</h4>
+<p>全機能が1つのプログラムファイルに入っている。</p>
+<ul>
+<li>向いている場面：社内ツール、個人利用、プロトタイプ（試作品）</li>
+<li>限界：機能が30を超えると、1箇所を直すと別の箇所が壊れる確率が急上昇する</li>
+<li>費用目安：クラウド月額 0〜3,000円（Google Cloud Run等）</li>
+</ul>
+
+<h4>2. 3層アーキテクチャ</h4>
+<p>プログラムを3つの層に分ける。</p>
+<div style="margin:1rem 0;max-width:24rem">
+<div style="background:#f0f5ff;border:2px solid #2250df;border-radius:.5rem .5rem 0 0;padding:.75rem;text-align:center;font-size:.85rem">
+<strong>UI層（画面表示）</strong><br>
+<span style="font-size:.75rem;color:#64748b">ユーザーが見る部分</span>
+</div>
+<div style="background:#f0f5ff;border:2px solid #2250df;border-top:none;padding:.75rem;text-align:center;font-size:.85rem">
+<strong>ロジック層（業務処理）</strong><br>
+<span style="font-size:.75rem;color:#64748b">計算・判定・ルール適用</span>
+</div>
+<div style="background:#f0f5ff;border:2px solid #2250df;border-top:none;border-radius:0 0 .5rem .5rem;padding:.75rem;text-align:center;font-size:.85rem">
+<strong>データ層（保存・取得）</strong><br>
+<span style="font-size:.75rem;color:#64748b">データベースとのやり取り</span>
+</div>
+</div>
+<ul>
+<li>向いている場面：中規模の業務システム。ERPシステム。50人規模の社内利用</li>
+<li>利点：UI層だけ変更しても、データ層には影響しない</li>
+<li>費用目安：クラウド月額 3,000〜15,000円</li>
+</ul>
+
+<h4>3. モジュラー（モジュール分割）</h4>
+<p>機能ごとに独立したファイル群に分ける。「受注モジュール」「在庫モジュール」「請求モジュール」のように。</p>
+<ul>
+<li>向いている場面：チーム開発。機能追加が頻繁なシステム</li>
+<li>利点：受注モジュールを改修しても、請求モジュールに影響しない</li>
+<li>費用目安：クラウド月額 5,000〜20,000円</li>
+</ul>
+
+<h4>4. イベント駆動</h4>
+<p>「何かが起きたら反応する」仕組み。</p>
+<div style="display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;margin:1rem 0">
+<div style="background:#f0f5ff;border:2px solid #2250df;border-radius:.5rem;padding:.5rem .75rem;font-size:.85rem;font-weight:600;text-align:center">ユーザーが発言</div>
+<div style="font-size:1.2rem;color:#2250df">→</div>
+<div style="background:#f0f5ff;border:2px solid #2250df;border-radius:.5rem;padding:.5rem .75rem;font-size:.85rem;font-weight:600;text-align:center">イベント発火</div>
+<div style="font-size:1.2rem;color:#2250df">→</div>
+<div style="background:#f0f5ff;border:2px solid #2250df;border-radius:.5rem;padding:.5rem .75rem;font-size:.85rem;font-weight:600;text-align:center">ボットが受信</div>
+<div style="font-size:1.2rem;color:#2250df">→</div>
+<div style="background:#f0f5ff;border:2px solid #2250df;border-radius:.5rem;padding:.5rem .75rem;font-size:.85rem;font-weight:600;text-align:center">処理</div>
+<div style="font-size:1.2rem;color:#2250df">→</div>
+<div style="background:#f0f5ff;border:2px solid #2250df;border-radius:.5rem;padding:.5rem .75rem;font-size:.85rem;font-weight:600;text-align:center">応答送信</div>
+</div>
+<ul>
+<li>向いている場面：チャットBot、通知システム、IoTセンサー処理</li>
+<li>利点：常にイベントを待ち受けているため、リアルタイム性が高い</li>
+<li>費用目安：クラウド月額 1,000〜10,000円（従量課金が多い）</li>
+</ul>
+
+<h4>5. CQRS（コマンドクエリ責務分離）</h4>
+<p>データの「書き込み」と「読み取り」を完全に分離する。</p>
+<div style="display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;margin:1rem 0">
+<div style="background:#f0f5ff;border:2px solid #2250df;border-radius:.5rem;padding:.5rem .75rem;font-size:.85rem;font-weight:600;text-align:center">データ登録</div>
+<div style="font-size:1.2rem;color:#2250df">→</div>
+<div style="background:#f0f5ff;border:2px solid #2250df;border-radius:.5rem;padding:.5rem .75rem;font-size:.85rem;font-weight:600;text-align:center">書き込みDB</div>
+<div style="font-size:.85rem;color:#2250df;font-weight:600">── 同期 ──→</div>
+<div style="background:#f0f5ff;border:2px solid #2250df;border-radius:.5rem;padding:.5rem .75rem;font-size:.85rem;font-weight:600;text-align:center">読み取りDB</div>
+<div style="font-size:1.2rem;color:#2250df">→</div>
+<div style="background:#f0f5ff;border:2px solid #2250df;border-radius:.5rem;padding:.5rem .75rem;font-size:.85rem;font-weight:600;text-align:center">データ閲覧</div>
+</div>
+<ul>
+<li>向いている場面：大量データを登録しながら、同時にダッシュボードで集計表示する</li>
+<li>利点：書き込みが重くても、閲覧側は高速を維持する</li>
+<li>費用目安：クラウド月額 20,000〜100,000円（DB2系統分）</li>
+</ul>
+
+<h4>6. マイクロサービス</h4>
+<p>機能ごとに独立したサーバーを立てる。</p>
+<ul>
+<li>向いている場面：大企業。数百人が同時に使う。機能ごとに別チームが開発する</li>
+<li>注意：50人規模の中小企業には<strong>過剰</strong>。運用コストが跳ね上がる</li>
+<li>費用目安：クラウド月額 100,000円以上</li>
+</ul>
+
+</div>
+</details>
+
+<details>
+<summary>判断フロー：50人規模で何を選ぶか</summary>
+<div class="dc">
+<div style="border:2px solid #2250df;border-radius:.75rem;padding:1rem;background:white;margin:1rem 0">
+
+<div style="background:#2250df;color:white;padding:.5rem .75rem;border-radius:.5rem;font-weight:600;font-size:.85rem;margin-bottom:.75rem">
+Q1. 利用者は何人か？
+</div>
+<div style="margin-left:1rem;border-left:2px solid #e2e8f0;padding-left:1rem;margin-bottom:.75rem">
+<div style="margin:.5rem 0;font-size:.85rem">
+<strong style="color:#2250df">→ 1〜10人：</strong> モノリシック（一枚岩）で十分
+</div>
+<div style="margin:.5rem 0;font-size:.85rem">
+<strong style="color:#2250df">→ 10〜100人：</strong> Q2へ
+</div>
+<div style="margin:.5rem 0;font-size:.85rem">
+<strong style="color:#2250df">→ 100人以上：</strong> モジュラー。500人超でマイクロサービスを検討
+</div>
+</div>
+
+<div style="background:#2250df;color:white;padding:.5rem .75rem;border-radius:.5rem;font-weight:600;font-size:.85rem;margin-bottom:.75rem">
+Q2. リアルタイム通信（チャット・通知）が必要か？
+</div>
+<div style="margin-left:1rem;border-left:2px solid #e2e8f0;padding-left:1rem;margin-bottom:.75rem">
+<div style="margin:.5rem 0;font-size:.85rem">
+<strong style="color:#2250df">→ はい：</strong> 3層アーキテクチャ ＋ イベント駆動（併用）
+</div>
+<div style="margin:.5rem 0;font-size:.85rem">
+<strong style="color:#2250df">→ いいえ：</strong> Q3へ
+</div>
+</div>
+
+<div style="background:#2250df;color:white;padding:.5rem .75rem;border-radius:.5rem;font-weight:600;font-size:.85rem;margin-bottom:.75rem">
+Q3. 機能追加が年に何回あるか？
+</div>
+<div style="margin-left:1rem;border-left:2px solid #e2e8f0;padding-left:1rem">
+<div style="margin:.5rem 0;font-size:.85rem">
+<strong style="color:#2250df">→ 年4回以上：</strong> モジュラー or 3層アーキテクチャ
+</div>
+<div style="margin:.5rem 0;font-size:.85rem">
+<strong style="color:#2250df">→ 年1〜2回：</strong> 3層アーキテクチャ
+</div>
+</div>
+
+</div>
+<p><strong>50人規模の結論：3層アーキテクチャが最適解。リアルタイム通信が必要ならイベント駆動を併用する。</strong></p>
+</div>
+</details>
+
+<h2>エンタープライズアーキテクチャ（EA）</h2>
+
+<p>ここまでの6パターンは「1つのツールの内部構造」の話だ。しかし、会社にツールが2つ、3つと増えてくると、別の問題が生まれる。ツール同士がバラバラに動き、データが二重管理になり、修正のたびに他のツールが壊れる。</p>
+
+<p><strong>エンタープライズアーキテクチャ（EA）</strong>とは、個別ツールではなく、<strong>会社全体の情報システムの整合性を設計する考え方</strong>だ。身近な例で言えば、工場を1棟建てるのが個別アーキテクチャなら、工場群全体のレイアウト・動線・共用設備の配置計画がEAにあたる。</p>
+
+<div class="tw">
+<table>
+<tr><th>観点</th><th>個別ツールの設計</th><th>EA（全体設計）</th></tr>
+<tr><td>対象</td><td>1つのツールの内部構造</td><td>会社の全ツール間の関係</td></tr>
+<tr><td>関心事</td><td>処理速度・保守性・拡張性</td><td>データの一元化・システム間連携・重複排除</td></tr>
+<tr><td>必要になる時期</td><td>ツールを作る時点で必要</td><td>ツールが3つ以上に増えた時点で必要</td></tr>
+</table>
+</div>
+
+<p>EAには<strong>TOGAF</strong>などの業界標準フレームワークが存在するが、今の段階で深入りする必要はない。まずは「ツール1つを正しく作る」技術を身につけることが先決だ。ただし、将来ツールが増えたときに「全体の整合性を設計する専門分野がある」と知っておくだけで、判断の質が変わる。</p>
+
+<h2>通信とAPI認証の必須知識</h2>
+
+<p>アーキテクチャが決まったら、システム間の「つなぎ方」を知る必要がある。</p>
+
+<h3>HTTPとHTTPS</h3>
+
+<p>HTTP（HyperText Transfer Protocol＝ブラウザとサーバーの通信規約）には2種類ある。</p>
+
+<div class="tw">
+<table>
+<tr><th></th><th>HTTP</th><th>HTTPS</th></tr>
+<tr><td>比喩</td><td><strong>ハガキ</strong></td><td><strong>封書</strong></td></tr>
+<tr><td>通信内容</td><td>経路上の誰でも読める（平文＝読める状態で送信）</td><td>暗号化されており読めない（TLS暗号化）</td></tr>
+<tr><td>改ざん</td><td>途中で書き換え可能</td><td>検知される</td></tr>
+<tr><td>なりすまし</td><td>相手が本物か確認不可</td><td>証明書で確認可能</td></tr>
+<tr><td>法人API接続</td><td><strong>接続拒否される</strong></td><td>接続できる</td></tr>
+<tr><td>法人利用</td><td><strong>不可</strong>。個人情報保護法・GDPR違反の可能性</td><td><strong>必須</strong></td></tr>
+</table>
+</div>
+
+<div class="w">
+<strong>結論：HTTPSは選択肢ではなく前提条件。</strong> Slack・Discord・Google・Backlogなど、法人向けSaaSのAPIは全てHTTPSを要求する。HTTPでアクセスすると接続自体が拒否される。顧客データを平文で流す企業とは通信しないというポリシーがあるから。
+</div>
+
+<details>
+<summary>HTTPのまま運用した場合に起きること</summary>
+<div class="dc">
+<ul>
+<li>ログインパスワードがネットワーク上を平文で流れる</li>
+<li>顧客の住所・電話番号が傍受される</li>
+<li>取引先に「セキュリティ基準を満たしていない」と取引停止される</li>
+</ul>
+</div>
+</details>
+
+<details>
+<summary>SSL証明書の取得方法</summary>
+<div class="dc">
+<div class="tw">
+<table>
+<tr><th>方法</th><th>費用</th><th>有効期限</th><th>用途</th></tr>
+<tr><td><strong>Let's Encrypt</strong></td><td>無料</td><td>90日（自動更新可）</td><td>中小企業の自社システム</td></tr>
+<tr><td>商用証明書（DigiCert等）</td><td>年5万〜30万円</td><td>1年</td><td>取引先に証明書の信頼性を示す必要がある場合</td></tr>
+</table>
+</div>
+<p><strong>中小企業の社内システム・API連携にはLet's Encryptで十分。</strong></p>
+<p>取得手順（概要）：</p>
+<ol>
+<li>サーバーに<code>certbot</code>をインストール</li>
+<li><code>certbot --nginx -d your-domain.com</code> を実行</li>
+<li>自動更新を設定（<code>certbot renew</code>をcronで定期実行）</li>
+<li>以後、証明書は90日ごとに自動更新される</li>
+</ol>
+</div>
+</details>
+
+<h3>API認証方式</h3>
+
+<p>API（Application Programming Interface＝ソフトウェア同士の接続口）を使って外部サービスと連携する際、以下の認証方式を理解する必要がある。</p>
+
+<div class="tw">
+<table>
+<tr><th>認証方式</th><th>仕組み</th><th>安全性</th><th>用途</th></tr>
+<tr><td><strong>APIキー</strong></td><td>固定の文字列をリクエストに添付</td><td>低（漏洩したら即悪用）</td><td>内部ツール、テスト環境</td></tr>
+<tr><td><strong>OAuth 2.0</strong></td><td>ユーザーが許可画面で承認→一時トークン発行</td><td>高</td><td>Slack、Google、Microsoft連携</td></tr>
+<tr><td><strong>Webhook</strong></td><td>イベント発生時にサーバーからサーバーへ通知</td><td>中（署名検証が必要）</td><td>通知受信、自動処理のトリガー</td></tr>
+</table>
+</div>
+
+<details>
+<summary>OAuth 2.0の認証フロー（Slack/Discord共通の流れ）</summary>
+<div class="dc">
+<div style="border:2px solid #2250df;border-radius:.75rem;padding:1rem;background:white;margin:1rem 0">
+<h4 style="color:#2250df;margin:0 0 .75rem;font-size:.95rem">OAuth 2.0 認証フロー（Slack/Discord共通）</h4>
+<div style="display:flex;flex-direction:column;gap:.5rem">
+
+<div style="display:flex;flex-wrap:wrap;gap:.5rem;align-items:center">
+<div style="background:#f0f5ff;border:1px solid #cbd5e1;border-radius:.5rem;padding:.5rem;font-size:.8rem;min-width:6rem;text-align:center">
+<strong>あなたのアプリ</strong>
+</div>
+<div style="font-size:.8rem;color:#2250df;font-weight:600;flex:1;min-width:6rem">(1) 認証URLにリダイレクト →</div>
+<div style="background:#f0f5ff;border:1px solid #cbd5e1;border-radius:.5rem;padding:.5rem;font-size:.8rem;min-width:6rem;text-align:center">
+<strong>Slack/Discordのログイン画面</strong>
+</div>
+</div>
+
+<div style="text-align:center;font-size:.8rem;color:#64748b;padding:.25rem 0">(2) ユーザーが「許可」を押す</div>
+
+<div style="display:flex;flex-wrap:wrap;gap:.5rem;align-items:center">
+<div style="background:#f0f5ff;border:1px solid #cbd5e1;border-radius:.5rem;padding:.5rem;font-size:.8rem;min-width:6rem;text-align:center">
+<strong>あなたのアプリ</strong>
+</div>
+<div style="font-size:.8rem;color:#2250df;font-weight:600;flex:1;min-width:6rem">← (3) 認証コードが返る</div>
+<div style="background:#f0f5ff;border:1px solid #cbd5e1;border-radius:.5rem;padding:.5rem;font-size:.8rem;min-width:6rem;text-align:center">
+<strong>Slack/Discord</strong>
+</div>
+</div>
+
+<div style="display:flex;flex-wrap:wrap;gap:.5rem;align-items:center">
+<div style="background:#f0f5ff;border:1px solid #cbd5e1;border-radius:.5rem;padding:.5rem;font-size:.8rem;min-width:6rem;text-align:center">
+<strong>あなたのアプリ</strong>
+</div>
+<div style="font-size:.8rem;color:#2250df;font-weight:600;flex:1;min-width:6rem">(4) 認証コード + クライアント秘密鍵を送信 →</div>
+<div style="background:#f0f5ff;border:1px solid #cbd5e1;border-radius:.5rem;padding:.5rem;font-size:.8rem;min-width:6rem;text-align:center">
+<strong>Slack/Discordサーバー</strong>
+</div>
+</div>
+
+<div style="display:flex;flex-wrap:wrap;gap:.5rem;align-items:center">
+<div style="background:#f0f5ff;border:1px solid #cbd5e1;border-radius:.5rem;padding:.5rem;font-size:.8rem;min-width:6rem;text-align:center">
+<strong>あなたのアプリ</strong>
+</div>
+<div style="font-size:.8rem;color:#2250df;font-weight:600;flex:1;min-width:6rem">← (5) アクセストークン（一時鍵）が返る</div>
+<div style="background:#f0f5ff;border:1px solid #cbd5e1;border-radius:.5rem;padding:.5rem;font-size:.8rem;min-width:6rem;text-align:center">
+<strong>Slack/Discordサーバー</strong>
+</div>
+</div>
+
+<div style="display:flex;flex-wrap:wrap;gap:.5rem;align-items:center">
+<div style="background:#f0f5ff;border:1px solid #cbd5e1;border-radius:.5rem;padding:.5rem;font-size:.8rem;min-width:6rem;text-align:center">
+<strong>あなたのアプリ</strong>
+</div>
+<div style="font-size:.8rem;color:#2250df;font-weight:600;flex:1;min-width:6rem">(6) アクセストークンを使ってAPIを呼ぶ →</div>
+</div>
+
+</div>
+</div>
+</div>
+</details>
+
+<details>
+<summary>APIキー管理の鉄則</summary>
+<div class="dc">
+<div class="tw">
+<table>
+<tr><th>ルール</th><th>理由</th></tr>
+<tr><td><strong>コード内に直書きしない</strong></td><td>GitHubに公開した瞬間、世界中から悪用される。実例多数</td></tr>
+<tr><td><strong>環境変数ファイル（.env）に分離する</strong></td><td>コードと秘密情報を物理的に分ける</td></tr>
+<tr><td><strong>.envファイルはGitに含めない</strong></td><td><code>.gitignore</code>に記載して除外する</td></tr>
+<tr><td><strong>定期的にローテーション（鍵の交換）する</strong></td><td>漏洩していた場合の被害を限定する</td></tr>
+</table>
+</div>
+</div>
+</details>
+
+<h3>法人向けSaaS APIの共通要件</h3>
+
+<p>法人向けSaaSのAPIには共通のパターンがある。個別に調べる前に、この表で全体像を掴む。</p>
+
+<div class="tw">
+<table>
+<tr><th>要件</th><th>説明</th><th>Slack</th><th>Discord</th><th>Google</th><th>Backlog</th></tr>
+<tr><td><strong>OAuth 2.0</strong></td><td>ユーザーに代わって操作する認証方式</td><td>&#9678;</td><td>&#9678;</td><td>&#9678;</td><td>&#9678;</td></tr>
+<tr><td><strong>Bot Token</strong></td><td>機械（プログラム）が自動で操作する認証</td><td>&#9678;</td><td>&#9678;</td><td>サービスアカウント</td><td>APIキー</td></tr>
+<tr><td><strong>Webhook</strong></td><td>イベント発生時に通知を受け取る仕組み</td><td>&#9678;</td><td>&#9678;</td><td>&#9678;</td><td>&#9678;</td></tr>
+<tr><td><strong>レート制限</strong></td><td>一定時間あたりの呼び出し上限</td><td>ティア別（1〜100+回/分）</td><td>エンドポイント別（上限あり）</td><td>100req/100sec（Sheets API。API種別により異なる）</td><td>100req/min</td></tr>
+<tr><td><strong>スコープ</strong></td><td>「読み取りだけ」「投稿だけ」等の権限最小化</td><td>&#9678;</td><td>&#9678;</td><td>&#9678;</td><td>−</td></tr>
+</table>
+</div>
+
+<details>
+<summary>用語解説</summary>
+<div class="dc">
+<ul>
+<li><strong>OAuth 2.0</strong>：「Aさんの代わりにBシステムがCサービスを操作する」ための業界標準の認可方式。ユーザーのパスワードを預からずに権限を委譲する</li>
+<li><strong>Bot Token</strong>：人間ではなくプログラムが操作するための鍵。Slackの自動投稿やDiscordの自動応答に使う</li>
+<li><strong>Webhook</strong>：「何か起きたら教えて」という仕組み。自分から聞きに行く（ポーリング）のではなく、相手から通知が来る</li>
+<li><strong>レート制限</strong>：API呼び出しの速度制限。超過するとエラーになる。無視するとアカウント停止の場合もある</li>
+<li><strong>スコープ</strong>：権限の範囲指定。「チャンネル読み取りだけ」「メッセージ投稿だけ」と最小限にする。全権限を与えない</li>
+</ul>
+</div>
+</details>
+
+<details>
+<summary>レート制限の具体値</summary>
+<div class="dc">
+<p>APIには呼び出し回数の上限がある。</p>
+<div class="tw">
+<table>
+<tr><th>サービス</th><th>制限</th><th>超過時</th></tr>
+<tr><td>Slack API</td><td>ティア1: 1回/分、ティア2: 20回/分、ティア3: 50回/分</td><td>429エラー（一時停止）</td></tr>
+<tr><td>Discord API</td><td>グローバル: 50回/秒</td><td>429エラー + リトライ待ち時間が返る</td></tr>
+<tr><td>Claude API</td><td>モデル別の従量課金制（例：Sonnet入力$3/100万トークン、出力$15/100万トークン）</td><td>429エラー</td></tr>
+</table>
+</div>
+</div>
+</details>
+
+<h3>Google環境の選択肢</h3>
+
+<p>Googleの技術は用途によって使い分ける。法人SaaS APIの知識とは別に、Google固有の環境選択肢を整理する。</p>
+
+<div class="tw">
+<table>
+<tr><th>選択肢</th><th>特徴</th><th>向いている場面</th><th>月額</th></tr>
+<tr><td><strong>Google Apps Script (GAS)</strong></td><td>Sheets/Driveと一体。6分実行制限</td><td>小規模自動化（通知、集計）</td><td>0円</td></tr>
+<tr><td><strong>Google Cloud Run</strong></td><td>コンテナベース。常時稼働可</td><td>API公開、Bot、中規模アプリ</td><td>3,000〜15,000円</td></tr>
+<tr><td><strong>Google Drive + ローカルPython</strong></td><td>Driveをストレージとして使い、ローカルで処理</td><td>PII処理、バッチ処理</td><td>0円</td></tr>
+<tr><td><strong>Cloud Run + Cloud Storage</strong></td><td>フルクラウド。Drive不使用</td><td>大規模・高可用性</td><td>10,000〜30,000円</td></tr>
+</table>
+</div>
+
+<blockquote>
+<strong>判断基準：</strong> 6分以内に終わる処理ならGAS（無料）。常時稼働やAPI公開が必要ならCloud Run。個人情報を扱うバッチ処理ならローカルPython+Drive。外部公開の本番サービスならCloud Run+Cloud Storage。
+</blockquote>
+
+<h3>エンドポイント設計（REST API）</h3>
+
+<p>REST API（Representational State Transfer＝Webでデータをやり取りする標準的な設計方式）の基本操作は4つ。</p>
+
+<div class="tw">
+<table>
+<tr><th>HTTPメソッド</th><th>意味</th><th>例</th><th>実際の操作</th></tr>
+<tr><td><strong>GET</strong></td><td>取得する</td><td><code>GET /api/reports</code></td><td>日報の一覧を取得</td></tr>
+<tr><td><strong>POST</strong></td><td>新規作成する</td><td><code>POST /api/reports</code></td><td>新しい日報を登録</td></tr>
+<tr><td><strong>PUT</strong></td><td>更新する</td><td><code>PUT /api/reports/123</code></td><td>日報ID:123を更新</td></tr>
+<tr><td><strong>DELETE</strong></td><td>削除する</td><td><code>DELETE /api/reports/123</code></td><td>日報ID:123を削除</td></tr>
+</table>
+</div>
+
+<details>
+<summary>設計の原則</summary>
+<div class="dc">
+<ul>
+<li>URLには<strong>名詞</strong>を使う（<code>/reports</code>）。動詞は使わない（<code>/getReports</code> は誤り）</li>
+<li>操作の種類はHTTPメソッドで表現する</li>
+<li>IDで特定する場合はURLの末尾に付ける（<code>/reports/123</code>）</li>
+</ul>
+</div>
+</details>
+
+
+<!-- ============================================================ -->
+<!-- 第4章: 要件定義 — 選択肢を知って決める                         -->
+<!-- ============================================================ -->
+
+<h1 id="ch4">第4章: 要件定義 — 選択肢を知って決める</h1>
+
+<p>設計パターンを学んだところで、いよいよ「何を作るか」を決める。要件定義ができない最大の原因は「選択肢を知らないこと」だ。例えるなら、加工方法を知らなければ図面は描けない。旋盤があるのか、マシニングがあるのか、5軸があるのか。何ができるかを知って初めて「何を作るか」が決まる。</p>
+
+<p>ソフトウェアも同じ構造だ。入力・保存・出力の3つについて、選択肢を一覧にする。</p>
+
+<h2>入力手段の選択肢</h2>
+
+<p>データをシステムに入れる方法は5つある。</p>
+
+<div class="tw">
+<table>
+<tr><th>手段</th><th>向いている場面</th><th>技術難易度</th><th>身近な例で言えば</th></tr>
+<tr><td><strong>Webフォーム（ブラウザ）</strong></td><td>構造化データの入力（見積・受注・日報）</td><td>低</td><td>決まった帳票に手書きする</td></tr>
+<tr><td><strong>チャットBot（Slack/Teams）</strong></td><td>自然言語での入力（日報・報告）</td><td>中</td><td>口頭で伝えて誰かが書き起こす</td></tr>
+<tr><td><strong>API直接連携</strong></td><td>システム間の自動連携（会計→ERP）</td><td>高</td><td>コンベアで次工程に自動搬送</td></tr>
+<tr><td><strong>ファイルアップロード</strong></td><td>一括データ投入（CSV取込・Excel変換）</td><td>中</td><td>パレット単位でまとめて納入</td></tr>
+<tr><td><strong>モバイルアプリ</strong></td><td>外出先からの入力（営業報告・検品）</td><td>高</td><td>ハンディターミナルで現場入力</td></tr>
+</table>
+</div>
+
+<blockquote>
+<strong>判断基準はシンプルだ：</strong><br>
+入力するのは誰か → ITに弱い人ならWebフォーム一択<br>
+入力頻度はどのくらいか → 1日何十回ならチャットBotが楽<br>
+入力元は人か機械か → 機械ならAPI連携<br>
+<br>
+迷ったらWebフォームから始めろ。理由は「変更が最も簡単だから」だ。
+</blockquote>
+
+<h2>データ保存の選択肢</h2>
+
+<p>入力されたデータをどこに保管するか。4択ある。</p>
+
+<div class="tw">
+<table>
+<tr><th>方式</th><th>特徴</th><th>向いている場面</th><th>限界</th></tr>
+<tr><td><strong>Google Sheets</strong></td><td>非IT者が直接見れる。無料</td><td>小規模・暫定運用（〜5万行）</td><td>5万行超で激重。同時編集で壊れる</td></tr>
+<tr><td><strong>SQLite</strong></td><td>ファイル1つで完結。サーバー不要</td><td>LAN内・デスクトップアプリ</td><td>同時書込みに弱い。10人まで</td></tr>
+<tr><td><strong>PostgreSQL</strong></td><td>本格DB。同時接続・大量データに強い</td><td>Webアプリ・50人以上の利用</td><td>サーバー管理が必要</td></tr>
+<tr><td><strong>Firebase / Supabase</strong></td><td>クラウドDB。認証・リアルタイム同期付き</td><td>モバイル対応・リアルタイム更新</td><td>従量課金。設計ミスで高額請求</td></tr>
+</table>
+</div>
+
+<details>
+<summary>身近な例で言い換える</summary>
+<div class="dc">
+<ul>
+<li>Google Sheets = ホワイトボードに書く。見やすい。消える。限界がある</li>
+<li>SQLite = 自分の机の引き出し。速い。1人専用</li>
+<li>PostgreSQL = 共有倉庫。整理整頓されていて、100人が同時に使える</li>
+<li>Firebase = レンタル倉庫。初期投資ゼロ。使った分だけ請求が来る</li>
+</ul>
+</div>
+</details>
+
+<h2>出力・通知の選択肢</h2>
+
+<p>処理結果をどう届けるか。5択ある。</p>
+
+<div class="tw">
+<table>
+<tr><th>方式</th><th>用途</th><th>受け手の行動</th></tr>
+<tr><td><strong>メール通知</strong></td><td>非同期の公式連絡（承認依頼・異常通知）</td><td>数時間以内に確認</td></tr>
+<tr><td><strong>Slack / Teams通知</strong></td><td>リアルタイムのチーム共有（進捗・アラート）</td><td>数分以内に確認</td></tr>
+<tr><td><strong>ダッシュボード（Web画面）</strong></td><td>可視化・集計（売上推移・KPI）</td><td>自分のタイミングで見に行く</td></tr>
+<tr><td><strong>PDF / Excel出力</strong></td><td>帳票・外部提出（請求書・報告書）</td><td>印刷 or メール添付</td></tr>
+<tr><td><strong>Webhook</strong></td><td>他システムへの自動連携</td><td>人は見ない。機械が受け取る</td></tr>
+</table>
+</div>
+
+<div class="ti">
+<strong>最も多い組み合わせ：</strong> Webフォーム入力 → PostgreSQL保存 → ダッシュボード表示 + Slack通知。中小企業の8割はこれで足りる。
+</div>
+
+<h2>題材ツールの要件定義実演</h2>
+
+<p>選択肢を知ったところで、実際の2つのツールを題材に要件定義を「やって見せる」。読者は「要件定義とはこういう粒度で決めるものか」と掴めればよい。</p>
+
+<h3>ツール1: PII抽出＋復元ツール</h3>
+
+<p><strong>背景：</strong> 社外に出すファイルから個人情報を抜きたい。抜いた後に戻せるようにもしたい。</p>
+
+<h4>要件5W</h4>
+
+<div class="tw">
+<table>
+<tr><th>項目</th><th>内容</th></tr>
+<tr><td><strong>Who（誰が）</strong></td><td>管理者1名が実行。閲覧者50名が匿名化済みファイルを見る</td></tr>
+<tr><td><strong>What（何を）</strong></td><td>Google Driveの既存ファイルからL2情報（氏名・連絡先）を分離</td></tr>
+<tr><td><strong>Where（どこで）</strong></td><td>ローカルPC（Python実行）。クラウド化は将来検討</td></tr>
+<tr><td><strong>When（いつ）</strong></td><td>手動実行。ファイル共有の直前に毎回</td></tr>
+<tr><td><strong>Why（なぜ）</strong></td><td>AI活用時に個人情報を外部サービスに渡さないため</td></tr>
+</table>
+</div>
+
+<details>
+<summary>セキュリティ要件・アーキテクチャ判定・構成図</summary>
+<div class="dc">
+<h4>セキュリティ要件</h4>
+<ul>
+<li>対応表（匿名化⇔実名の変換テーブル）は暗号化して保存</li>
+<li>対応表へのアクセスは管理者のみ。パスワード必須</li>
+<li>操作ログを全件記録（誰が・いつ・何を匿名化/復元したか）</li>
+</ul>
+
+<h4>アーキテクチャ判定</h4>
+<p>モノリシック（Python単一スクリプト）で十分。理由：</p>
+<ul>
+<li>利用者1名。同時実行なし</li>
+<li>ネットワーク通信なし（ローカル完結）</li>
+<li>処理が単純（検索→置換→保存）</li>
+</ul>
+
+<div style="border:2px solid #2250df;border-radius:.75rem;padding:1rem;background:white;margin:1rem 0">
+<h4 style="color:#2250df;margin:0 0 .75rem;font-size:.95rem">PII抽出＋復元ツール</h4>
+
+<!-- メインフロー -->
+<div style="display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;margin-bottom:1rem">
+<div style="background:#f0f5ff;border:1px solid #cbd5e1;border-radius:.5rem;padding:.5rem;font-size:.8rem;min-width:5rem;text-align:center">
+<strong>元ファイル</strong><br>
+<span style="font-size:.75rem;color:#64748b">(Drive)</span>
+</div>
+<div style="color:#2250df;font-weight:bold">→</div>
+<div style="background:#f0f5ff;border:1px solid #cbd5e1;border-radius:.5rem;padding:.5rem;font-size:.8rem;min-width:5rem;text-align:center">
+<strong>PII検出</strong>
+</div>
+<div style="color:#2250df;font-weight:bold">→</div>
+<div style="background:#f0f5ff;border:1px solid #cbd5e1;border-radius:.5rem;padding:.5rem;font-size:.8rem;min-width:5rem;text-align:center">
+<strong>匿名化ファイル</strong><br>
+<span style="font-size:.75rem;color:#64748b">(安全版)</span>
+</div>
+</div>
+
+<!-- 中段：対応表 -->
+<div style="text-align:center;color:#2250df;font-weight:bold;margin-bottom:.5rem">抽出された個人情報 ↓</div>
+<div style="display:flex;justify-content:center;margin-bottom:1rem">
+<div style="background:#fef2f2;border:1px solid #fca5a5;border-radius:.5rem;padding:.5rem;font-size:.8rem;min-width:8rem;text-align:center">
+<strong>対応表（変換MAP）</strong><br>
+<span style="font-size:.75rem;color:#64748b">暗号化保存・管理者のみアクセス</span>
+</div>
+</div>
+
+<!-- 下段：復元 -->
+<div style="text-align:center;color:#2250df;font-weight:bold;margin-bottom:.5rem">復元指示 ↓</div>
+<div style="display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;justify-content:center;margin-bottom:1rem">
+<div style="background:#f0f5ff;border:1px solid #cbd5e1;border-radius:.5rem;padding:.5rem;font-size:.8rem;min-width:5rem;text-align:center">
+<strong>復元処理</strong>
+</div>
+<div style="color:#2250df;font-weight:bold">→</div>
+<div style="background:#f0f5ff;border:1px solid #cbd5e1;border-radius:.5rem;padding:.5rem;font-size:.8rem;min-width:5rem;text-align:center">
+<strong>復元ファイル</strong><br>
+<span style="font-size:.75rem;color:#64748b">(実名入り)</span>
+</div>
+</div>
+
+<!-- 監査ログ -->
+<div style="background:#f0fdf4;border:1px solid #86efac;border-radius:.5rem;padding:.5rem;font-size:.8rem;text-align:center">
+<strong>監査ログ</strong> — 全操作を記録
+</div>
+</div>
+</div>
+</details>
+
+<h3>ツール2: チャット→自動日報ツール</h3>
+
+<p><strong>背景：</strong> 社員のSlack/Discord発言を自動収集し、日報として整形したい。</p>
+
+<h4>要件5W</h4>
+
+<div class="tw">
+<table>
+<tr><th>項目</th><th>内容</th></tr>
+<tr><td><strong>Who（誰が）</strong></td><td>発言者50人（入力側）。管理者5人（閲覧側）</td></tr>
+<tr><td><strong>What（何を）</strong></td><td>チャット発言をID別に整理→日報フォーマットに自動変換</td></tr>
+<tr><td><strong>Where（どこで）</strong></td><td>クラウド（常時稼働が必要。発言は24時間発生する）</td></tr>
+<tr><td><strong>When（いつ）</strong></td><td>リアルタイム収集＋翌朝に日報としてまとめ出力</td></tr>
+<tr><td><strong>Why（なぜ）</strong></td><td>日報を書く手間をゼロにし、報告漏れを防ぐ</td></tr>
+</table>
+</div>
+
+<details>
+<summary>セキュリティ要件・アーキテクチャ判定・構成図</summary>
+<div class="dc">
+<h4>セキュリティ要件</h4>
+<ul>
+<li>OAuth認証（Slack/Discord公式の認証フロー）</li>
+<li>HTTPS必須（通信の暗号化）</li>
+<li>発言データはDB上で暗号化保存</li>
+<li>管理者以外は他人の日報を閲覧不可</li>
+</ul>
+
+<h4>アーキテクチャ判定</h4>
+<p>イベント駆動型。理由：</p>
+<ul>
+<li>「発言が来たら処理する」というイベント起点の動作</li>
+<li>常時稼働が必要（ポーリングではなくWebSocket受信）</li>
+<li>50人の発言を並行処理</li>
+</ul>
+
+<div style="border:2px solid #2250df;border-radius:.75rem;padding:1rem;background:white;margin:1rem 0">
+<h4 style="color:#2250df;margin:0 0 .75rem;font-size:.95rem">チャット → 自動日報ツール</h4>
+
+<!-- 上段：収集 -->
+<div style="display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;margin-bottom:1rem">
+<div style="background:#f0f5ff;border:1px solid #cbd5e1;border-radius:.5rem;padding:.5rem;font-size:.8rem;min-width:5rem;text-align:center">
+<strong>Slack / Discord</strong><br>
+<span style="font-size:.75rem;color:#64748b">50人発言</span>
+</div>
+<div style="color:#2250df;font-weight:bold">→</div>
+<div style="background:#f0f5ff;border:1px solid #cbd5e1;border-radius:.5rem;padding:.5rem;font-size:.8rem;min-width:5rem;text-align:center">
+<strong>Bot WebSocket</strong><br>
+<span style="font-size:.75rem;color:#64748b">常時接続</span>
+</div>
+<div style="color:#2250df;font-weight:bold">→</div>
+<div style="background:#f0f5ff;border:1px solid #cbd5e1;border-radius:.5rem;padding:.5rem;font-size:.8rem;min-width:5rem;text-align:center">
+<strong>メッセージDB</strong><br>
+<span style="font-size:.75rem;color:#64748b">PostgreSQL<br>暗号化保存</span>
+</div>
+</div>
+
+<!-- 中段：日報生成 -->
+<div style="text-align:center;color:#2250df;font-weight:bold;margin-bottom:.5rem">毎朝 7:00 自動集計 ↓</div>
+<div style="display:flex;justify-content:center;margin-bottom:1rem">
+<div style="background:#f0f5ff;border:2px solid #2250df;border-radius:.5rem;padding:.5rem .75rem;font-size:.85rem;font-weight:600;text-align:center">
+日報生成（AI要約＋整形）
+</div>
+</div>
+
+<!-- 下段：出力先3つ -->
+<div style="text-align:center;color:#2250df;font-weight:bold;margin-bottom:.5rem">↓ 出力</div>
+<div style="display:flex;flex-wrap:wrap;gap:.5rem;justify-content:center;margin-bottom:1rem">
+<div style="background:#f0f5ff;border:1px solid #cbd5e1;border-radius:.5rem;padding:.5rem;font-size:.8rem;min-width:5rem;text-align:center">
+<strong>Slack通知</strong>
+</div>
+<div style="background:#f0f5ff;border:1px solid #cbd5e1;border-radius:.5rem;padding:.5rem;font-size:.8rem;min-width:5rem;text-align:center">
+<strong>Web画面</strong>
+</div>
+<div style="background:#f0f5ff;border:1px solid #cbd5e1;border-radius:.5rem;padding:.5rem;font-size:.8rem;min-width:5rem;text-align:center">
+<strong>PDF出力</strong>
+</div>
+</div>
+
+<!-- 監査ログ -->
+<div style="background:#f0fdf4;border:1px solid #86efac;border-radius:.5rem;padding:.5rem;font-size:.8rem;text-align:center">
+<strong>監査ログ</strong> — 収集・閲覧を全件記録
+</div>
+</div>
+</div>
+</details>
+
+<h3>2ツールの比較 — 同じ「ツール」でも設計は全く違う</h3>
+
+<div class="tw">
+<table>
+<tr><th>比較項目</th><th>PII抽出＋復元</th><th>チャット→自動日報</th></tr>
+<tr><td>実行方式</td><td>手動（必要なときだけ）</td><td>常時稼働（24時間）</td></tr>
+<tr><td>アーキテクチャ</td><td>モノリシック</td><td>イベント駆動</td></tr>
+<tr><td>データ保存</td><td>ローカルファイル</td><td>PostgreSQL</td></tr>
+<tr><td>外部連携</td><td>Google Drive API</td><td>Slack/Discord API</td></tr>
+<tr><td>認証</td><td>ローカルパスワード</td><td>OAuth 2.0</td></tr>
+<tr><td>月額コスト</td><td>約2,000〜5,000円（Claude API従量課金）</td><td>約5,000〜15,000円（Claude API + Cloud Run + ドメイン）</td></tr>
+<tr><td>開発期間（1人+AI）</td><td>1〜2週間</td><td>3〜4週間</td></tr>
+</table>
+</div>
+
+<p><strong>この違いが要件定義で決まる。</strong> 「作る」の前に「決める」がある。図面なしに加工は始めない。</p>
+
+
+<!-- ============================================================ -->
+<!-- 第5章: セキュリティ — 事故は設定1つで起きる                     -->
+<!-- ============================================================ -->
+
+<h1 id="ch5">第5章: セキュリティ — 事故は設定1つで起きる</h1>
+
+<p>要件定義まで進んだが、ここで一度立ち止まる。どれだけ優れた要件を書いても、セキュリティ設定を1つ間違えれば全てが台無しになる。実際に起きた7件の情報漏洩事故から、「何を間違えると何が起きるか」を学ぶ。</p>
+
+<h2>事故事例 — 7件の情報漏洩</h2>
+
+<div class="tw">
+<table>
+<tr><th>#</th><th>企業</th><th>漏洩規模</th><th>期間</th><th>原因（1行）</th></tr>
+<tr><td>1</td><td>エイチーム</td><td>93万人分</td><td>6年半</td><td>Google Drive共有設定の放置</td></tr>
+<tr><td>2</td><td>ダイソー</td><td>10,307件</td><td>5年</td><td>Googleグループのデフォルト公開設定</td></tr>
+<tr><td>3</td><td>ラストワンマイル</td><td>420名分</td><td>−</td><td>Googleフォームと連動スプレッドシートの権限不一致</td></tr>
+<tr><td>4</td><td>NTT西日本</td><td>約900万件</td><td>約10年</td><td>派遣社員が管理者権限でUSB持ち出し</td></tr>
+<tr><td>5</td><td>LINEヤフー</td><td>52万件</td><td>−</td><td>委託先マルウェア→共通認証基盤経由で侵入</td></tr>
+<tr><td>6</td><td>エムケイシステム</td><td>2,242万人分</td><td>−</td><td>VPNが長期間未更新＋管理者パスワードが長期間無変更で脆弱</td></tr>
+<tr><td>7</td><td>東京ガス</td><td>416万人分</td><td>−</td><td>VPN脆弱性を悪用した不正アクセス</td></tr>
+</table>
+</div>
+
+<details>
+<summary>事故1: エイチーム — 93万人分・6年半放置</summary>
+<div class="dc">
+<div class="ic">
+<h4>エイチーム（東証プライム上場・ゲーム/EC事業）</h4>
+<p><strong>原因：</strong>Google Driveの共有設定が「リンクを知っている全員」のまま6年半放置。1,369ファイルが外部閲覧可能な状態だった。</p>
+<p><strong>教訓：</strong>クラウドストレージの共有設定は定期監査が必須。設定した本人以外が確認する仕組みがなければ、放置は必然的に起きる。</p>
+<p>出典：エイチーム公式プレスリリース 2023年11月</p>
+</div>
+</div>
+</details>
+
+<details>
+<summary>事故2: ダイソー — 10,307件・5年放置</summary>
+<div class="dc">
+<div class="ic">
+<h4>大創産業（100円ショップ ダイソー運営）</h4>
+<p><strong>原因：</strong>Googleグループの公開設定がデフォルトで「ウェブ上の全ユーザー」になっていることを知らず、社内メーリングリストの内容が5年間公開状態。</p>
+<p><strong>教訓：</strong>SaaSのデフォルト設定を信用しない。導入時に公開範囲を明示的に「組織内のみ」に変更する。</p>
+<p>出典：大創産業 公式発表 2025年6月</p>
+</div>
+</div>
+</details>
+
+<details>
+<summary>事故3: ラストワンマイル — 420名分</summary>
+<div class="dc">
+<div class="ic">
+<h4>ラストワンマイル（ライフライン系サービス「まるっとシリーズ」運営）</h4>
+<p><strong>原因：</strong>Googleフォームの回答を記録するスプレッドシートの権限が「リンクを知っている全員に公開」になっていた。フォーム自体の権限とシート側の権限が別管理であることを認識していなかった。</p>
+<p><strong>教訓：</strong>1つのサービス内でも、構成要素ごとに権限設定が独立している。「フォームを制限した」だけでは不十分。</p>
+<p>出典：ラストワンマイル公式発表</p>
+</div>
+</div>
+</details>
+
+<details>
+<summary>事故4: NTT西日本 — 約900万件・約10年間</summary>
+<div class="dc">
+<div class="ic">
+<h4>NTT西日本グループ（NTTマーケティングアクトProCX / NTTビジネスソリューションズ）</h4>
+<p><strong>原因：</strong>運用保守を担当する派遣社員がシステム管理者権限を持っており、USBメモリで顧客データを約10年間（2013年〜2023年）にわたり持ち出し、名簿業者に売却。</p>
+<p><strong>教訓：</strong>「信頼」で権限を管理してはならない。特権アカウントは職務に必要な最小権限に限定し、外部記憶媒体の接続は技術的に遮断する。</p>
+<p>出典：<a href="https://www.ntt-west.co.jp/newscms/notice2023/8632/202310130101.pdf" target="_blank">https://www.ntt-west.co.jp/newscms/notice2023/8632/202310130101.pdf</a></p>
+</div>
+</div>
+</details>
+
+<details>
+<summary>事故5: LINEヤフー — 52万件</summary>
+<div class="dc">
+<div class="ic">
+<h4>LINEヤフー株式会社</h4>
+<p><strong>原因：</strong>業務委託先の従業員のPCがマルウェアに感染。委託先とLINEヤフーが共通の認証基盤（Active Directory）を使用していたため、そこを経由してLINEヤフー側のシステムに不正アクセスされた。</p>
+<p><strong>教訓：</strong>サプライチェーン攻撃の典型例。自社のセキュリティが万全でも、委託先経由で侵入される。認証基盤の分離と、委託先のセキュリティ水準の契約上の担保が必要。</p>
+<p>出典：<a href="https://www.lycorp.co.jp/ja/news/announcements/001002/" target="_blank">https://www.lycorp.co.jp/ja/news/announcements/001002/</a></p>
+</div>
+</div>
+</details>
+
+<details>
+<summary>事故6: エムケイシステム — 2,242万人分</summary>
+<div class="dc">
+<div class="ic">
+<h4>エムケイシステム（社労士向けクラウドサービス「社労夢」運営）</h4>
+<p><strong>原因：</strong>ランサムウェア攻撃。VPNが長期間未更新で、管理者パスワードも長期間無変更で脆弱だった。既知の脆弱性を突かれ、データが暗号化された。</p>
+<p><strong>教訓：</strong>「動いているから触らない」は最も危険な判断。VPN機器のファームウェア更新とパスワード変更は定期的に実施する。</p>
+<p>出典：エムケイシステム公式発表 2023年7月</p>
+</div>
+</div>
+</details>
+
+<details>
+<summary>事故7: 東京ガス — 416万人分</summary>
+<div class="dc">
+<div class="ic">
+<h4>東京ガス（子会社 東京ガスエンジニアリングソリューションズ）</h4>
+<p><strong>原因：</strong>VPN機器の脆弱性を悪用した不正アクセス。ネットワークに侵入後、内部システムのサーバーから顧客情報を窃取。</p>
+<p><strong>教訓：</strong>VPNは「社内ネットワークへの入口」。ここが突破されると内部の全リソースが危険にさらされる。ゼロトラスト（全通信を検証する設計思想）への移行が求められる。</p>
+<p>出典：<a href="https://www.tokyo-gas.co.jp/news/press/20240717-03.html" target="_blank">https://www.tokyo-gas.co.jp/news/press/20240717-03.html</a></p>
+</div>
+</div>
+</details>
+
+<h2>賠償金の現実</h2>
+
+<div class="tw">
+<table>
+<tr><th>指標</th><th>金額・数値</th></tr>
+<tr><td><strong>1件あたり平均賠償額</strong>（JNSA 2018年報告）</td><td>6億3,767万円</td></tr>
+<tr><td><strong>1人あたり平均賠償額</strong></td><td>約29,768円</td></tr>
+<tr><td><strong>個人情報保護法の罰則上限</strong>（2022年改正）</td><td>法人：<strong>1億円以下の罰金</strong></td></tr>
+<tr><td><strong>改正後の行政対応</strong></td><td>報告義務化（発覚から速報3〜5日、確報30日以内（不正アクセスの場合は60日以内））</td></tr>
+</table>
+</div>
+
+<div class="w">
+<strong>中小企業にとっての意味：</strong><br>
+93万人分の漏洩 × 約3万円 ＝ <strong>約279億円の潜在的賠償リスク</strong><br>
+中小企業であっても、顧客1万人分の漏洩で <strong>約3億円</strong> の賠償リスク<br>
+賠償金だけでなく、<strong>信用毀損による取引停止</strong>が実質的に致命傷になる
+</div>
+
+<h2>7事例の共通パターンと対策</h2>
+
+<div class="tw">
+<table>
+<tr><th>パターン</th><th>該当事例</th><th>対策</th></tr>
+<tr><td><strong>デフォルト設定の放置</strong></td><td>エイチーム、ダイソー、ラストワンマイル</td><td>導入時に公開範囲を明示的に設定。定期監査</td></tr>
+<tr><td><strong>権限の過剰付与</strong></td><td>NTT西日本</td><td>最小権限の原則。特権アカウントの分離</td></tr>
+<tr><td><strong>サプライチェーン経由</strong></td><td>LINEヤフー</td><td>認証基盤の分離。委託先セキュリティの契約担保</td></tr>
+<tr><td><strong>VPN機器の放置</strong></td><td>エムケイシステム、東京ガス</td><td>ファームウェア定期更新。ゼロトラスト移行の検討</td></tr>
+</table>
+</div>
+
+
+<!-- ============================================================ -->
+<!-- 第6章: 構築 — AIへの正しい指示                                -->
+<!-- ============================================================ -->
+
+<h1 id="ch6">第6章: 構築 — AIへの正しい指示</h1>
+
+<p>セキュリティの怖さを知ったうえで、いよいよ構築に入る。この章では「AIにどう指示すれば安全なコードが生成されるか」と「1人+AIの全工程フロー」を扱う。</p>
+
+<h2>従来のチーム開発 vs. 1人+AI開発</h2>
+
+<div style="display:flex;flex-wrap:wrap;gap:1rem;margin:1rem 0">
+
+<!-- 従来チーム -->
+<div style="flex:1;min-width:14rem;border:2px solid #e2e8f0;border-radius:.75rem;padding:1rem;background:white">
+<h4 style="color:#64748b;margin:0 0 .75rem;font-size:.9rem">従来（6人チーム・16週）</h4>
+<div style="display:flex;flex-wrap:wrap;gap:.25rem;align-items:center;margin-bottom:.75rem">
+<div style="background:#f0f5ff;border:1px solid #cbd5e1;border-radius:.25rem;padding:.25rem .5rem;font-size:.75rem;text-align:center"><strong>BA</strong><br>3週</div>
+<div style="color:#64748b;font-size:.8rem">→</div>
+<div style="background:#f0f5ff;border:1px solid #cbd5e1;border-radius:.25rem;padding:.25rem .5rem;font-size:.75rem;text-align:center"><strong>デザイナ</strong><br>2週</div>
+<div style="color:#64748b;font-size:.8rem">→</div>
+<div style="background:#f0f5ff;border:1px solid #cbd5e1;border-radius:.25rem;padding:.25rem .5rem;font-size:.75rem;text-align:center"><strong>SE設計</strong><br>4週</div>
+<div style="color:#64748b;font-size:.8rem">→</div>
+<div style="background:#f0f5ff;border:1px solid #cbd5e1;border-radius:.25rem;padding:.25rem .5rem;font-size:.75rem;text-align:center"><strong>SE実装</strong><br>4週</div>
+<div style="color:#64748b;font-size:.8rem">→</div>
+<div style="background:#f0f5ff;border:1px solid #cbd5e1;border-radius:.25rem;padding:.25rem .5rem;font-size:.75rem;text-align:center"><strong>テスト</strong><br>2週</div>
+<div style="color:#64748b;font-size:.8rem">→</div>
+<div style="background:#f0f5ff;border:1px solid #cbd5e1;border-radius:.25rem;padding:.25rem .5rem;font-size:.75rem;text-align:center"><strong>インフラ</strong><br>1週</div>
+</div>
+<div style="font-size:.8rem;color:#64748b">人件費: 6人 x 16週 = 96人週<br>コスト: <strong style="color:#ef4444">約1,500万円</strong></div>
+</div>
+
+<!-- 1人+AI -->
+<div style="flex:1;min-width:14rem;border:2px solid #2250df;border-radius:.75rem;padding:1rem;background:white">
+<h4 style="color:#2250df;margin:0 0 .75rem;font-size:.9rem">1人+AI（Claude Code・5週）</h4>
+<div style="display:flex;flex-wrap:wrap;gap:.25rem;align-items:center;margin-bottom:.75rem">
+<div style="background:#f0f5ff;border:1px solid #2250df;border-radius:.25rem;padding:.25rem .5rem;font-size:.75rem;text-align:center"><strong>自分</strong><br>要件 1週</div>
+<div style="color:#2250df;font-size:.8rem">→</div>
+<div style="background:#f0f5ff;border:1px solid #2250df;border-radius:.25rem;padding:.25rem .5rem;font-size:.75rem;text-align:center"><strong>自分+AI</strong><br>設計 1週</div>
+<div style="color:#2250df;font-size:.8rem">→</div>
+<div style="background:#f0f5ff;border:1px solid #2250df;border-radius:.25rem;padding:.25rem .5rem;font-size:.75rem;text-align:center"><strong>AI実装</strong><br>+自分確認 2週</div>
+<div style="color:#2250df;font-size:.8rem">→</div>
+<div style="background:#f0f5ff;border:1px solid #2250df;border-radius:.25rem;padding:.25rem .5rem;font-size:.75rem;text-align:center"><strong>AIテスト</strong><br>+自分判定 1週</div>
+<div style="color:#2250df;font-size:.8rem">→</div>
+<div style="background:#f0f5ff;border:1px solid #2250df;border-radius:.25rem;padding:.25rem .5rem;font-size:.75rem;text-align:center"><strong>AIデプロイ</strong><br>+自分承認 数時間</div>
+</div>
+<div style="font-size:.8rem;color:#64748b">人件費: 1人 x 5週 = 5人週<br>コスト: <strong style="color:#22c55e">API費用 数千〜数万円 + 自分の時間</strong></div>
+</div>
+
+</div>
+
+<p>16週が5週になるのは魔法ではない。<strong>6人の間の伝言ゲームがゼロになる</strong>からだ。身近な例で言えば、6工程の段取り替え時間がすべて消える。正味加工時間は変わらなくても、リードタイムは激減する。</p>
+
+<h3>各ステップの役割分担</h3>
+
+<div class="tw">
+<table>
+<tr><th>ステップ</th><th>人間がやること</th><th>AIがやること</th><th>AIがやらないこと（指示が必要）</th></tr>
+<tr><td><strong>1. 業務要件</strong></td><td>「誰が何に困っているか」を言語化する</td><td>要件の抜け漏れを指摘する。類似事例を提示する</td><td>業務の優先順位を決めること。「何を作らないか」の判断</td></tr>
+<tr><td><strong>2. 設計</strong></td><td>2つの設計案からどちらかを選ぶ</td><td>選択肢を2案提示し、長所・短所を比較する</td><td>ビジネス上の制約（予算・人員・納期）の判断</td></tr>
+<tr><td><strong>3. 実装</strong></td><td>AIが書いたコードを「動かして確認」する</td><td>コードを書く。テストを書く。エラーを修正する</td><td>「この画面の使い勝手は現場に合うか」の判断</td></tr>
+<tr><td><strong>4. テスト</strong></td><td>テスト結果を見て「合格/不合格」を判定する</td><td>テストケースを作成し、自動実行する</td><td>「このバグは許容範囲か」の経営判断</td></tr>
+<tr><td><strong>5. デプロイ</strong></td><td>「本番に出してよい」と最終承認する</td><td>デプロイ手順を作成し、実行する</td><td>「いつ出すか」のタイミング判断</td></tr>
+</table>
+</div>
+
+<blockquote>
+<strong>パターンが見えるだろう。</strong><br>
+AIは「How（どうやるか）」を担当する。人間は「What（何をやるか）」と「Go/No-Go（やるか/やめるか）」を担当する。<br>
+<br>
+これは工場長の仕事と同じだ。加工方法は職人が知っている。工場長は「何を、いつまでに、いくらで作るか」を決める。
+</blockquote>
+
+<h2>AIへの正しい指示テンプレート</h2>
+
+<p>AIにコードを書かせる場合、以下のテンプレートを使う。</p>
+
+<pre><code>目的: ○○を実現する
+
+制約:
+  - セキュリティ: 入力バリデーション必須、認証情報は.envに分離
+  - 非破壊: 元データへの書き込み禁止、読み取り専用で処理
+  - エラー: 全ての外部API呼び出しにtry-catchとリトライ（最大3回）
+  - ログ: エラー時はタイムスタンプ付きでログ出力、ただしシステム情報は含めない
+
+出力形式: ○○</code></pre>
+
+<h3>悪い指示と良い指示の比較</h3>
+
+<div class="tw">
+<table>
+<tr><th>悪い指示</th><th>良い指示</th></tr>
+<tr><td>「ログイン機能作って」</td><td>「ログイン機能を作って。パスワードはbcryptでハッシュ化、JWTで認証、ログイン試行は5回/15分でロック」</td></tr>
+<tr><td>「API作って」</td><td>「APIを作って。全エンドポイントにBearer Token認証を適用、レート制限100req/min、入力はZodでバリデーション」</td></tr>
+<tr><td>「データ取得する機能」</td><td>「データ取得APIを作って。SQLはパラメータバインディング、結果は必要なカラムだけ返す、エラー時はステータスコード500と汎用メッセージのみ返す」</td></tr>
+</table>
+</div>
+
+<h3>毎回伝える「セキュリティ呪文」4行</h3>
+
+<p>CLAUDE.mdとは別に、個別の指示にも「呪文」として毎回含めるべきセキュリティ要件がある。</p>
+
+<div class="tw">
+<table>
+<tr><th>#</th><th>呪文</th><th>防ぐもの</th></tr>
+<tr><td>1</td><td>認証情報をハードコードしないこと</td><td>GitHubにAPIキーが流出 → 不正利用</td></tr>
+<tr><td>2</td><td>全ユーザー入力をサーバー側で検証すること</td><td>SQLインジェクション・XSS攻撃</td></tr>
+<tr><td>3</td><td>エラーメッセージにシステム情報を含めないこと</td><td>攻撃者にDB構造・ファイルパスが漏れる</td></tr>
+<tr><td>4</td><td>SQLはパラメータバインディングを使うこと</td><td>SQL文の改ざんによるデータ窃取</td></tr>
+</table>
+</div>
+
+<div class="ti">
+<strong>この4行を毎回入れるだけで、AIが生成するコードのセキュリティレベルは劇的に変わる。</strong>
+</div>
+
+<h2>CLAUDE.md — AIへの永続的な指示書</h2>
+
+<p>Claude Codeでは、<code>CLAUDE.md</code>というファイルにプロジェクトのルールを書ける。ここに書いた内容は、<strong>毎回の指示に含めなくても自動的に適用される。</strong>「AIへの就業規則」だと思えばいい。</p>
+
+<h3>グローバル vs プロジェクト — 2つのCLAUDE.md</h3>
+
+<p>CLAUDE.mdには<strong>2つの置き場所</strong>がある。影響範囲が異なる。</p>
+
+<div class="tw">
+<table>
+<tr><th>種類</th><th>置き場所</th><th>影響範囲</th><th>書くべき内容</th></tr>
+<tr><td><strong>グローバルCLAUDE.md</strong></td><td><code>~/.claude/CLAUDE.md</code><br>（ホームディレクトリ直下）</td><td><strong>全プロジェクト共通</strong>で適用される</td><td>自分の役割・立場（「非エンジニアの経営者」等）、全プロジェクト共通のルール（「破壊的操作は確認必須」「日本語で応答」等）</td></tr>
+<tr><td><strong>プロジェクトCLAUDE.md</strong></td><td><code>プロジェクトフォルダ/CLAUDE.md</code><br>（各プロジェクトのルート）</td><td><strong>そのプロジェクトだけ</strong>に適用される</td><td>技術スタック、セキュリティ要件、フォルダ構成、禁止操作、データの扱い方</td></tr>
+</table>
+</div>
+
+<details>
+<summary>2つのCLAUDE.mdは具体的に何が違うのか？</summary>
+<div class="dc">
+<p><strong>例：あなたがPII管理ツールと自動日報ツールの2つを並行開発している場合</strong></p>
+
+<div style="display:flex;flex-wrap:wrap;gap:1rem;margin:1rem 0">
+<div style="background:#f0f5ff;border:2px solid #2250df;border-radius:.75rem;padding:1rem;flex:1;min-width:14rem">
+<strong style="color:#2250df">グローバル（共通）</strong>
+<pre style="font-size:.75rem;margin:.5rem 0"><code># ~/.claude/CLAUDE.md
+
+## ユーザー情報
+- 非エンジニアの経営者
+- 設計判断の選択肢を常に2案提示せよ
+- 破壊的操作は事前確認必須
+
+## 共通ルール
+- .envは絶対にGitにコミットしない
+- 日本語で応答する</code></pre>
+</div>
+<div style="background:#f0fdf4;border:2px solid #22c55e;border-radius:.75rem;padding:1rem;flex:1;min-width:14rem">
+<strong style="color:#22c55e">プロジェクト（PII管理）</strong>
+<pre style="font-size:.75rem;margin:.5rem 0"><code># pii-tool/CLAUDE.md
+
+## プロジェクト固有ルール
+- 元データへの書き込み禁止
+- 対応表は暗号化保存
+- マスキング処理はコピーに対して実行
+- Python 3.12 + Google Drive API</code></pre>
+</div>
+</div>
+
+<p>Claude Codeは両方を読み込み、<strong>グローバル＋プロジェクトの両方のルールを同時に適用</strong>する。矛盾がある場合はプロジェクト側が優先される。</p>
+
+<div class="w">
+<strong>よくある失敗：</strong> グローバルCLAUDE.mdを作らず、プロジェクトCLAUDE.mdだけ作る。すると新しいプロジェクトを始めるたびに「自分は非エンジニアだ」「破壊的操作は確認しろ」と毎回書くことになる。共通ルールはグローバルに1回書けば済む。
+</div>
+</div>
+</details>
+
+<h3>Skill — 定型作業の自動化</h3>
+
+<p>Skill（スキル）は、Claude Codeに<strong>繰り返し実行する定型作業をコマンド1つで呼び出せるようにする仕組み</strong>だ。</p>
+
+<div class="tw">
+<table>
+<tr><th>概念</th><th>役割</th><th>例え</th></tr>
+<tr><td><strong>CLAUDE.md</strong></td><td>ルール（常に守るべき制約）</td><td>就業規則。常時適用</td></tr>
+<tr><td><strong>Skill</strong></td><td>手順書（特定の作業を指示1つで実行）</td><td>作業手順書。呼ばれたときだけ実行</td></tr>
+</table>
+</div>
+
+<details>
+<summary>Skillを使うとどう便利になるのか？</summary>
+<div class="dc">
+<p><strong>Skillなし：</strong></p>
+<p>毎回こう指示する必要がある:</p>
+<pre><code>Google Driveのこのフォルダにある全Excelファイルを読み込んで、
+電話番号は中4桁を****に、住所は都道府県のみ残して、
+氏名は姓だけ残し、マスク済みファイルを出力して、
+対応表をAES-256で暗号化して保存して、
+処理ログを記録して。元データは変更しないこと。</code></pre>
+
+<p><strong>Skillあり：</strong></p>
+<p>1行で済む:</p>
+<pre><code>/mask-pii  ← これだけで上記の全手順が実行される</code></pre>
+
+<p><strong>Skillの正体は、Markdownファイルに書いた「プロンプトのテンプレート」</strong>だ。<code>.claude/skills/</code>フォルダに置くと、<code>/skill名</code>で呼び出せる。</p>
+
+<details>
+<summary>Skillファイルの中身はどうなっているのか？</summary>
+<div class="dc">
+<pre><code># .claude/skills/mask-pii.md
+
+---
+name: mask-pii
+description: Google DriveのPIIマスキング実行
+---
+
+## 手順
+1. Google Drive APIでフォルダ内の全Excelファイルを取得
+2. 各ファイルについて:
+   - 電話番号: 中4桁を****に置換
+   - 住所: 都道府県のみ残す
+   - 氏名: 姓のみ残す
+3. マスク済みファイルを出力フォルダに保存
+4. 対応表をAES-256で暗号化して保存
+5. 処理ログ（件数・日時・操作者）を記録
+
+## 制約
+- 元ファイルへの書き込みは絶対禁止
+- エラー時は処理を中断し、途中結果を残さない</code></pre>
+
+<p><strong>Skillのメリット：</strong></p>
+<div class="tw">
+<table>
+<tr><th>メリット</th><th>説明</th></tr>
+<tr><td>指示の品質が安定する</td><td>毎回手打ちすると漏れが出る。Skillなら常に同じ品質の指示が出る</td></tr>
+<tr><td>セキュリティ要件を組み込める</td><td>「元データ変更禁止」等を毎回書かなくてもSkillに入っている</td></tr>
+<tr><td>他の人にも使わせられる</td><td>Skillファイルを共有すれば、非IT者でも <code>/mask-pii</code> と打つだけ</td></tr>
+<tr><td>改善が蓄積される</td><td>手順を改善したらSkillファイルを更新。次回から自動反映</td></tr>
+</table>
+</div>
+
+<h4>Skillの発火トリガー — いつ・どうやって起動するか</h4>
+
+<p>Skillが「いつ実行されるか」を制御する仕組みが<strong>発火トリガー</strong>だ。3種類ある。</p>
+
+<div class="tw">
+<table>
+<tr><th>トリガー種類</th><th>起動方法</th><th>例え</th><th>使いどころ</th></tr>
+<tr><td><strong>手動呼び出し</strong></td><td>ユーザーが <code>/skill名</code> と入力する</td><td>ボタンを押す</td><td>マスキング実行、デプロイ、レポート生成など「今やりたい」作業</td></tr>
+<tr><td><strong>キーワードトリガー</strong></td><td>会話中に特定のキーワードが出たらAIが自動でSkillを呼ぶ</td><td>「在庫切れ」と言ったら自動で発注書が出る仕組み</td><td>「マスキング」「デプロイ」等の発言でSkillを自動提案</td></tr>
+<tr><td><strong>Hooks（フック）</strong></td><td>特定のイベント（ファイル保存、コミット等）が起きたとき自動実行</td><td>ドアを開けたらチャイムが鳴る</td><td>コミット前のセキュリティチェック、保存時の自動フォーマット</td></tr>
+</table>
+</div>
+
+<details>
+<summary>3種類のトリガーを具体例で理解する</summary>
+<div class="dc">
+
+<h4>1. 手動呼び出し（最も基本）</h4>
+<p>Claude Codeのプロンプトで <code>/mask-pii</code> と打つだけ。Skillファイルの内容が読み込まれ、そこに書かれた手順をAIが実行する。</p>
+<pre><code>あなた: /mask-pii
+Claude: Skillを読み込みました。Google Driveのフォルダを
+        スキャンしています...（以下、手順通りに実行）</code></pre>
+
+<h4>2. キーワードトリガー（自動提案）</h4>
+<p>Skillファイルのフロントマター（先頭の設定部分）に<strong>トリガーとなるキーワード</strong>を書いておく。</p>
+<pre><code># .claude/skills/mask-pii.md
+
+---
+name: mask-pii
+description: Google DriveのPIIマスキング実行
+trigger: 「マスキング」「個人情報を隠して」「PIIを処理」
+---</code></pre>
+<p>ユーザーが会話中に「マスキングしたい」と言うと、AIが「<code>/mask-pii</code> Skillがあります。実行しますか？」と提案する。<strong>勝手に実行はしない</strong>。提案だけ。</p>
+
+<h4>3. Hooks（イベント駆動の自動実行）</h4>
+<p>Hooksは<strong>settings.json</strong>に設定する。Skillとは別の仕組みだが、組み合わせて使う。</p>
+<pre><code>// .claude/settings.json の hooks 設定例
+{
+  "hooks": {
+    "PreCommit": [
+      {
+        "command": "echo '⚠️ セキュリティチェック実行中...'",
+        "description": "コミット前にセキュリティ確認"
+      }
+    ]
+  }
+}</code></pre>
+
+<div class="tw">
+<table>
+<tr><th>Hookイベント</th><th>発火タイミング</th><th>活用例</th></tr>
+<tr><td><strong>PreCommit</strong></td><td>Gitコミットの直前</td><td>.envがコミット対象に含まれていないかチェック</td></tr>
+<tr><td><strong>PostCommit</strong></td><td>Gitコミットの直後</td><td>コミット内容をSlackに通知</td></tr>
+<tr><td><strong>PreToolUse</strong></td><td>ツール（ファイル編集等）実行の直前</td><td>破壊的操作（削除・上書き）の事前警告</td></tr>
+</table>
+</div>
+
+<div class="w">
+<strong>Hooksの最大の価値は「人間の注意力に頼らない安全装置」</strong>であること。<br>
+「.envをコミットしないこと」とCLAUDE.mdに書いても、AIも人間もうっかり忘れることがある。HooksのPreCommitに自動チェックを入れておけば、忘れても止まる。工場の安全インターロックと同じ発想だ。
+</div>
+</div>
+</details>
+</div>
+</details>
+
+<h3>CLAUDE.md + Skill + セキュリティ呪文の関係</h3>
+
+<div style="border:2px solid #2250df;border-radius:.75rem;padding:1rem;background:white;margin:1rem 0">
+<div style="display:flex;flex-wrap:wrap;gap:.75rem;align-items:stretch">
+<div style="background:#f0f5ff;border:1px solid #cbd5e1;border-radius:.5rem;padding:.75rem;flex:1;min-width:10rem;text-align:center">
+<strong style="color:#2250df;font-size:.9rem">グローバルCLAUDE.md</strong><br>
+<span style="font-size:.8rem;color:#64748b">全プロジェクト共通<br>「常に守るルール」</span>
+</div>
+<div style="font-size:1.2rem;color:#2250df;display:flex;align-items:center">+</div>
+<div style="background:#f0f5ff;border:1px solid #cbd5e1;border-radius:.5rem;padding:.75rem;flex:1;min-width:10rem;text-align:center">
+<strong style="color:#2250df;font-size:.9rem">プロジェクトCLAUDE.md</strong><br>
+<span style="font-size:.8rem;color:#64748b">このプロジェクト固有<br>「技術・データのルール」</span>
+</div>
+<div style="font-size:1.2rem;color:#2250df;display:flex;align-items:center">+</div>
+<div style="background:#f0fdf4;border:1px solid #86efac;border-radius:.5rem;padding:.75rem;flex:1;min-width:10rem;text-align:center">
+<strong style="color:#16a34a;font-size:.9rem">Skill</strong><br>
+<span style="font-size:.8rem;color:#64748b">定型作業の手順書<br>「/コマンドで呼出」</span>
+</div>
+<div style="font-size:1.2rem;color:#2250df;display:flex;align-items:center">+</div>
+<div style="background:#fef2f2;border:1px solid #fca5a5;border-radius:.5rem;padding:.75rem;flex:1;min-width:10rem;text-align:center">
+<strong style="color:#ef4444;font-size:.9rem">セキュリティ呪文</strong><br>
+<span style="font-size:.8rem;color:#64748b">毎回の指示に追加<br>「4行のお守り」</span>
+</div>
+</div>
+<p style="margin:.75rem 0 0;font-size:.85rem;color:#64748b;text-align:center">→ この4層でAIの出力品質を制御する。層が多いほど漏れが減る</p>
+</div>
+
+<details>
+<summary>CLAUDE.mdに書くセキュリティ設定（完全版）</summary>
+<div class="dc">
+<pre><code>## セキュリティ要件（全コードに適用）
+
+### 認証・認可
+- 認証情報（APIキー・パスワード・トークン）は全て .env に格納。コード内に直書き禁止
+- .env は .gitignore に必ず記載。Gitリポジトリに含めない
+- パスワードはbcrypt（コスト係数12以上）でハッシュ化
+- APIエンドポイントには認証ミドルウェアを必ず適用
+
+### 入力処理
+- 全てのユーザー入力をサーバー側でバリデーション
+- クライアント側のバリデーションは利便性のためだけ。セキュリティとしては無効
+- SQLはパラメータバインディングを使用。文字列結合によるクエリ組み立て禁止
+
+### エラー処理
+- エラーメッセージにスタックトレース・DB構造・ファイルパスを含めない
+- 本番環境では汎用エラーメッセージのみ返す
+- 全ての外部API呼び出しにtry-catchとリトライロジック
+
+### 通信
+- 外部APIとの通信はHTTPS必須
+- CORSは必要なオリジンだけ許可。ワイルドカード（*）禁止</code></pre>
+</div>
+</details>
+
+<h2>AIが生成したコードの確認チェックリスト</h2>
+
+<p>AIが生成したコードを受け取ったら、以下を確認する。技術的な詳細がわからなくても、<strong>この項目をAIに聞けばいい。</strong></p>
+
+<div class="tw">
+<table>
+<tr><th>#</th><th>確認項目</th><th>AIへの質問例</th></tr>
+<tr><td>1</td><td>認証情報がコードに直書きされていないか</td><td>「このコードにAPIキーやパスワードがハードコードされている箇所はあるか」</td></tr>
+<tr><td>2</td><td>ユーザー入力のバリデーションがあるか</td><td>「ユーザーが入力するフィールドに、サーバー側のバリデーションは入っているか」</td></tr>
+<tr><td>3</td><td>SQLがパラメータバインディングを使っているか</td><td>「SQLクエリで文字列結合を使っている箇所はあるか」</td></tr>
+<tr><td>4</td><td>エラーメッセージにシステム情報が含まれていないか</td><td>「エラーレスポンスにスタックトレースやDBの情報が含まれていないか確認して」</td></tr>
+<tr><td>5</td><td>HTTPSを使っているか</td><td>「外部APIとの通信で、httpから始まるURLを使っている箇所はあるか」</td></tr>
+<tr><td>6</td><td>.envが.gitignoreに入っているか</td><td>「.gitignoreに.envが含まれているか確認して」</td></tr>
+</table>
+</div>
+
+<div class="ti">
+<strong>AIに聞くだけでチェックできる。技術力は不要。質問力があればいい。</strong>
+</div>
+
+
+<!-- ============================================================ -->
+<!-- 第7章: 運用と判断                                             -->
+<!-- ============================================================ -->
+
+<h1 id="ch7">第7章: 運用と判断</h1>
+
+<p>構築が終わっても、ソフトウェアは「作ったら終わり」ではない。工場と同じだ。機械を買ったら、日常点検・定期点検・年次オーバーホールがある。この最終章では、運用の最小ルーティンと、迷ったときの3つの判断フローを扱う。</p>
+
+<h2>運用設計 — 最小ルーティン</h2>
+
+<p>以下は「最低限やらないと事故が起きること」だけを列挙する。やった方がいいことは無限にあるが、やらないと壊れることだけ書く。</p>
+
+<div class="tw">
+<table>
+<tr><th>頻度</th><th>やること</th><th>所要時間</th><th>自動化可否</th><th>サボった場合の事故</th></tr>
+<tr><td><strong>日次</strong></td><td>エラー通知の確認</td><td>1分</td><td>通知は自動。確認は人</td><td>障害に気づかず数日放置。データ消失</td></tr>
+<tr><td><strong>週次</strong></td><td>アクセスログの異常チェック</td><td>5分</td><td>集計は自動。判断は人</td><td>不正アクセスを見逃す</td></tr>
+<tr><td><strong>月次</strong></td><td>権限の棚卸し</td><td>30分</td><td>不可（人事判断）</td><td>退職者がデータを持ち出す</td></tr>
+<tr><td><strong>退職時</strong></td><td>全サービスのアカウント停止</td><td>15分</td><td>チェックリスト化のみ</td><td>元社員がシステムにアクセスし続ける</td></tr>
+<tr><td><strong>四半期</strong></td><td>バックアップの復元テスト</td><td>1時間</td><td>不可（動作確認が必要）</td><td>バックアップが壊れていて復元不能</td></tr>
+<tr><td><strong>年次</strong></td><td>全体見直し（要否判断含む）</td><td>半日</td><td>不可</td><td>誰も使っていないシステムに金を払い続ける</td></tr>
+</table>
+</div>
+
+<h3>最も重要なのは「退職時」</h3>
+
+<p>退職時に鍵を返却させるのと同じだ。だが、ソフトウェアの鍵は目に見えない。Slack、Google Drive、GitHub、AWS、データベース ——全サービスの一覧とアカウント停止手順を「退職時チェックリスト」として紙で持っておけ。</p>
+
+<h3>自動化すべき最低限</h3>
+
+<ol>
+<li><strong>エラー通知</strong> → Slackかメールに自動送信（設定5分）</li>
+<li><strong>バックアップ</strong> → 日次自動（設定30分）</li>
+<li><strong>SSL証明書の期限切れ通知</strong> → 30日前に自動通知（設定10分）</li>
+</ol>
+
+<p>この3つだけ自動化しておけば、日常運用は「通知を見る」だけになる。</p>
+
+<h2>判断フローチャート</h2>
+
+<p>「何を選ぶか迷ったとき」に、この3つのフローで答えが出る。</p>
+
+<h3>フロー1: アーキテクチャ選定（5問で推奨が見える）</h3>
+
+<details>
+<summary>アーキテクチャ選定フローを表示</summary>
+<div class="dc">
+<div style="border:2px solid #2250df;border-radius:.75rem;padding:1rem;background:white;margin:1rem 0">
+
+<div style="background:#2250df;color:white;padding:.5rem .75rem;border-radius:.5rem;font-weight:600;font-size:.85rem;margin-bottom:.75rem">
+Q1. 使う人は何人か？
+</div>
+<div style="margin-left:1rem;border-left:2px solid #e2e8f0;padding-left:1rem;margin-bottom:.75rem">
+<div style="margin:.5rem 0;font-size:.85rem">
+<strong style="color:#2250df">→ 1人：</strong> ローカルスクリプト（Python/Node.js）<span style="color:#22c55e;font-weight:600;font-size:.8rem"> ← 有力</span>
+</div>
+<div style="margin:.5rem 0;font-size:.85rem">
+<strong style="color:#2250df">→ 2〜10人：</strong> Q2へ
+</div>
+<div style="margin:.5rem 0;font-size:.85rem">
+<strong style="color:#2250df">→ 11人以上：</strong> Q3へ
+</div>
+</div>
+
+<div style="background:#2250df;color:white;padding:.5rem .75rem;border-radius:.5rem;font-weight:600;font-size:.85rem;margin-bottom:.75rem">
+Q2. 同時に使うか？
+</div>
+<div style="margin-left:1rem;border-left:2px solid #e2e8f0;padding-left:1rem;margin-bottom:.75rem">
+<div style="margin:.5rem 0;font-size:.85rem">
+<strong style="color:#2250df">→ 同時でない：</strong> SQLite＋デスクトップ<span style="color:#22c55e;font-weight:600;font-size:.8rem"> ← 有力</span>
+</div>
+<div style="margin:.5rem 0;font-size:.85rem">
+<strong style="color:#2250df">→ 同時に使う：</strong> Q3へ
+</div>
+</div>
+
+<div style="background:#2250df;color:white;padding:.5rem .75rem;border-radius:.5rem;font-weight:600;font-size:.85rem;margin-bottom:.75rem">
+Q3. 社外からアクセスするか？
+</div>
+<div style="margin-left:1rem;border-left:2px solid #e2e8f0;padding-left:1rem;margin-bottom:.75rem">
+<div style="margin:.5rem 0;font-size:.85rem">
+<strong style="color:#2250df">→ 社内LANのみ：</strong> LAN内Webアプリ（Express＋SQLite/PostgreSQL）<span style="color:#22c55e;font-weight:600;font-size:.8rem"> ← 有力</span>
+</div>
+<div style="margin:.5rem 0;font-size:.85rem">
+<strong style="color:#2250df">→ 社外から使う：</strong> Q4へ
+</div>
+</div>
+
+<div style="background:#2250df;color:white;padding:.5rem .75rem;border-radius:.5rem;font-weight:600;font-size:.85rem;margin-bottom:.75rem">
+Q4. リアルタイム更新が必要か？
+</div>
+<div style="margin-left:1rem;border-left:2px solid #e2e8f0;padding-left:1rem;margin-bottom:.75rem">
+<div style="margin:.5rem 0;font-size:.85rem">
+<strong style="color:#2250df">→ 不要：</strong> 通常Webアプリ（Vercel/Cloud Run＋PostgreSQL）<span style="color:#22c55e;font-weight:600;font-size:.8rem"> ← 有力</span>
+</div>
+<div style="margin:.5rem 0;font-size:.85rem">
+<strong style="color:#2250df">→ 必要：</strong> Q5へ
+</div>
+</div>
+
+<div style="background:#2250df;color:white;padding:.5rem .75rem;border-radius:.5rem;font-weight:600;font-size:.85rem;margin-bottom:.75rem">
+Q5. モバイル対応が必要か？
+</div>
+<div style="margin-left:1rem;border-left:2px solid #e2e8f0;padding-left:1rem">
+<div style="margin:.5rem 0;font-size:.85rem">
+<strong style="color:#2250df">→ 不要：</strong> WebSocket付きWebアプリ（Express＋PostgreSQL）<span style="color:#22c55e;font-weight:600;font-size:.8rem"> ← 有力</span>
+</div>
+<div style="margin:.5rem 0;font-size:.85rem">
+<strong style="color:#2250df">→ 必要：</strong> Firebase/Supabase＋React（PWAまたはネイティブ）<span style="color:#22c55e;font-weight:600;font-size:.8rem"> ← 有力</span>
+</div>
+</div>
+
+</div>
+</div>
+</details>
+
+<h3>フロー2: データ保存方式選定（3問で推奨が見える）</h3>
+
+<details>
+<summary>データ保存方式選定フローを表示</summary>
+<div class="dc">
+<div style="border:2px solid #2250df;border-radius:.75rem;padding:1rem;background:white;margin:1rem 0">
+
+<div style="background:#2250df;color:white;padding:.5rem .75rem;border-radius:.5rem;font-weight:600;font-size:.85rem;margin-bottom:.75rem">
+Q1. データ量はどのくらいか？
+</div>
+<div style="margin-left:1rem;border-left:2px solid #e2e8f0;padding-left:1rem;margin-bottom:.75rem">
+<div style="margin:.5rem 0;font-size:.85rem">
+<strong style="color:#2250df">→ 1万行以下：</strong> Q2へ
+</div>
+<div style="margin:.5rem 0;font-size:.85rem">
+<strong style="color:#2250df">→ 1万行超：</strong> Q3へ
+</div>
+</div>
+
+<div style="background:#2250df;color:white;padding:.5rem .75rem;border-radius:.5rem;font-weight:600;font-size:.85rem;margin-bottom:.75rem">
+Q2. 非IT者が直接データを見たいか？
+</div>
+<div style="margin-left:1rem;border-left:2px solid #e2e8f0;padding-left:1rem;margin-bottom:.75rem">
+<div style="margin:.5rem 0;font-size:.85rem">
+<strong style="color:#2250df">→ はい：</strong> Google Sheets（月額0円）<span style="color:#22c55e;font-weight:600;font-size:.8rem"> ← 有力</span><br>
+<span style="font-size:.75rem;color:#64748b;margin-left:1.5rem">限界: 5万行、同時編集で壊れやすい</span>
+</div>
+<div style="margin:.5rem 0;font-size:.85rem">
+<strong style="color:#2250df">→ いいえ：</strong> SQLite（月額0円）<span style="color:#22c55e;font-weight:600;font-size:.8rem"> ← 有力</span><br>
+<span style="font-size:.75rem;color:#64748b;margin-left:1.5rem">限界: 同時書込み10人まで</span>
+</div>
+</div>
+
+<div style="background:#2250df;color:white;padding:.5rem .75rem;border-radius:.5rem;font-weight:600;font-size:.85rem;margin-bottom:.75rem">
+Q3. 同時接続は何人か？
+</div>
+<div style="margin-left:1rem;border-left:2px solid #e2e8f0;padding-left:1rem">
+<div style="margin:.5rem 0;font-size:.85rem">
+<strong style="color:#2250df">→ 10人以下：</strong> SQLite（月額0円）<span style="color:#22c55e;font-weight:600;font-size:.8rem"> ← 有力</span>
+</div>
+<div style="margin:.5rem 0;font-size:.85rem">
+<strong style="color:#2250df">→ 10〜100人：</strong> PostgreSQL（セルフホスト or Supabase、月額0〜3,000円）<span style="color:#22c55e;font-weight:600;font-size:.8rem"> ← 有力</span>
+</div>
+<div style="margin:.5rem 0;font-size:.85rem">
+<strong style="color:#2250df">→ 100人超：</strong> PostgreSQL（マネージドDB: Cloud SQL/RDS、月額5,000〜30,000円）<span style="color:#22c55e;font-weight:600;font-size:.8rem"> ← 有力</span>
+</div>
+</div>
+
+</div>
+</div>
+</details>
+
+<h3>フロー3: 「作る / 買う / やめる」最終判断</h3>
+
+<p>これが最も重要なフローだ。<strong>「作る」は最後の選択肢である。</strong></p>
+
+<details>
+<summary>「作る / 買う / やめる」判断フローを表示</summary>
+<div class="dc">
+<div style="border:2px solid #2250df;border-radius:.75rem;padding:1rem;background:white;margin:1rem 0">
+
+<div style="background:#2250df;color:white;padding:.5rem .75rem;border-radius:.5rem;font-weight:600;font-size:.85rem;margin-bottom:.75rem">
+Q1. その業務は本当に必要か？
+</div>
+<div style="margin-left:1rem;border-left:2px solid #e2e8f0;padding-left:1rem;margin-bottom:.75rem">
+<div style="margin:.5rem 0;font-size:.85rem">
+<strong style="color:#2250df">→ やめても困らない：</strong> やめる<span style="color:#22c55e;font-weight:600;font-size:.8rem"> ← 有力</span><br>
+<span style="font-size:.75rem;color:#64748b;margin-left:1.5rem">例: 誰も読まない週次報告書 / コスト: 0円、期間: 0日</span>
+</div>
+<div style="margin:.5rem 0;font-size:.85rem">
+<strong style="color:#2250df">→ やめたら困る：</strong> Q2へ
+</div>
+</div>
+
+<div style="background:#2250df;color:white;padding:.5rem .75rem;border-radius:.5rem;font-weight:600;font-size:.85rem;margin-bottom:.75rem">
+Q2. 既存のSaaSで解決できないか？
+</div>
+<div style="margin-left:1rem;border-left:2px solid #e2e8f0;padding-left:1rem;margin-bottom:.75rem">
+<div style="margin:.5rem 0;font-size:.85rem">
+<strong style="color:#2250df">→ 解決できる：</strong> 買う（SaaS契約）<span style="color:#22c55e;font-weight:600;font-size:.8rem"> ← 有力</span><br>
+<span style="font-size:.75rem;color:#64748b;margin-left:1.5rem">例: 勤怠→King of Time、会計→freee / 月額: 数千〜数万円</span>
+</div>
+<div style="margin:.5rem 0;font-size:.85rem">
+<strong style="color:#2250df">→ 8割解決、2割足りない：</strong> Q3へ
+</div>
+<div style="margin:.5rem 0;font-size:.85rem">
+<strong style="color:#2250df">→ 解決できない：</strong> Q4へ
+</div>
+</div>
+
+<div style="background:#2250df;color:white;padding:.5rem .75rem;border-radius:.5rem;font-weight:600;font-size:.85rem;margin-bottom:.75rem">
+Q3. 足りない2割は運用でカバーできないか？
+</div>
+<div style="margin-left:1rem;border-left:2px solid #e2e8f0;padding-left:1rem;margin-bottom:.75rem">
+<div style="margin:.5rem 0;font-size:.85rem">
+<strong style="color:#2250df">→ できる：</strong> 買う＋運用ルールで補う<span style="color:#22c55e;font-weight:600;font-size:.8rem"> ← 有力</span><br>
+<span style="font-size:.75rem;color:#64748b;margin-left:1.5rem">例: SaaSにない項目をExcelで補完</span>
+</div>
+<div style="margin:.5rem 0;font-size:.85rem">
+<strong style="color:#2250df">→ できない：</strong> Q4へ
+</div>
+</div>
+
+<div style="background:#2250df;color:white;padding:.5rem .75rem;border-radius:.5rem;font-weight:600;font-size:.85rem;margin-bottom:.75rem">
+Q4. 自社固有の業務ロジックがあるか？
+</div>
+<div style="margin-left:1rem;border-left:2px solid #e2e8f0;padding-left:1rem">
+<div style="margin:.5rem 0;font-size:.85rem">
+<strong style="color:#2250df">→ ある：</strong> 作る（1人+AI開発）<span style="color:#22c55e;font-weight:600;font-size:.8rem"> ← 有力</span><br>
+<span style="font-size:.75rem;color:#64748b;margin-left:1.5rem">例: 独自原価計算、特殊工程管理 / コスト: API費用+自分の時間 / 期間: 2〜8週間</span>
+</div>
+<div style="margin:.5rem 0;font-size:.85rem">
+<strong style="color:#2250df">→ ない：</strong> Q2に戻れ。SaaSを見落としている
+</div>
+</div>
+
+</div>
+</div>
+</details>
+
+<blockquote>
+<strong>経営者なら、この判断は馴染みがあるはずだ。</strong><br>
+「やめる」= その部品、本当に必要か？ → VE（バリューエンジニアリング）<br>
+「買う」= 外注する。自社で持つ必要がない<br>
+「作る」= 内製する。自社のコア技術だから外に出せない<br>
+<br>
+ソフトウェアも同じだ。「作る」のは、自社にしかない業務ロジックがあるときだけだ。
+</blockquote>
+
+<h2>全体のまとめ</h2>
+
+<div class="tw">
+<table>
+<tr><th>章</th><th>結論</th></tr>
+<tr><td>第1章</td><td>2つの題材で入門→応用へ段階的に学ぶ。PII抽出が先、自動日報が後</td></tr>
+<tr><td>第2章</td><td>AIは優秀な実装者だが、指示書がなければ最低限しかやらない。指示書の質＝成果物の質</td></tr>
+<tr><td>第3章</td><td>50人規模なら3層アーキテクチャ。HTTPSは前提条件。APIキーはコードに書かない</td></tr>
+<tr><td>第4章</td><td>要件定義 = 選択肢を知ること。入力・保存・出力の選択肢を知れば8割は決まる</td></tr>
+<tr><td>第5章</td><td>事故の共通原因はデフォルト設定の放置・権限の過剰付与・VPN未更新。1件平均6.4億円の賠償</td></tr>
+<tr><td>第6章</td><td>AIへの指示にセキュリティ呪文4行を毎回入れる。CLAUDE.mdでルールを永続化。技術力より質問力</td></tr>
+<tr><td>第7章</td><td>運用は最低限を死守（日次1分、週次5分、月次30分）。「作る」は最後の手段</td></tr>
+</table>
+</div>
+
+
+<footer>
+<p>Claude CodeでITツールを作る — 経営者のための全工程ガイド</p>
+<p>作成日: 2026年4月12日</p>
+</footer>
+
+</body>
+</html>
