@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>ラック柱 A/B 計算ツール</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, 'Segoe UI', 'Yu Gothic UI', 'Meiryo', sans-serif;
+    background: #f0f2f5;
+    color: #1a1a2e;
+    min-height: 100vh;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  /* ── Header ── */
+  .header {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    color: #fff;
+    padding: 16px 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  }
+  .header h1 { font-size: 18px; font-weight: 700; }
+  .header p { font-size: 12px; color: #94a3b8; margin-top: 4px; line-height: 1.5; }
+
+  /* ── Row Controls ── */
+  .row-controls {
+    background: #fff;
+    border-bottom: 1px solid #e2e8f0;
+    padding: 12px 16px;
+  }
+  .row-controls h2 {
+    font-size: 13px; font-weight: 700; color: #475569;
+    margin-bottom: 10px;
+  }
+  .row-list { display: flex; flex-direction: column; gap: 8px; }
+  .row-item {
+    display: flex; align-items: center; gap: 8px;
+    background: #f8fafc; border-radius: 10px;
+    padding: 8px 12px;
+  }
+  .row-label {
+    font-size: 14px; font-weight: 700; color: #1a1a2e;
+    min-width: 48px; white-space: nowrap;
+  }
+  .btn {
+    min-width: 44px; min-height: 44px;
+    border: 2px solid #1a1a2e;
+    background: #fff; color: #1a1a2e;
+    font-size: 20px; font-weight: 700;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.12s;
+    display: flex; align-items: center; justify-content: center;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .btn:hover { background: #1a1a2e; color: #fff; }
+  .btn:active { transform: scale(0.93); }
+  .btn:disabled { opacity: 0.25; cursor: not-allowed; }
+  .btn:disabled:hover { background: #fff; color: #1a1a2e; }
+  .btn-del {
+    border-color: #dc2626; color: #dc2626;
+    font-size: 16px; min-width: 40px; min-height: 40px;
+  }
+  .btn-del:hover { background: #dc2626; color: #fff; }
+  .btn-del:disabled { opacity: 0.15; }
+  .btn-del:disabled:hover { background: #fff; color: #dc2626; }
+  .row-count {
+    font-size: 24px; font-weight: 800;
+    min-width: 36px; text-align: center;
+  }
+  .row-item .spacer { flex: 1; }
+  .btn-add-row {
+    margin-top: 8px;
+    width: 100%;
+    min-height: 44px;
+    border: 2px dashed #94a3b8;
+    background: #fff; color: #64748b;
+    font-size: 14px; font-weight: 700;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.12s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .btn-add-row:hover { border-color: #1a1a2e; color: #1a1a2e; background: #f8fafc; }
+  .btn-add-row:active { transform: scale(0.98); }
+
+  /* ── Main ── */
+  .main { padding: 12px 16px; }
+  .section {
+    background: #fff;
+    border-radius: 14px;
+    padding: 16px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    margin-bottom: 12px;
+  }
+  .section h2 {
+    font-size: 13px; font-weight: 700;
+    margin-bottom: 12px; color: #475569;
+  }
+
+  /* ── SVG Container ── */
+  .svg-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin: 0 -8px;
+    padding: 0 8px;
+  }
+
+  /* ── Legend ── */
+  .legend {
+    display: flex; flex-wrap: wrap; gap: 12px 20px;
+    margin-top: 12px; padding-top: 10px;
+    border-top: 1px solid #f1f5f9;
+  }
+  .legend-item {
+    display: flex; align-items: center;
+    gap: 6px; font-size: 12px; color: #64748b;
+  }
+  .legend-dot {
+    width: 16px; height: 16px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-size: 8px; font-weight: 700; flex-shrink: 0;
+  }
+  .legend-dot.a { background: #2563eb; }
+  .legend-dot.b { background: #dc2626; }
+
+  /* ── Result Cards ── */
+  .results {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  .card {
+    background: #fff;
+    border-radius: 14px;
+    padding: 16px 12px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    text-align: center;
+  }
+  .card .lbl { font-size: 11px; color: #94a3b8; font-weight: 600; letter-spacing: 0.3px; margin-bottom: 6px; }
+  .card .val { font-size: 32px; font-weight: 800; line-height: 1; }
+  .card .unit { font-size: 12px; font-weight: 500; color: #64748b; margin-left: 2px; }
+  .card.ca .val { color: #2563eb; }
+  .card.cb .val { color: #dc2626; }
+  .card.ct .val { color: #1a1a2e; }
+  .card.cf { grid-column: 1 / -1; }
+  .card.cf .val { font-size: 14px; color: #059669; font-weight: 700; line-height: 1.4; }
+  .card.cf .lbl { margin-bottom: 8px; }
+
+  /* ── Detail Table ── */
+  .detail-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .detail-table {
+    width: 100%; border-collapse: collapse; font-size: 12px; white-space: nowrap;
+  }
+  .detail-table th {
+    background: #f8fafc; padding: 8px 10px; text-align: center;
+    font-weight: 700; color: #475569; border-bottom: 2px solid #e2e8f0;
+  }
+  .detail-table td {
+    padding: 8px 10px; text-align: center;
+    border-bottom: 1px solid #f1f5f9; color: #334155;
+  }
+  .detail-table tr:last-child td {
+    border-top: 2px solid #e2e8f0; font-weight: 700; background: #f8fafc;
+  }
+  .detail-table td.va { color: #2563eb; font-weight: 700; }
+  .detail-table td.vb { color: #dc2626; font-weight: 700; }
+
+  /* ── Explanation ── */
+  .explanation-toggle {
+    font-size: 13px; font-weight: 700; color: #475569;
+    cursor: pointer; user-select: none;
+    padding: 4px 0;
+  }
+  .explanation-toggle summary { list-style: none; }
+  .explanation-toggle summary::-webkit-details-marker { display: none; }
+  .explanation-toggle summary::before { content: '▶ '; font-size: 10px; }
+  .explanation-toggle[open] summary::before { content: '▼ '; }
+  .explanation-body {
+    margin-top: 10px; font-size: 12px; line-height: 1.7; color: #475569;
+  }
+  .diagram-box {
+    font-family: 'Consolas', 'Courier New', monospace;
+    background: #f8fafc; padding: 12px 14px;
+    border-radius: 8px; margin: 10px 0;
+    line-height: 1.5; font-size: 11px;
+    white-space: pre; overflow-x: auto;
+    color: #334155;
+  }
+  .hl-a { color: #2563eb; font-weight: 700; }
+  .hl-b { color: #dc2626; font-weight: 700; }
+
+  /* ── Desktop (wide) ── */
+  @media (min-width: 768px) {
+    .header { padding: 20px 32px; }
+    .header h1 { font-size: 22px; }
+    .header p { font-size: 13px; }
+    .row-controls { padding: 16px 32px; }
+    .main { padding: 20px 32px; }
+    .section { padding: 24px; margin-bottom: 16px; }
+    .results { grid-template-columns: repeat(4, 1fr); gap: 16px; }
+    .card .val { font-size: 38px; }
+    .card.cf .val { font-size: 16px; }
+    .card.cf { grid-column: auto; }
+    .row-list { flex-direction: row; flex-wrap: wrap; gap: 10px; }
+    .row-item { flex: 0 0 auto; }
+    .btn-add-row { width: auto; padding: 0 24px; margin-top: 0; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>ラック柱 A/B 計算ツール</h1>
+  <p>前方柱は外側に張り出し、後方柱は内側に入るため、横並び時に隣接するのは前方柱のみです。</p>
+</div>
+
+<!-- 列ごとのラック数設定 -->
+<div class="row-controls" id="row-controls"></div>
+
+<div class="main">
+  <!-- 俯瞰図 -->
+  <div class="section">
+    <h2>俯瞰図（上から見た配置）</h2>
+    <div class="svg-scroll">
+      <svg id="viz"></svg>
+    </div>
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot a">A</div>非隣接柱</div>
+      <div class="legend-item"><div class="legend-dot b">B</div>隣接柱ペア</div>
+    </div>
+  </div>
+
+  <!-- 合計 -->
+  <div class="results" id="results"></div>
+
+  <!-- 列別内訳 -->
+  <div class="section" id="detail-section">
+    <h2>列別内訳</h2>
+    <div class="detail-scroll">
+      <table class="detail-table" id="detail-table"></table>
+    </div>
+  </div>
+
+  <!-- 仕組み説明 -->
+  <div class="section">
+    <details class="explanation-toggle">
+      <summary>仕組み・計算式</summary>
+      <div class="explanation-body">
+        <p>各ラックを上から見ると、<strong>前方2本は外側</strong>、<strong>後方2本は内側</strong>に配置されています。</p>
+        <div class="diagram-box"><span class="hl-a">FL</span> ────── <span class="hl-a">FR</span>        <span class="hl-a">FL</span> ──── <span class="hl-b">FR</span>┊<span class="hl-b">FL</span> ──── <span class="hl-a">FR</span>
+│          │        │      │ │      │
+│  <span class="hl-a">BL</span> ── <span class="hl-a">BR</span>  │        │  <span class="hl-a">BL</span>─<span class="hl-a">BR</span> │ │ <span class="hl-a">BL</span>─<span class="hl-a">BR</span> │
+  1台（単独）             2台並べた場合</div>
+        <p>前方柱が外に張り出すため、隣のラックの前方柱と<span class="hl-b">隣接（B）</span>。<br>
+           後方柱は内に入り隙間ができるため<span class="hl-a">非隣接（A）</span>のまま。</p>
+        <p style="margin-top:8px"><strong>1列あたりの計算式（n = ラック数）：</strong><br>
+           A = 2n + 2、B = n − 1<br>
+           検算: A + 2B = 4n（= 総柱数）</p>
+      </div>
+    </details>
+  </div>
+</div>
+
+<script>
+/* ── State ── */
+let rows = [{ id: 1, count: 2 }];
+let nextId = 2;
+const MIN_COUNT = 1;
+const MAX_COUNT = 20;
+const MAX_ROWS = 10;
+
+/* ── SVG Constants ── */
+const RW = 140;
+const RH = 90;
+const PR = 8;
+const FRONT_IN = 14;   // front pillars: small inset = near edge (outward)
+const BACK_IN = 36;    // back pillars: large inset = toward center (inward)
+const RACK_GAP = 6;
+const ROW_GAP = 56;
+const PAD_L = 52;      // left padding (for row labels)
+const PAD_R = 20;
+const PAD_T = 36;
+const PAD_B = 28;
+
+/* ── Row Management ── */
+function addRow() {
+  if (rows.length >= MAX_ROWS) return;
+  rows.push({ id: nextId++, count: 1 });
+  renderAll();
+}
+function removeRow(id) {
+  if (rows.length <= 1) return;
+  rows = rows.filter(r => r.id !== id);
+  renderAll();
+}
+function changeRowCount(id, delta) {
+  const row = rows.find(r => r.id === id);
+  if (!row) return;
+  row.count = Math.max(MIN_COUNT, Math.min(MAX_COUNT, row.count + delta));
+  renderAll();
+}
+
+/* ── Calculation ── */
+function calcRow(n) {
+  return { a: 2 * n + 2, b: n - 1, pillars: 4 * n };
+}
+
+/* ── Pillar Positions ── */
+function getPillars(rackIdx, rowYBase) {
+  const x = PAD_L + rackIdx * (RW + RACK_GAP);
+  const y = rowYBase;
+  return {
+    FL: { cx: x + FRONT_IN,      cy: y + PR + 8 },
+    FR: { cx: x + RW - FRONT_IN, cy: y + PR + 8 },
+    BL: { cx: x + BACK_IN,       cy: y + RH - PR - 8 },
+    BR: { cx: x + RW - BACK_IN,  cy: y + RH - PR - 8 },
+  };
+}
+
+/* ── Render All ── */
+function renderAll() {
+  renderControls();
+  renderSVG();
+  renderResults();
+  renderDetail();
+}
+
+/* ── Render Controls ── */
+function renderControls() {
+  const el = document.getElementById('row-controls');
+  let h = '<h2>列設定</h2><div class="row-list">';
+  rows.forEach((row, i) => {
+    h += `<div class="row-item">
+      <span class="row-label">${i + 1}列目</span>
+      <button class="btn" onclick="changeRowCount(${row.id},-1)" ${row.count<=MIN_COUNT?'disabled':''}>−</button>
+      <span class="row-count">${row.count}</span>
+      <button class="btn" onclick="changeRowCount(${row.id},1)" ${row.count>=MAX_COUNT?'disabled':''}>＋</button>
+      <span class="spacer"></span>
+      <button class="btn btn-del" onclick="removeRow(${row.id})" ${rows.length<=1?'disabled':''} title="列を削除">✕</button>
+    </div>`;
+  });
+  h += '</div>';
+  if (rows.length < MAX_ROWS) {
+    h += `<button class="btn-add-row" onclick="addRow()">＋ 列を追加</button>`;
+  }
+  el.innerHTML = h;
+}
+
+/* ── Render SVG ── */
+function renderSVG() {
+  const svg = document.getElementById('viz');
+
+  // Calculate dimensions
+  let maxRowW = 0;
+  rows.forEach(row => {
+    const w = row.count * RW + (row.count - 1) * RACK_GAP;
+    if (w > maxRowW) maxRowW = w;
+  });
+  const svgW = PAD_L + maxRowW + PAD_R;
+  const svgH = PAD_T + rows.length * RH + (rows.length - 1) * ROW_GAP + PAD_B;
+  svg.setAttribute('width', Math.max(svgW, 320));
+  svg.setAttribute('height', svgH);
+  svg.setAttribute('viewBox', `0 0 ${Math.max(svgW, 320)} ${svgH}`);
+
+  let s = '';
+
+  // Direction indicator (once, top-left)
+  s += `<text x="${PAD_L}" y="${PAD_T - 10}" font-size="11" font-weight="700" fill="#94a3b8">▼ 前面</text>`;
+
+  rows.forEach((row, ri) => {
+    const n = row.count;
+    const yBase = PAD_T + ri * (RH + ROW_GAP);
+
+    // Row label on the left
+    s += `<text x="8" y="${yBase + RH / 2}" font-size="11" font-weight="700" fill="#94a3b8"
+            dominant-baseline="middle">${ri + 1}列</text>`;
+
+    // Adjacency for this row
+    const adjSet = new Set();
+    const adjPairs = [];
+    for (let c = 0; c < n - 1; c++) {
+      adjSet.add(`${c}-FR`);
+      adjSet.add(`${c + 1}-FL`);
+      adjPairs.push([c, c + 1]);
+    }
+
+    // Draw each rack
+    for (let c = 0; c < n; c++) {
+      const p = getPillars(c, yBase);
+
+      // Background fill (rectangle aligned with front pillars' x span)
+      const bgX = p.FL.cx - 5;
+      const bgY = p.FL.cy - 5;
+      const bgW = (p.FR.cx - p.FL.cx) + 10;
+      const bgH = (p.BL.cy - p.FL.cy) + 10;
+      s += `<rect x="${bgX}" y="${bgY}" width="${bgW}" height="${bgH}"
+              fill="#f8fafc" stroke="none" rx="3"/>`;
+
+      // Structural lines: ALL vertical/horizontal, NO diagonals
+      const lineClr = '#dde1e7';
+      const lw = '1.5';
+      // Top beam: FL → FR
+      s += `<line x1="${p.FL.cx}" y1="${p.FL.cy}" x2="${p.FR.cx}" y2="${p.FR.cy}" stroke="${lineClr}" stroke-width="${lw}"/>`;
+      // Bottom beam: BL → BR
+      s += `<line x1="${p.BL.cx}" y1="${p.BL.cy}" x2="${p.BR.cx}" y2="${p.BR.cy}" stroke="${lineClr}" stroke-width="${lw}"/>`;
+      // Left side: FL down vertically, then horizontal inward to BL
+      s += `<path d="M${p.FL.cx},${p.FL.cy} V${p.BL.cy} H${p.BL.cx}" fill="none" stroke="${lineClr}" stroke-width="${lw}"/>`;
+      // Right side: FR down vertically, then horizontal inward to BR
+      s += `<path d="M${p.FR.cx},${p.FR.cy} V${p.BR.cy} H${p.BR.cx}" fill="none" stroke="${lineClr}" stroke-width="${lw}"/>`;
+
+      // Rack number (centered)
+      const mx = (p.FL.cx + p.FR.cx) / 2;
+      const my = (p.FL.cy + p.BL.cy) / 2 + 1;
+      s += `<text x="${mx}" y="${my}" text-anchor="middle" dominant-baseline="middle"
+              font-size="12" fill="#d4d8de" font-weight="700">${c + 1}</text>`;
+
+      // Pillars
+      for (const [name, pos] of Object.entries(p)) {
+        const key = `${c}-${name}`;
+        const isB = adjSet.has(key);
+        const fill = isB ? '#dc2626' : '#2563eb';
+        const label = isB ? 'B' : 'A';
+        s += `<circle cx="${pos.cx}" cy="${pos.cy}" r="${PR}"
+                fill="${fill}" stroke="#fff" stroke-width="2.5"/>`;
+        s += `<text x="${pos.cx}" y="${pos.cy + 0.5}" text-anchor="middle" dominant-baseline="middle"
+                font-size="8" fill="#fff" font-weight="800" pointer-events="none">${label}</text>`;
+      }
+    }
+
+    // Adjacency indicators between racks
+    for (const [ci, cj] of adjPairs) {
+      const p1 = getPillars(ci, yBase);
+      const p2 = getPillars(cj, yBase);
+
+      // Front: red dashed bridge
+      s += `<line x1="${p1.FR.cx}" y1="${p1.FR.cy}" x2="${p2.FL.cx}" y2="${p2.FL.cy}"
+              stroke="#dc2626" stroke-width="2" stroke-dasharray="4,3" opacity="0.45"/>`;
+      const bx = (p1.FR.cx + p2.FL.cx) / 2;
+      s += `<text x="${bx}" y="${p1.FR.cy - 13}" text-anchor="middle" font-size="9" fill="#dc2626" font-weight="700">隣接</text>`;
+
+      // Back: gap indicator
+      const gx1 = p1.BR.cx + PR + 2;
+      const gx2 = p2.BL.cx - PR - 2;
+      if (gx2 > gx1 + 6) {
+        s += `<line x1="${gx1}" y1="${p1.BR.cy}" x2="${gx2}" y2="${p1.BR.cy}"
+                stroke="#b0b8c4" stroke-width="1" stroke-dasharray="2,4" opacity="0.5"/>`;
+        s += `<text x="${(gx1+gx2)/2}" y="${p1.BR.cy + 13}" text-anchor="middle" font-size="8" fill="#b0b8c4">非隣接</text>`;
+      }
+    }
+
+    // "背面" label after last row
+    if (ri === rows.length - 1) {
+      s += `<text x="${PAD_L}" y="${yBase + RH + 20}" font-size="11" font-weight="700" fill="#94a3b8">▲ 背面</text>`;
+    }
+  });
+
+  svg.innerHTML = s;
+}
+
+/* ── Render Results (Grand Total) ── */
+function renderResults() {
+  let totalA = 0, totalB = 0, totalP = 0;
+  rows.forEach(row => {
+    const c = calcRow(row.count);
+    totalA += c.a;
+    totalB += c.b;
+    totalP += c.pillars;
+  });
+
+  document.getElementById('results').innerHTML = `
+    <div class="card ca">
+      <div class="lbl">A（非隣接柱）合計</div>
+      <div class="val">${totalA}<span class="unit">本</span></div>
+    </div>
+    <div class="card cb">
+      <div class="lbl">B（隣接ペア）合計</div>
+      <div class="val">${totalB}<span class="unit">組</span></div>
+    </div>
+    <div class="card ct">
+      <div class="lbl">総柱数</div>
+      <div class="val">${totalP}<span class="unit">本</span></div>
+    </div>
+    <div class="card cf">
+      <div class="lbl">検算（各列 A+2B = 4n）</div>
+      <div class="val">${rows.map((r, i) => {
+        const c = calcRow(r.count);
+        return `${i+1}列: ${c.a}+${2*c.b}=${c.pillars}`;
+      }).join('<br>')}</div>
+    </div>
+  `;
+}
+
+/* ── Render Detail Table ── */
+function renderDetail() {
+  const sec = document.getElementById('detail-section');
+  // Hide table if only 1 row
+  if (rows.length <= 1) { sec.style.display = 'none'; return; }
+  sec.style.display = '';
+
+  let h = `<thead><tr>
+    <th>列</th><th>ラック数</th><th>A</th><th>B</th><th>柱数</th>
+  </tr></thead><tbody>`;
+
+  let tA = 0, tB = 0, tP = 0;
+  rows.forEach((row, i) => {
+    const c = calcRow(row.count);
+    tA += c.a; tB += c.b; tP += c.pillars;
+    h += `<tr>
+      <td>${i + 1}列</td><td>${row.count}台</td>
+      <td class="va">${c.a}</td><td class="vb">${c.b}</td><td>${c.pillars}</td>
+    </tr>`;
+  });
+  h += `<tr>
+    <td>合計</td><td>${rows.reduce((s,r)=>s+r.count,0)}台</td>
+    <td class="va">${tA}</td><td class="vb">${tB}</td><td>${tP}</td>
+  </tr></tbody>`;
+
+  document.getElementById('detail-table').innerHTML = h;
+}
+
+/* ── Initial ── */
+renderAll();
+</script>
+
+</body>
+</html>
